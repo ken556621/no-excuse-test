@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Login from './components/login'
+import { Provider } from 'react-redux';
+import Login from './components/login';
+import './styles/commom.scss';
+
+
+
 
 
 class App extends Component {

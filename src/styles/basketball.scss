@@ -1,0 +1,32 @@
+.basketball-img{
+    text-align: center;
+    position: relative;
+    animation: bounding 1s 10 alternate;
+    transform-origin: center;
+}
+
+#basketball{
+    //讓線條漸漸畫出
+}
+
+#ball{
+    stroke-dashoffset: 40;
+    animation: sizing 2s infinite alternate;
+}
+
+@keyframes bounding{
+    0%{
+        top: -110px;
+        transform: rotateZ(0deg);
+    };
+    50%{
+        transform: rotateX(0deg);
+        top: 10px;
+    };
+    100%{
+        transform: rotateX(20deg);
+        top: -100px;
+        transform: rotateZ(360deg);
+    };
+}
+

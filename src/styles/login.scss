@@ -1,0 +1,64 @@
+// font size
+$big: 50px;
+$normal: 30px;
+$small: 15px;
+//color
+$facebook: #4267b2;
+$google: #ea4336;
+
+
+.login-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  .form-control{
+    margin: 15px;
+  }
+  span{
+    margin: 10px;
+    font-size: $normal;
+  }
+  input{
+    padding: 5px;
+    font-size: $normal;
+    border-radius: 8px;
+  }
+  .warning{
+    font-size: $small;
+    color: $google;
+    text-align: end;
+  }
+  .facebook, .google{
+    font-size: $normal;
+    text-align: center;
+    border-radius: 8px;
+  }
+  .facebook{
+    margin-bottom: 20px; 
+    background-color: $facebook;
+  }
+  .google{
+    margin-bottom: 50px; 
+    background-color: $google;
+  }
+  .btn-wrapper{
+    display: flex;
+    justify-content: space-between;
+    button{
+      padding: 10px;
+      font-size: $normal;
+      border-radius: 8px;
+    }
+    .login, .registration{
+      &:hover{
+        letter-spacing: 5px;
+        color: #000000;
+        background-color: #ffffff;
+      }
+      color: #ffffff;
+      background-color: #000000;
+      transition: all .3s ease-in;
+    }
+  }
+}
