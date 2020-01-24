@@ -21,6 +21,9 @@ class Login extends Component {
         }
     }
     render() { 
+        const hide = {
+            display: 'none'
+        };
         return ( 
             <div className = "login-form">
                 <BasketballImg />

@@ -5,9 +5,6 @@ import Login from './components/login';
 import './styles/commom.scss';
 
 
-
-
-
 class App extends Component {
     render() { 
         return (
