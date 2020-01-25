@@ -17,26 +17,34 @@ class Login extends Component {
             userName: '',
             password: '',
             checked: false,
+            valid: false,
             submitted: false
         }
     }
+
+    handleChange(event){
+
+    }
+
+    handleSubmit(event){
+        event.preventDefault();
+    }
+
+
     render() { 
-        const hide = {
-            display: 'none'
-        };
         return ( 
             <div className = "login-form">
                 <BasketballImg />
-                <form action = "post">
+                <form action = "" method="post">
                     <div className="form-control">
                         <span><i className={ this.state.checked ? "fas fa-user-check" :  "fas fa-user" }></i></span>
                         <input type="text" name='username' placeholder="username"/>
-                        <span className="warning">Your email is not correct</span>          
+                        <span className={ this.state.valid ? "warning" : "hide" }>Your email is not correct</span>
                     </div>
                     <div className="form-control">
                         <span><i className="fas fa-key"></i></span>
                         <input type="text" name='password' placeholder="password"/>
-                        <span className="warning">Your password is not correct</span>
+                        <span className={ this.state.valid ? "warning" : "hide" }>Your password is not correct</span>
                     </div>
                     <div className="facebook">
                         Facebook
@@ -45,10 +53,10 @@ class Login extends Component {
                         Google
                     </div>
                     <div className="btn-wrapper">
-                        <button className="login">
+                        <button type="submit" onClick={ this.handleSubmit.bind(this) } className="login">
                                 Login
                         </button>
-                        <button className="registration">
+                        <button type="button" className="registration">
                             Register
                         </button>
                     </div>

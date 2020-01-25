@@ -7,3 +7,21 @@ a, li{
     text-decoration: none;
     list-style: none;
 }
+
+button{
+    cursor: pointer;
+}
+
+.hide{
+    display: none;
+}
+
+.show{
+    display: block;
+}
+
+.warning{
+    font-size: 15px;
+    color: #ea4336;
+    text-align: end;
+}
