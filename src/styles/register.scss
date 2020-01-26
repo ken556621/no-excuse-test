@@ -7,7 +7,7 @@ $facebook: #4267b2;
 $google: #ea4336;
 
 
-.login-form {
+.register-form {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -24,38 +24,21 @@ $google: #ea4336;
     font-size: $small;
     border-radius: 8px;
   }
-  .facebook, .google{
-    max-width: 300px;
-    font-size: $normal;
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .facebook{
-    margin-top: 50px;
-    margin-bottom: 20px; 
-    background-color: $facebook;
-  }
-  .google{
-    margin-bottom: 50px; 
-    background-color: $google;
-  }
   .btn-wrapper{
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
     button{
       padding: 10px;
       font-size: $normal;
       border-radius: 8px;
-    }
-    .login, .registration{
       color: #ffffff;
       background-color: #000000;
       transition: all .3s ease-in;
       &:hover{
-        color: #000000;
-        letter-spacing: 5px;
-        background-color: #ffffff;
+          color: #000000;
+          background-color: #ffffff;
+          letter-spacing: 5px;
       }
       a{
         text-decoration: none;

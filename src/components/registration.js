@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
+import firebase from './common/firebase';
+import { Link } from 'react-router-dom';
+import Basketball from './common/basketballImg';
+import '../styles/register.scss';
 
 class Register extends Component {
     constructor(props){
         super(props)
         this.state = {
+            userName: '',
             userEmail: '',
             password: '',
             emailChecked: false,
+            nameValid: false,
             emailValid: false,
             passwordValid: false,
             errorMessage: '',
@@ -15,7 +21,11 @@ class Register extends Component {
     }
 
     handleChange = (event, type) => {
-        if(type === 'email'){
+        if(type === 'name'){
+            this.setState({
+                userName: event.target.value
+            })
+        }else if(type === 'email'){
             this.setState({
                 userEmail: event.target.value
             })
@@ -27,7 +37,7 @@ class Register extends Component {
     }
 
 
-    handleSubmit = (event) => {
+    handleSubmit = () => {
         const email = this.state.userEmail;
         const password = this.state.password;
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
@@ -58,21 +68,34 @@ class Register extends Component {
                     errorMessage: ' email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab.'
                 })
             }
-            alert('login success')
         })
+        console.log('Register sucess')
     }
 
     render() { 
         return ( 
-            <div className="register-from">
-                <div className="name-field">
-                    <input type="text" placeholder="your name" name="name"></input>
+            <div className="register-form">
+                <Basketball />
+                <div className="name-field form-control">
+                    <span><i className="fas fa-signature"></i></span>
+                    <input type="text" placeholder="your name" name="name" onChange={ (event) => { this.handleChange(event, 'name') }}></input>
+                    <span className={ this.state.nameValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
                 </div>
-                <div className="email-field">
-                    <input type="email" placeholder="your email" name="email"></input>
+                <div className="email-field form-control">
+                    <span><i className="fas fa-user" ></i></span>
+                    <input type="email" placeholder="your email" name="email" onChange={ (event) => { this.handleChange(event, 'email') }}></input>
+                    <span className={ this.state.emailValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
                 </div>
-                <div className="password-field">
-                    <input type="password" placeholder="your password" name="password"></input>
+                <div className="password-field form-control">
+                    <span><i className="fas fa-key"></i></span>
+                    <input type="password" placeholder="your password" name="password" onChange={ (event) => { this.handleChange(event, 'password') }}></input>
+                    <span className={ this.state.passwordValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
+                </div>
+                <div className="btn-wrapper">
+                    <button onClick={ this.handleSubmit }>Submit</button>
+                    <button>
+                        <Link to="/">Home</Link>
+                    </button>
                 </div>
             </div>
         );
