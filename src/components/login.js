@@ -5,16 +5,28 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import firebase from 'firebase';
 import '../styles/login.scss';
 import BasketballImg from './basketballImg';
 
+const firebaseConfig = {
+    apiKey: "AIzaSyBAL9WEiKUu9fO-W9-vHtLipqoJ_7pARDY",
+    authDomain: "no-excuse-1579439547243.firebaseapp.com",
+    databaseURL: "https://no-excuse-1579439547243.firebaseio.com",
+    projectId: "no-excuse-1579439547243",
+    storageBucket: "no-excuse-1579439547243.appspot.com",
+    messagingSenderId: "247254955127",
+    appId: "1:247254955127:web:c884850b75dc83d3cf8272",
+    measurementId: "G-G4GGLVNS9Y"
+};
 
+firebase.initializeApp(firebaseConfig);
 
 class Login extends Component {
     constructor(props){
         super(props)
         this.state = {
-            userName: '',
+            userEmail: '',
             password: '',
             checked: false,
             valid: false,
@@ -22,12 +34,39 @@ class Login extends Component {
         }
     }
 
-    handleChange(event){
-
+    handleChange = (event, type) => {
+        if(type === 'email'){
+            this.setState({
+                userEmail: event.target.value
+            })
+        }else if(type === 'password'){
+            this.setState({
+                password: event.target.value
+            })
+        }
     }
 
-    handleSubmit(event){
+
+    handleSubmit = (event) => {
         event.preventDefault();
+        const email = this.state.userEmail;
+        const password = this.state.password;
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            if (errorCode == 'auth/weak-password') {
+                alert('The password is not valid.');
+            }
+            if (errorCode == 'auth/email-already-in-use') {
+                alert('already exists an account with the given email address.');
+            }
+            if (errorCode == 'auth/invalid-email') {
+                alert('email address is not valid.');
+            }
+            if (errorCode == 'auth/operation-not-allowed') {
+                alert(' email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab.');
+            }
+        })
     }
 
 
@@ -38,12 +77,12 @@ class Login extends Component {
                 <form action = "" method="post">
                     <div className="form-control">
                         <span><i className={ this.state.checked ? "fas fa-user-check" :  "fas fa-user" }></i></span>
-                        <input type="text" name='username' placeholder="username"/>
+                        <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
                         <span className={ this.state.valid ? "warning" : "hide" }>Your email is not correct</span>
                     </div>
                     <div className="form-control">
                         <span><i className="fas fa-key"></i></span>
-                        <input type="text" name='password' placeholder="password"/>
+                        <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'email') }} />
                         <span className={ this.state.valid ? "warning" : "hide" }>Your password is not correct</span>
                     </div>
                     <div className="facebook">

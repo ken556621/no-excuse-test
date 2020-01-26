@@ -1,12 +1,13 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-
+const express = require('express');
+const app = express();
 admin.initializeApp();
 
-
-exports.helloWorld = functions.https.onRequest((req, res) => {
-    res.send('hello world')
+app.get('/test', (req, res) => {
+    res.send('test success!')
 });
+
 
 exports.auth = functions.https.onRequest((req, res) => {
     const userInfo = {
@@ -19,23 +20,9 @@ exports.auth = functions.https.onRequest((req, res) => {
 });
 
 exports.createUser = functions.https.onRequest((req, res) => {
-    admin.auth().createUser({
-        email: 'user@example.com',
-        emailVerified: false,
-        phoneNumber: '+11234567890',
-        password: 'secretPassword',
-        displayName: 'John Doe',
-        photoURL: 'http://www.example.com/12345678/photo.png',
-        disabled: false
-      })
-        .then(function(userRecord) {
-          // See the UserRecord reference doc for the contents of userRecord.
-          console.log('Successfully created new user:', userRecord.uid);
-      })
-        .catch(function(error) {
-          console.log('Error creating new user:', error);
-      });
-      res.send(req);
+    res.send(req);
 });
+
+exports.api = functions.https.onRequest(app);
 
 
