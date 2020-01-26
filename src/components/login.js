@@ -60,9 +60,6 @@ class Login extends Component {
             if (errorCode == 'auth/email-already-in-use') {
                 alert('already exists an account with the given email address.');
             }
-            if (errorCode == 'auth/invalid-email') {
-                alert('email address is not valid.');
-            }
             if (errorCode == 'auth/operation-not-allowed') {
                 alert(' email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab.');
             }
