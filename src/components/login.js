@@ -7,7 +7,8 @@ import {
 } from "react-router-dom";
 import firebase from 'firebase';
 import '../styles/login.scss';
-import BasketballImg from './basketballImg';
+import BasketballImg from './common/basketballImg';
+import Register from './registration';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBAL9WEiKUu9fO-W9-vHtLipqoJ_7pARDY",
@@ -28,10 +29,22 @@ class Login extends Component {
         this.state = {
             userEmail: '',
             password: '',
-            checked: false,
-            valid: false,
+            emailChecked: false,
+            emailValid: false,
+            passwordValid: false,
+            errorMessage: '',
             submitted: false
         }
+    }
+
+    componentDidMount(){
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              console.log(user)
+            } else {
+              console.log('Not login yet')
+            }
+        });
     }
 
     handleChange = (event, type) => {
@@ -47,23 +60,12 @@ class Login extends Component {
     }
 
 
-    handleSubmit = (event) => {
-        event.preventDefault();
+    handleSubmit = () => {
+        const auth = firebase.auth();
         const email = this.state.userEmail;
         const password = this.state.password;
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            if (errorCode == 'auth/weak-password') {
-                alert('The password is not valid.');
-            }
-            if (errorCode == 'auth/email-already-in-use') {
-                alert('already exists an account with the given email address.');
-            }
-            if (errorCode == 'auth/operation-not-allowed') {
-                alert(' email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab.');
-            }
-        })
+        const promise = auth.signInWithEmailAndPassword(email, password);
+        promise.catch(e => console.log(e.message));
     }
 
 
@@ -71,16 +73,15 @@ class Login extends Component {
         return ( 
             <div className = "login-form">
                 <BasketballImg />
-                <form action = "" method="post">
                     <div className="form-control">
-                        <span><i className={ this.state.checked ? "fas fa-user-check" :  "fas fa-user" }></i></span>
+                        <span><i className={ this.state.emailChecked ? "fas fa-user-check" :  "fas fa-user" }></i></span>
                         <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
-                        <span className={ this.state.valid ? "warning" : "hide" }>Your email is not correct</span>
+                        <span className={ this.state.emailValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
                     </div>
                     <div className="form-control">
                         <span><i className="fas fa-key"></i></span>
-                        <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'email') }} />
-                        <span className={ this.state.valid ? "warning" : "hide" }>Your password is not correct</span>
+                        <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'password') }} />
+                        <span className={ this.state.passwordValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
                     </div>
                     <div className="facebook">
                         Facebook
@@ -89,14 +90,13 @@ class Login extends Component {
                         Google
                     </div>
                     <div className="btn-wrapper">
-                        <button type="submit" onClick={ this.handleSubmit.bind(this) } className="login">
-                                Login
+                        <button type="submit" onClick={ this.handleSubmit } className="login">
+                            Login
                         </button>
                         <button type="button" className="registration">
                             Register
                         </button>
                     </div>
-                </form>
             </div>
         );
     }

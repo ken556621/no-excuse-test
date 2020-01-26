@@ -49,14 +49,14 @@ $google: #ea4336;
       border-radius: 8px;
     }
     .login, .registration{
-      &:hover{
-        letter-spacing: 5px;
-        color: #000000;
-        background-color: #ffffff;
-      }
       color: #ffffff;
       background-color: #000000;
       transition: all .3s ease-in;
+      &:hover{
+        color: #000000;
+        letter-spacing: 5px;
+        background-color: #ffffff;
+      }
     }
   }
 }
