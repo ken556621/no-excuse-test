@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from './common/firebase';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Basketball from './common/basketballImg';
 import '../styles/register.scss';
 
@@ -48,18 +48,21 @@ class Register extends Component {
                     passwordValid: true,
                     errorMessage: 'Your email is valid.'
                 })
+                return 
             }
             if (errorCode == 'auth/email-already-in-use') {
                 this.setState({
                     emailValid: true,
                     errorMessage: 'already exists an account with the given email address.'
                 })
+                return
             }
             if (errorCode == 'auth/invalid-email') {
                 this.setState({
                     emailValid: true,
                     errorMessage: 'email address is not valid.'
                 })
+                return
             }
             if (errorCode == 'auth/operation-not-allowed') {
                 this.setState({
@@ -67,9 +70,9 @@ class Register extends Component {
                     passwordValid: true,
                     errorMessage: ' email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab.'
                 })
+                return
             }
         })
-        console.log('Register sucess')
     }
 
     render() { 
