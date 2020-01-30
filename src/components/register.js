@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from './common/firebase';
 import { Link, Redirect } from 'react-router-dom';
+
 import Basketball from './common/basketballImg';
 import '../styles/register.scss';
 
@@ -96,9 +97,11 @@ class Register extends Component {
                 </div>
                 <div className="btn-wrapper">
                     <button onClick={ this.handleSubmit }>Submit</button>
-                    <button>
-                        <Link to="/">Home</Link>
-                    </button>
+                    <Link to='/'>
+                        <button>
+                            Home
+                        </button>
+                    </Link>
                 </div>
             </div>
         );

@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import '../styles/login.scss';
 import firebase from './common/firebase';
 import BasketballImg from './common/basketballImg';
@@ -19,17 +22,8 @@ class Login extends Component {
         }
     }
 
-    componentDidMount(){
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-              console.log(user)
-            } else {
-              console.log('Not login yet')
-            }
-        });
-    }
-
     handleChange = (event, type) => {
+        console.log(this.props)
         if(type === 'email' && event.target.value){
             this.setState({
                 userEmail: event.target.value,
@@ -50,7 +44,17 @@ class Login extends Component {
     handleSubmit = () => {
         const email = this.state.userEmail;
         const password = this.state.password;
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(e => console.log(e.message));
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .catch(e => console.log(e.message));
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              console.log(user);
+              this.props.dispatch({ type: 'LOGIN_SUCCESS' });
+              window.location.href = 'http://localhost:8080/';
+            } else {
+              console.log('Not login yet')
+            }
+        });
     }
 
 
@@ -78,15 +82,28 @@ class Login extends Component {
                     <button type="submit" onClick={ this.handleSubmit } className="login">
                         Login
                     </button>
-                    <button type="button" className="registration">
-                        Register
-                    </button>
+                    <Link to='/register'>
+                        <button type="button" className="registration">
+                            Register
+                        </button>
+                    </Link>
                 </div>
             </div>
         );
     }
 }
 
+function mapStateToProps(state){
+    return {
+        authenticated: state.authenticated,
+        authenticating: state.authenticating
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    type: 'LOGIN_SUCCESS'
+})
+
 
  
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

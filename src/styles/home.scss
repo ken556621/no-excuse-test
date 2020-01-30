@@ -1,0 +1,48 @@
+// font size
+$big: 50px;
+$normal: 25px;
+$small: 15px;
+//color
+$facebook: #4267b2;
+$google: #ea4336;
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    .logo{
+        margin: 5px;
+        font-size: $big;
+    }
+    .login{
+        margin: 30px;
+        font-size: $small;
+        a{
+            span{
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+
+.banner{
+    background-image: image();
+    background-color: red;
+    width: 100vw;
+    height: 50vh;
+    .btn-wrapper{
+        display: flex;
+        position: absolute;
+        right: 10%;
+        top: 45%;
+        div{
+            font-size: $normal;
+            border: 1px solid #000000;
+            border-radius: 8px;
+        }
+        .find-people{
+            margin-right: 10px;
+        }
+    }
+}
+
