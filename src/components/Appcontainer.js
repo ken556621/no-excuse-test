@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { createBrowserHistory } from 'history';
 
 import Routes from './routes';
-import Home from './home';
-import Login from './login';
-import Register from './register';
+
+const history = createBrowserHistory();
+
 
 class AppContainer extends Component {
     render() { 
         return ( 
-            <Router>
+            <Router history={ history }>
                 { Routes }
             </Router>
         );

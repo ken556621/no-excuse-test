@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import firebase from './common/firebase';
 import { Link, Redirect } from 'react-router-dom';
 
@@ -39,9 +40,10 @@ class Register extends Component {
 
 
     handleSubmit = () => {
+        const { dispatch, history } = this.props;
         const email = this.state.userEmail;
         const password = this.state.password;
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             if (errorCode == 'auth/weak-password') {
@@ -61,7 +63,7 @@ class Register extends Component {
             if (errorCode == 'auth/invalid-email') {
                 this.setState({
                     emailValid: true,
-                    errorMessage: 'email address is not valid.'
+                    errorMessage: 'email address is invalid.'
                 })
                 return
             }
@@ -74,6 +76,15 @@ class Register extends Component {
                 return
             }
         })
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              console.log(user);
+              dispatch({ type: 'LOGIN_SUCCESS' });
+              history.push('/');
+            } else {
+              console.log('Not login yet')
+            }
+        });
     }
 
     render() { 
@@ -83,17 +94,23 @@ class Register extends Component {
                 <div className="name-field form-control">
                     <span><i className="fas fa-signature"></i></span>
                     <input type="text" placeholder="your name" name="name" onChange={ (event) => { this.handleChange(event, 'name') }}></input>
-                    <span className={ this.state.nameValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
+                    <div className={ this.state.nameValid ? "warning" : "hide" }>
+                        { this.state.errorMessage }
+                    </div>
                 </div>
                 <div className="email-field form-control">
                     <span><i className="fas fa-user" ></i></span>
                     <input type="email" placeholder="your email" name="email" onChange={ (event) => { this.handleChange(event, 'email') }}></input>
-                    <span className={ this.state.emailValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
+                    <div className={ this.state.emailValid ? "warning" : "hide" }>
+                        { this.state.errorMessage }
+                    </div>
                 </div>
                 <div className="password-field form-control">
                     <span><i className="fas fa-key"></i></span>
                     <input type="password" placeholder="your password" name="password" onChange={ (event) => { this.handleChange(event, 'password') }}></input>
-                    <span className={ this.state.passwordValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
+                    <div className={ this.state.passwordValid ? "warning" : "hide" }>
+                        { this.state.errorMessage }
+                    </div>
                 </div>
                 <div className="btn-wrapper">
                     <button onClick={ this.handleSubmit }>Submit</button>
@@ -107,5 +124,15 @@ class Register extends Component {
         );
     }
 }
+
+function mapStateToProps(state){
+    return {
+        authenticated: state.authenticated,
+        authenticating: state.authenticating
+    }
+}
+
+
  
-export default Register;
+export default connect(mapStateToProps)(Register);
+ 

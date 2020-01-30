@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, browserHistory } from 'react-router-dom';
+
 
 import '../styles/login.scss';
 import firebase from './common/firebase';
@@ -20,10 +21,10 @@ class Login extends Component {
             errorMessage: '',
             submitted: false
         }
+        console.log(props);
     }
 
     handleChange = (event, type) => {
-        console.log(this.props)
         if(type === 'email' && event.target.value){
             this.setState({
                 userEmail: event.target.value,
@@ -42,6 +43,7 @@ class Login extends Component {
 
 
     handleSubmit = () => {
+        const { dispatch, history } = this.props;
         const email = this.state.userEmail;
         const password = this.state.password;
         firebase.auth().signInWithEmailAndPassword(email, password)
@@ -49,8 +51,8 @@ class Login extends Component {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
               console.log(user);
-              this.props.dispatch({ type: 'LOGIN_SUCCESS' });
-              window.location.href = 'http://localhost:8080/';
+              dispatch({ type: 'LOGIN_SUCCESS' });
+              history.push('/');
             } else {
               console.log('Not login yet')
             }
@@ -100,10 +102,6 @@ function mapStateToProps(state){
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    type: 'LOGIN_SUCCESS'
-})
-
 
  
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps)(Login);

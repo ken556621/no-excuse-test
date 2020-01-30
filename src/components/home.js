@@ -10,8 +10,7 @@ import '../styles/home.scss';
 
 class HomePage extends Component {
     constructor(props){
-        super(props)
-        console.log(props)
+        super(props);
     }
 
     logout = () => {
