@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 import '../styles/login.scss';
@@ -21,7 +21,6 @@ class Login extends Component {
             errorMessage: '',
             submitted: false
         }
-        console.log(props);
     }
 
     handleChange = (event, type) => {

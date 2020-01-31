@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from './common/firebase';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Basketball from './common/basketballImg';
 import '../styles/register.scss';
+
+
 
 class Register extends Component {
     constructor(props){
@@ -41,11 +43,12 @@ class Register extends Component {
 
     handleSubmit = () => {
         const { dispatch, history } = this.props;
+        const db = firebase.firestore();
         const email = this.state.userEmail;
         const password = this.state.password;
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+        .catch((error) => {
             const errorCode = error.code;
-            const errorMessage = error.message;
             if (errorCode == 'auth/weak-password') {
                 this.setState({
                     passwordValid: true,
@@ -75,8 +78,21 @@ class Register extends Component {
                 })
                 return
             }
+        }).then(res => {
+            console.log(res);
+            db.collection("users").doc().set({
+                ID: res.user.uid,
+                email: this.state.userEmail,
+                name: this.state.userName
+            })
+            .then(function() {
+                console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+            });
         })
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged((user) => {
             if (user) {
               console.log(user);
               dispatch({ type: 'LOGIN_SUCCESS' });
@@ -89,36 +105,39 @@ class Register extends Component {
 
     render() { 
         return ( 
-            <div className="register-form">
-                <Basketball />
-                <div className="name-field form-control">
-                    <span><i className="fas fa-signature"></i></span>
-                    <input type="text" placeholder="your name" name="name" onChange={ (event) => { this.handleChange(event, 'name') }}></input>
-                    <div className={ this.state.nameValid ? "warning" : "hide" }>
-                        { this.state.errorMessage }
+            <div className="register-container">
+                <div className="register-form">
+                    <Basketball />
+                    <div className="name-field form-control">
+                        <span><i className="fas fa-signature"></i></span>
+                        <input type="text" placeholder="your name" name="name" onChange={ (event) => { this.handleChange(event, 'name') }}></input>
+                        <div className={ this.state.nameValid ? "warning" : "hide" }>
+                            { this.state.errorMessage }
+                        </div>
                     </div>
-                </div>
-                <div className="email-field form-control">
-                    <span><i className="fas fa-user" ></i></span>
-                    <input type="email" placeholder="your email" name="email" onChange={ (event) => { this.handleChange(event, 'email') }}></input>
-                    <div className={ this.state.emailValid ? "warning" : "hide" }>
-                        { this.state.errorMessage }
+                    <div className="email-field form-control">
+                        <span><i className="fas fa-user" ></i></span>
+                        <span className="label">Your email</span>
+                        <input type="email" name="email" onChange={ (event) => { this.handleChange(event, 'email') }}></input>
+                        <div className={ this.state.emailValid ? "warning" : "hide" }>
+                            { this.state.errorMessage }
+                        </div>
                     </div>
-                </div>
-                <div className="password-field form-control">
-                    <span><i className="fas fa-key"></i></span>
-                    <input type="password" placeholder="your password" name="password" onChange={ (event) => { this.handleChange(event, 'password') }}></input>
-                    <div className={ this.state.passwordValid ? "warning" : "hide" }>
-                        { this.state.errorMessage }
+                    <div className="password-field form-control">
+                        <span><i className="fas fa-key"></i></span>
+                        <input type="password" placeholder="your password" name="password" onChange={ (event) => { this.handleChange(event, 'password') }}></input>
+                        <div className={ this.state.passwordValid ? "warning" : "hide" }>
+                            { this.state.errorMessage }
+                        </div> 
                     </div>
-                </div>
-                <div className="btn-wrapper">
-                    <button onClick={ this.handleSubmit }>Submit</button>
-                    <Link to='/'>
-                        <button>
-                            Home
-                        </button>
-                    </Link>
+                    <div className="btn-wrapper">
+                        <button onClick={ this.handleSubmit }>Submit</button>
+                        <Link to='/'>
+                            <button>
+                                Home
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         );

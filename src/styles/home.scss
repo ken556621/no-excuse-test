@@ -1,48 +1,61 @@
 // font size
 $big: 50px;
 $normal: 25px;
-$small: 15px;
+$small: 20px;
 //color
 $facebook: #4267b2;
 $google: #ea4336;
 
-nav{
-    display: flex;
-    justify-content: space-between;
-    .logo{
-        margin: 5px;
-        font-size: $big;
-    }
-    .login{
-        margin: 30px;
-        font-size: $small;
-        a{
+
+.homepage-container{
+    nav{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .logo{
+            img{
+                width: 100px;
+                height: 100px;
+            }
+        }
+        .login{
+            font-size: $normal;
+            cursor: pointer;
+            i{
+                font-size: $small;
+            }
             span{
-                margin-right: 5px;
+                margin-left: 10px;
+            }
+        }
+    }
+    .banner{
+        background-image: url(../../img/banner.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100vw;
+        height: 50vh;
+        .btn-wrapper{
+            display: flex;
+            position: absolute;
+            right: 10%;
+            top: 45%;
+            div{
+                color: #ffffff;
+                padding: 10px;
+                font-size: $normal;
+                border: 1px solid #ffffff;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+            .find-people{
+                margin-right: 10px;
             }
         }
     }
 }
 
 
-.banner{
-    background-image: image();
-    background-color: red;
-    width: 100vw;
-    height: 50vh;
-    .btn-wrapper{
-        display: flex;
-        position: absolute;
-        right: 10%;
-        top: 45%;
-        div{
-            font-size: $normal;
-            border: 1px solid #000000;
-            border-radius: 8px;
-        }
-        .find-people{
-            margin-right: 10px;
-        }
-    }
-}
+
+
 

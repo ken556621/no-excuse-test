@@ -7,46 +7,72 @@ $facebook: #4267b2;
 $google: #ea4336;
 
 
-.register-form {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  .form-control{
-    margin: 15px;
-  }
-  span{
-    margin: 10px;
-    font-size: $normal;
-  }
-  input{
-    padding: 5px;
-    font-size: $small;
+.register-container{
+  background-image: url(../../img/background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  .register-form {
+    padding: 20px;
+    position: fixed;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 8px;
-  }
-  .btn-wrapper{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    button{
-      padding: 10px;
+    background: rgba(255,255,255,0.6);
+    .form-control{
+      margin: 15px;
+    }
+    span{
+      margin: 10px;
       font-size: $normal;
-      border-radius: 8px;
-      color: #ffffff;
-      background-color: #000000;
-      transition: all .3s ease-in;
+    }
+    .label{
+      font-size: 15px;
+      position: absolute;
+      opacity: .6;
       &:hover{
-          color: #000000;
-          background-color: #ffffff;
-          letter-spacing: 5px;
+        top: -10px;
       }
-      a{
-        text-decoration: none;
+    }
+    input{
+      padding: 5px;
+      font-size: $small;
+      border: none;
+      border-radius: 8px;
+      // transition: all ease 4s;
+      &:focus{
+        & ~ .label{
+          color: #ea4336;
+        }
+      }
+    }
+    .btn-wrapper{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      button{
+        padding: 10px;
+        font-size: $small;
+        border-radius: 8px;
         color: #ffffff;
+        background-color: #000000;
+        transition: all .3s ease-in;
         &:hover{
-          color: #000000;
+            color: #000000;
+            background-color: #ffffff;
+            letter-spacing: 5px;
+        }
+        a{
+          text-decoration: none;
+          color: #ffffff;
+          &:hover{
+            color: #000000;
+          }
         }
       }
     }
   }
 }
+

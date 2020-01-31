@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import firebase from './common/firebase';
 
 import '../styles/home.scss';
+import Logo from '../../img/logo.png';
 
 
 
@@ -13,11 +14,26 @@ class HomePage extends Component {
         super(props);
     }
 
+    componentDidMount(){
+        console.log(this.props.authenticated)
+        const { dispatch } = this.props;
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              dispatch({ type: 'LOGIN_SUCCESS' });
+            } else {
+              console.log('Not login yet')
+            }
+        });
+        console.log(this.props.authenticated)
+    }
+
     logout = () => {
+        const { dispatch, history } = this.props;
         firebase.auth().signOut()
         .then(function() {
             console.log('logout');
-            <Redirect to={{ pathname: '/' }}/>
+            dispatch({ type: 'LOGIN_FAIL' });
+            history.push('/');
         })
         .catch(function(error) {
             console.log(error)
@@ -26,35 +42,39 @@ class HomePage extends Component {
 
     render() { 
         return ( 
-            <div className="container">
+            <div className="homepage-container">
                 <nav>
                     <div className="logo">
                         <Link to='/'>
-                            No Excuse
+                           <img src= { Logo }/>
                         </Link>
                     </div>
                     <div className="login">
                         <Link to='/login'>
-                            <span className={ this.props.authenticated ? 'hide' : 'show' }>
+                            <div className={ this.props.authenticated ? 'hide' : 'show' }>
                                 <i className="fas fa-sign-in-alt"></i>
-                                Login
-                            </span>
+                                <span>Login</span>
+                            </div>
                         </Link>
-                            <span className={ this.props.authenticated ? 'show' : 'hide' } onClick={ this.logout }>
+                            <div className={ this.props.authenticated ? 'show' : 'show' } onClick={ this.logout }>
                                 <i className="fas fa-sign-in-alt"></i>
-                                Logout
-                            </span>
+                                <span>Logout</span>
+                            </div>
                     </div>
                 </nav>
                 <main>
                     <div className="banner">
                         <div className="btn-wrapper">
-                            <div className="find-people">
-                                找人
-                            </div>
-                            <div className="find-place">
-                                找場
-                            </div>
+                            <Link to='/people'>
+                                <div className="find-people">
+                                    找人
+                                </div>
+                            </Link>
+                            <Link to='/place'>
+                                <div className="find-place">
+                                    找場
+                                </div>
+                            </Link>
                         </div>
                     </div>
                 </main>
