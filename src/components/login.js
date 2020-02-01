@@ -45,49 +45,61 @@ class Login extends Component {
         const { dispatch, history } = this.props;
         const email = this.state.userEmail;
         const password = this.state.password;
-        firebase.auth().signInWithEmailAndPassword(email, password)
-        .catch(e => console.log(e.message));
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-              console.log(user);
-              dispatch({ type: 'LOGIN_SUCCESS' });
-              history.push('/');
-            } else {
-              console.log('Not login yet')
+        firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            this.setState({
+                emailValid: true,
+                errorMessage: errorCode
+            })
+            console.log({errorCode}, {errorMessage})
+        }).then(res => {
+            console.log(res);
+            if(!res){
+                return
             }
+            dispatch({ type: 'LOGIN_SUCCESS' });
+              history.push('/');
         });
     }
 
 
     render() { 
         return ( 
-            <div className = "login-form">
-                <BasketballImg />
-                <div className="form-control">
-                    <span><i className={ this.state.emailChecked ? "fas fa-user-check" :  "fas fa-user" }></i></span>
-                    <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
-                    <span className={ this.state.emailValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
-                </div>
-                <div className="form-control">
-                    <span><i className="fas fa-key"></i></span>
-                    <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'password') }} />
-                    <span className={ this.state.passwordValid ? "warning" : "hide" }>{ this.state.errorMessage }</span>
-                </div>
-                <div className="facebook">
-                    Facebook
-                </div>
-                <div className="google">
-                    Google
-                </div>
-                <div className="btn-wrapper">
-                    <button type="submit" onClick={ this.handleSubmit } className="login">
-                        Login
-                    </button>
-                    <Link to='/register'>
-                        <button type="button" className="registration">
-                            Register
+            <div className="login-container">
+                <div className = "login-form">
+                    <BasketballImg />
+                    <div className="form-control">
+                        <span><i className={ this.state.emailChecked ? "fas fa-user-check" :  "fas fa-user" }></i></span>
+                        <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
+                        <div className={ this.state.emailValid ? "warning" : "hide" }>
+                            { this.state.errorMessage }
+                        </div>
+                    </div>
+                    <div className="form-control">
+                        <span><i className="fas fa-key"></i></span>
+                        <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'password') }} />
+                        <div className={ this.state.passwordValid ? "warning" : "hide" }>
+                            { this.state.errorMessage }
+                        </div>
+                    </div>
+                    <div className="facebook">
+                        Facebook
+                    </div>
+                    <div className="google">
+                        Google
+                    </div>
+                    <div className="btn-wrapper">
+                        <button type="submit" onClick={ this.handleSubmit } className="login">
+                            Login
                         </button>
-                    </Link>
+                        <Link to='/register'>
+                            <button type="button" className="registration">
+                                Register
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         );

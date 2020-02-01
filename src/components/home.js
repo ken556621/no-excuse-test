@@ -15,16 +15,15 @@ class HomePage extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.authenticated)
         const { dispatch } = this.props;
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
+              console.log('Login success');
               dispatch({ type: 'LOGIN_SUCCESS' });
             } else {
               console.log('Not login yet')
             }
         });
-        console.log(this.props.authenticated)
     }
 
     logout = () => {
@@ -32,8 +31,8 @@ class HomePage extends Component {
         firebase.auth().signOut()
         .then(function() {
             console.log('logout');
-            dispatch({ type: 'LOGIN_FAIL' });
-            history.push('/');
+            dispatch({ type: 'LOGOUT' });
+            history.push('/login');
         })
         .catch(function(error) {
             console.log(error)
@@ -56,7 +55,7 @@ class HomePage extends Component {
                                 <span>Login</span>
                             </div>
                         </Link>
-                            <div className={ this.props.authenticated ? 'show' : 'show' } onClick={ this.logout }>
+                            <div className={ this.props.authenticated ? 'show' : 'hide' } onClick={ this.logout }>
                                 <i className="fas fa-sign-in-alt"></i>
                                 <span>Logout</span>
                             </div>
@@ -85,8 +84,8 @@ class HomePage extends Component {
  
 function mapStateToProps(store) {
     return {
-        authenticated: store.authenticated,
-        authenticating: store.authenticating
+        authenticated: store.user.authenticated,
+        authenticating: store.user.authenticating
     };
 }
 

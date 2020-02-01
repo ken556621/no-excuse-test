@@ -20,7 +20,9 @@ $google: #ea4336;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 8px;
-    background: rgba(255,255,255,0.6);
+    -webkit-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
+    -moz-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
+    box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
     .form-control{
       margin: 15px;
     }
@@ -28,25 +30,11 @@ $google: #ea4336;
       margin: 10px;
       font-size: $normal;
     }
-    .label{
-      font-size: 15px;
-      position: absolute;
-      opacity: .6;
-      &:hover{
-        top: -10px;
-      }
-    }
     input{
       padding: 5px;
       font-size: $small;
       border: none;
       border-radius: 8px;
-      // transition: all ease 4s;
-      &:focus{
-        & ~ .label{
-          color: #ea4336;
-        }
-      }
     }
     .btn-wrapper{
       display: flex;

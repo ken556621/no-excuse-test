@@ -53,22 +53,20 @@ class Register extends Component {
                 this.setState({
                     passwordValid: true,
                     errorMessage: 'Your email is valid.'
-                })
-                return 
+                }) 
             }
             if (errorCode == 'auth/email-already-in-use') {
+                console.log(error)
                 this.setState({
                     emailValid: true,
-                    errorMessage: 'already exists an account with the given email address.'
+                    errorMessage: 'already used email.'
                 })
-                return
             }
             if (errorCode == 'auth/invalid-email') {
                 this.setState({
                     emailValid: true,
                     errorMessage: 'email address is invalid.'
                 })
-                return
             }
             if (errorCode == 'auth/operation-not-allowed') {
                 this.setState({
@@ -76,10 +74,11 @@ class Register extends Component {
                     passwordValid: true,
                     errorMessage: ' email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab.'
                 })
-                return
             }
         }).then(res => {
-            console.log(res);
+            if(!res){
+                return
+            }
             db.collection("users").doc().set({
                 ID: res.user.uid,
                 email: this.state.userEmail,
@@ -87,20 +86,13 @@ class Register extends Component {
             })
             .then(function() {
                 console.log("Document successfully written!");
+                dispatch({ type: 'LOGIN_SUCCESS' });
+                history.push('/');
             })
             .catch(function(error) {
                 console.error("Error writing document: ", error);
             });
         })
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-              console.log(user);
-              dispatch({ type: 'LOGIN_SUCCESS' });
-              history.push('/');
-            } else {
-              console.log('Not login yet')
-            }
-        });
     }
 
     render() { 
@@ -117,8 +109,7 @@ class Register extends Component {
                     </div>
                     <div className="email-field form-control">
                         <span><i className="fas fa-user" ></i></span>
-                        <span className="label">Your email</span>
-                        <input type="email" name="email" onChange={ (event) => { this.handleChange(event, 'email') }}></input>
+                        <input type="email" placeholder="your email" name="email" onChange={ (event) => { this.handleChange(event, 'email') }}></input>
                         <div className={ this.state.emailValid ? "warning" : "hide" }>
                             { this.state.errorMessage }
                         </div>

@@ -7,63 +7,75 @@ $facebook: #4267b2;
 $google: #ea4336;
 
 
-.login-form {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  .form-control{
-    margin: 15px;
-  }
-  span{
-    margin: 10px;
-    font-size: $normal;
-  }
-  input{
-    padding: 5px;
-    font-size: $small;
+.login-container{
+  background-image: url(../../img/background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  .login-form {
+    padding: 0px 20px 20px 20px;
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 8px;
-  }
-  .facebook, .google{
-    margin-left: 10px;
-    padding: 10px 0;
-    max-width: 230px;
-    font-size: $small;
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .facebook{
-    margin-top: 30px;
-    margin-bottom: 20px; 
-    background-color: $facebook;
-  }
-  .google{
-    margin-bottom: 30px; 
-    background-color: $google;
-  }
-  .btn-wrapper{
-    display: flex;
-    justify-content: space-between;
-    button{
-      padding: 10px;
+    -webkit-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
+    -moz-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
+    box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
+    .form-control{
+      margin: 15px;
+    }
+    span{
+      margin: 10px;
       font-size: $normal;
+    }
+    input{
+      padding: 5px;
+      font-size: $small;
       border-radius: 8px;
     }
-    .login, .registration{
-      color: #ffffff;
-      background-color: #000000;
-      transition: all .3s ease-in;
-      &:hover{
-        color: #000000;
-        letter-spacing: 5px;
-        background-color: #ffffff;
+    .facebook, .google{
+      margin-left: 10px;
+      padding: 10px 0;
+      max-width: 230px;
+      font-size: $small;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .facebook{
+      margin-top: 30px;
+      margin-bottom: 20px; 
+      background-color: $facebook;
+    }
+    .google{
+      margin-bottom: 30px; 
+      background-color: $google;
+    }
+    .btn-wrapper{
+      display: flex;
+      justify-content: space-between;
+      button{
+        padding: 10px;
+        font-size: $normal;
+        border-radius: 8px;
       }
-      a{
-        text-decoration: none;
+      .login, .registration{
         color: #ffffff;
+        background-color: #000000;
+        transition: all .3s ease-in;
         &:hover{
           color: #000000;
+          letter-spacing: 5px;
+          background-color: #ffffff;
+        }
+        a{
+          text-decoration: none;
+          color: #ffffff;
+          &:hover{
+            color: #000000;
+          }
         }
       }
     }

@@ -6,7 +6,6 @@ const initiaState = {
 const registerReducer = (state = initiaState, action) => {
     switch (action.type){
         case 'LOGIN_SUCCESS':
-            console.log({state})
             return {
                 ...state, 
                 authenticating: false,

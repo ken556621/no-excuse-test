@@ -22,7 +22,11 @@ button{
 }
 
 .warning{
+    margin-top: 5px;
     font-size: 15px;
     color: #ea4336;
     text-align: end;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    background-color: #ffffff;
 }
