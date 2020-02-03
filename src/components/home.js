@@ -16,7 +16,7 @@ class HomePage extends Component {
 
     componentDidMount(){
         const { dispatch } = this.props;
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged((user) => {
             if (user) {
               console.log('Login success');
               dispatch({ type: 'LOGIN_SUCCESS' });

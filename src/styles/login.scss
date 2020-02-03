@@ -35,30 +35,12 @@ $google: #ea4336;
       font-size: $small;
       border-radius: 8px;
     }
-    .facebook, .google{
-      margin-left: 10px;
-      padding: 10px 0;
-      max-width: 230px;
-      font-size: $small;
-      text-align: center;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .facebook{
-      margin-top: 30px;
-      margin-bottom: 20px; 
-      background-color: $facebook;
-    }
-    .google{
-      margin-bottom: 30px; 
-      background-color: $google;
-    }
     .btn-wrapper{
       display: flex;
       justify-content: space-between;
       button{
         padding: 10px;
-        font-size: $normal;
+        font-size: $small;
         border-radius: 8px;
       }
       .login, .registration{

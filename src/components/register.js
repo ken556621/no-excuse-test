@@ -82,7 +82,8 @@ class Register extends Component {
             db.collection("users").doc().set({
                 ID: res.user.uid,
                 email: this.state.userEmail,
-                name: this.state.userName
+                name: this.state.userName,
+                photo: "https://image.flaticon.com/icons/svg/747/747376.svg"
             })
             .then(function() {
                 console.log("Document successfully written!");

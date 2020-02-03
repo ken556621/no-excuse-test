@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+ 
 
 import '../styles/login.scss';
 import firebase from './common/firebase';
 import BasketballImg from './common/basketballImg';
-
-
+import ThirdAuth from './common/thirdAuth';
 
 class Login extends Component {
     constructor(props){
@@ -22,6 +21,7 @@ class Login extends Component {
             submitted: false
         }
     }
+
 
     handleChange = (event, type) => {
         if(type === 'email' && event.target.value){
@@ -60,7 +60,7 @@ class Login extends Component {
                 return
             }
             dispatch({ type: 'LOGIN_SUCCESS' });
-              history.push('/');
+            history.push('/');
         });
     }
 
@@ -84,12 +84,7 @@ class Login extends Component {
                             { this.state.errorMessage }
                         </div>
                     </div>
-                    <div className="facebook">
-                        Facebook
-                    </div>
-                    <div className="google">
-                        Google
-                    </div>
+                    <ThirdAuth history={ this.props.history }/>
                     <div className="btn-wrapper">
                         <button type="submit" onClick={ this.handleSubmit } className="login">
                             Login

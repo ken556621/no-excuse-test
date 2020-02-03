@@ -1,0 +1,31 @@
+#firebaseui-auth-container{
+    .firebaseui-idp-list{
+        padding: 0;
+    }
+    .firebaseui-idp-icon-wrapper{
+        margin: 0 20px 0 10px;
+    }
+    img{
+        height: 25px;
+        padding: 5px 0 0 0;
+    }
+    .firebaseui-idp-button{
+       display: flex;
+       align-items: center;
+       margin: 0;
+       padding: 0;
+       width: 100%;
+       border-radius: 8px;
+    }
+    .firebaseui-idp-google{
+        margin-bottom: 5px;
+    }
+    .firebaseui-idp-text-long{
+        font-size: 15px;
+        margin: 0;
+        padding: 0;
+    }
+    .firebaseui-idp-text-short{
+        display: none;
+    }
+}
