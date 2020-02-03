@@ -79,7 +79,7 @@ class Register extends Component {
             if(!res){
                 return
             }
-            db.collection("users").doc().set({
+            db.collection("users").doc(res.user.uid).set({
                 ID: res.user.uid,
                 email: this.state.userEmail,
                 name: this.state.userName,

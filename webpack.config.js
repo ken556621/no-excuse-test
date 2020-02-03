@@ -9,7 +9,7 @@ const path = require('path');
     },
     devServer: {
         contentBase: './dist',
-        historyApiFallback: true,
+        historyApiFallback: true
     },
    module: {
      rules: [

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
- 
+
 
 import '../styles/login.scss';
 import firebase from './common/firebase';
 import BasketballImg from './common/basketballImg';
 import ThirdAuth from './common/thirdAuth';
+
 
 class Login extends Component {
     constructor(props){

@@ -8,27 +8,6 @@ $google: #ea4336;
 
 
 .homepage-container{
-    nav{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .logo{
-            img{
-                width: 100px;
-                height: 100px;
-            }
-        }
-        .login{
-            font-size: $normal;
-            cursor: pointer;
-            i{
-                font-size: $small;
-            }
-            span{
-                margin-left: 10px;
-            }
-        }
-    }
     .banner{
         background-image: url(../../img/banner.jpg);
         background-repeat: no-repeat;
