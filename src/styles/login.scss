@@ -24,43 +24,50 @@ $google: #ea4336;
     -webkit-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
     -moz-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
     box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
-    .form-control{
-      margin: 15px;
-    }
-    span{
-      margin: 10px;
-      font-size: $normal;
-    }
-    input{
-      padding: 5px;
-      font-size: $small;
-      border-radius: 8px;
-    }
-    .btn-wrapper{
-      display: flex;
-      justify-content: space-between;
-      button{
-        padding: 10px;
+    .form-wrapper{
+      .form-control{
+        margin: 15px 0px;
+        display: flex;
+        .input-wrapper{
+          margin-left: 5px;
+        }
+      }
+      span{
+        margin: 10px;
+        font-size: $normal;
+      }
+      input{
+        padding: 5px;
         font-size: $small;
         border-radius: 8px;
       }
-      .login, .registration{
-        color: #ffffff;
-        background-color: #000000;
-        transition: all .3s ease-in;
-        &:hover{
-          color: #000000;
-          letter-spacing: 5px;
-          background-color: #ffffff;
+      .btn-wrapper{
+        display: flex;
+        justify-content: space-between;
+        button{
+          padding: 10px;
+          font-size: $small;
+          border-radius: 8px;
         }
-        a{
-          text-decoration: none;
+        .login, .registration, .home{
           color: #ffffff;
+          background-color: #000000;
+          transition: all .3s ease-in;
           &:hover{
             color: #000000;
+            letter-spacing: 5px;
+            background-color: #ffffff;
+          }
+          a{
+            text-decoration: none;
+            color: #ffffff;
+            &:hover{
+              color: #000000;
+            }
           }
         }
       }
     }
+    
   }
 }

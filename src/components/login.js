@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import EmailIcon from '@material-ui/icons/Email';
+import LockIcon from '@material-ui/icons/Lock';
 
 import '../styles/login.scss';
 import firebase from './common/firebase';
@@ -15,7 +17,6 @@ class Login extends Component {
         this.state = {
             userEmail: '',
             password: '',
-            emailChecked: false,
             emailValid: false,
             passwordValid: false,
             errorMessage: '',
@@ -27,16 +28,11 @@ class Login extends Component {
     handleChange = (event, type) => {
         if(type === 'email' && event.target.value){
             this.setState({
-                userEmail: event.target.value,
-                emailChecked: true
+                userEmail: event.target.value
             })
         }else if(type === 'password'){
             this.setState({
                 password: event.target.value
-            })
-        }else{
-            this.setState({
-                emailChecked: false
             })
         }
     }
@@ -71,30 +67,41 @@ class Login extends Component {
             <div className="login-container">
                 <div className = "login-form">
                     <BasketballImg />
-                    <div className="form-control">
-                        <span><i className={ this.state.emailChecked ? "fas fa-user-check" :  "fas fa-user" }></i></span>
-                        <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
-                        <div className={ this.state.emailValid ? "warning" : "hide" }>
-                            { this.state.errorMessage }
+                    <div className="form-wrapper">
+                        <div className="form-control">
+                            <EmailIcon style={{ fontSize: 30 }} />
+                            <div className="email input-wrapper">
+                                <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
+                                <div className={ this.state.emailValid ? "warning" : "hide" }>
+                                    { this.state.errorMessage }
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="form-control">
-                        <span><i className="fas fa-key"></i></span>
-                        <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'password') }} />
-                        <div className={ this.state.passwordValid ? "warning" : "hide" }>
-                            { this.state.errorMessage }
+                        <div className="form-control">
+                            <LockIcon style={{ fontSize: 30 }} />
+                            <div className="password input-wrapper">
+                                <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'password') }} />
+                                <div className={ this.state.passwordValid ? "warning" : "hide" }>
+                                    { this.state.errorMessage }
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <ThirdAuth history={ this.props.history }/>
-                    <div className="btn-wrapper">
-                        <button type="submit" onClick={ this.handleSubmit } className="login">
-                            Login
-                        </button>
-                        <Link to='/register'>
-                            <button type="button" className="registration">
-                                Register
+                        <ThirdAuth history={ this.props.history }/>
+                        <div className="btn-wrapper">
+                            <button type="submit" onClick={ this.handleSubmit } className="login">
+                                Login
                             </button>
-                        </Link>
+                            <Link to='/register'>
+                                <button type="button" className="registration">
+                                    Register
+                                </button>
+                            </Link>
+                            <Link to='/'>
+                                <button type="button" className="home">
+                                    Home
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

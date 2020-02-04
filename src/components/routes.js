@@ -5,6 +5,7 @@ import Register from './register';
 import Login from './login';
 import FindPeople from './findPeople';
 import FindPlace from './findPlace';
+import PlaceInfo from './placeInfo';
 
 export default (
     <div>
@@ -13,6 +14,7 @@ export default (
             <Route exact path="/register" component={ Register } />
             <Route exact path="/people" component={ FindPeople } />
             <Route exact path="/place" component={ FindPlace } />
+            <Route exact path="/placeInfo" component={ PlaceInfo } />
             <Route exact path="/" component={ Home } />
         </Switch>
     </div>

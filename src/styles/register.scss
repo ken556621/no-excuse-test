@@ -25,6 +25,10 @@ $google: #ea4336;
     box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
     .form-control{
       margin: 15px;
+      display: flex;
+      .input-wrapper{
+        margin-left: 5px;
+      }
     }
     span{
       margin: 10px;
@@ -38,7 +42,6 @@ $google: #ea4336;
     }
     .btn-wrapper{
       display: flex;
-      justify-content: space-between;
       margin-top: 20px;
       button{
         padding: 10px;

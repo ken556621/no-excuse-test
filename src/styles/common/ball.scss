@@ -1,0 +1,27 @@
+#basketball-img{
+    text-align: center;
+    position: relative;
+    animation: bounding 1s 10 alternate;
+    transform-origin: center;
+}
+
+#basketball{
+    //讓線條漸漸畫出
+}
+
+
+
+@keyframes bounding{
+    0%{
+        top: -40px;
+        transform: rotateZ(360deg);
+    };
+    50%{
+        top: 15px;
+    };
+    100%{
+        top: -30px;
+        transform: rotateZ(360deg);
+    };
+}
+

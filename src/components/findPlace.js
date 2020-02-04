@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+import Ball from './common/ballImg';
 
 import NavBar from './common/navbar';
 
-const AnyReactComponent = ({ text }) => <div>{ text }</div>;
+
 
 class FindPlace extends Component {
     constructor(props){
         super(props)
         this.state = {
             userLat: 25.0424536,
-            userLng: 121.562731
+            userLng: 121.562731,
+            court: []
         }
     }
 
@@ -32,10 +37,12 @@ class FindPlace extends Component {
     }
 
     getCoordinates = (position) => {
+        const api_key = 'AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o';
         this.setState({
             userLat: position.coords.latitude,
             userLng: position.coords.longitude
         })
+        axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=籃球場&location=25.0424536,121.562731&radius=10000&key=${api_key}`).then(res => console.log(res));
     }
 
     handleLocationError = (error) => {
@@ -58,21 +65,22 @@ class FindPlace extends Component {
       
 
     render() { 
-        console.log(this.state.userLat, this.state.userLng);
         return ( 
             <div>
                 <NavBar history={ this.props.history }/>
+                <Link to='/placeInfo'>Information</Link>
                 <div style={{ height: '100vh', width: '100%' }}>
                     <GoogleMapReact
                     bootstrapURLKeys={{ key: 'AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o' }}
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}
                     >
-                    <AnyReactComponent
-                        lat={ this.state.userLat }
-                        lng={ this.state.userLng }
-                        text="Your position"
-                    />
+                    {
+                        <Ball
+                            lat={ this.state.userLat }
+                            lng={ this.state.userLng }
+                        />
+                    }
                     </GoogleMapReact>
                 </div>
             </div>

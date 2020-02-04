@@ -9,7 +9,9 @@ const path = require('path');
     },
     devServer: {
         contentBase: './dist',
-        historyApiFallback: true
+        historyApiFallback: true,
+        https: true,
+        port: 8888
     },
    module: {
      rules: [

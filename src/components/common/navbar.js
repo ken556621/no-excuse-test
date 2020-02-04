@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import firebase from './firebase';
 
 import Button from '@material-ui/core/Button';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import '../../styles/common/navbar.scss';
 
 
@@ -31,23 +32,28 @@ class NavBar extends Component {
     render() { 
         return ( 
             <nav>
-                <div className="logo">
+                <Button className="logo">
                     <Link to='/'>
                         <img src= { Logo }/>
                     </Link>
-                </div>
-                <Button className="login">
-                    <Link to='/login'>
-                        <div className={ this.props.authenticated ? 'hide' : 'show' }>
-                            <i className="fas fa-sign-in-alt"></i>
-                            <span>Login</span>
-                        </div>
-                    </Link>
-                        <div className={ this.props.authenticated ? 'show' : 'hide' } onClick={ this.logout }>
-                            <i className="fas fa-sign-in-alt"></i>
-                            <span>Logout</span>
-                        </div>
                 </Button>
+                <div className="btn-wrapper">
+                    <Button className="member">
+                        <AccountCircleIcon />
+                    </Button>
+                    <Button className="login">
+                        <Link to='/login'>
+                            <div className={ this.props.authenticated ? 'hide' : 'show' }>
+                                <i className="fas fa-sign-in-alt"></i>
+                                <span>Login</span>
+                            </div>
+                        </Link>
+                            <div className={ this.props.authenticated ? 'show' : 'hide' } onClick={ this.logout }>
+                                <i className="fas fa-sign-in-alt"></i>
+                                <span>Logout</span>
+                            </div>
+                    </Button>
+                </div>
             </nav>
         );
     }
