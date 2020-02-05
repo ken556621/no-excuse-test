@@ -1,0 +1,39 @@
+$white: #ebebf0;
+
+
+.member-container{
+    background-image: url(../../img/member2.jpg);
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    .user-info{
+        padding: 10px;
+        position: fixed;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        .user-img{
+            margin: 0 auto;
+            font-size: 150px;
+            width: 150px;
+            height: 150px;
+        }
+        .list-container{
+            .MuiTypography-body1, .MuiListSubheader-sticky, .MuiDivider-inset{
+                color: $white;
+            }
+            .line{
+                background-color: $white;
+            }
+            .arrow{
+                color: $white;
+            }
+            .friend{
+                margin-left: 30px;
+                .friend-icon{
+                    color: $white;
+                }
+            }
+        }
+    }
+}

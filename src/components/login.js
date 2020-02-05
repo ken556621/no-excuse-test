@@ -57,7 +57,7 @@ class Login extends Component {
                 return
             }
             dispatch({ type: 'LOGIN_SUCCESS' });
-            history.push('/');
+            history.push('/member');
         });
     }
 
@@ -69,7 +69,7 @@ class Login extends Component {
                     <BasketballImg />
                     <div className="form-wrapper">
                         <div className="form-control">
-                            <EmailIcon style={{ fontSize: 30 }} />
+                            <EmailIcon style={{ fontSize: 30 }} className="email-icon" />
                             <div className="email input-wrapper">
                                 <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
                                 <div className={ this.state.emailValid ? "warning" : "hide" }>
@@ -78,7 +78,7 @@ class Login extends Component {
                             </div>
                         </div>
                         <div className="form-control">
-                            <LockIcon style={{ fontSize: 30 }} />
+                            <LockIcon style={{ fontSize: 30 }} className="password-icon"/>
                             <div className="password input-wrapper">
                                 <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'password') }} />
                                 <div className={ this.state.passwordValid ? "warning" : "hide" }>

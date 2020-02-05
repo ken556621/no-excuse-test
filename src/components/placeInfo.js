@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Navbar from './common/navbar';
 import Card from './common/card';
 
+
 class PlaceInfo extends Component {
     constructor(props){
         super(props)
@@ -11,7 +12,7 @@ class PlaceInfo extends Component {
     render() { 
         return ( 
             <div>
-                <Navbar history={ history }/>
+                <Navbar history={ this.props.history } />
                 <Card />
             </div>
         );

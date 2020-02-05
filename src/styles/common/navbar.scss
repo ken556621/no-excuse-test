@@ -1,21 +1,33 @@
+$white: #ebebf0;
+
 nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: $white;
     .logo{
         img{
             width: 100px;
             height: 100px;
         }
     }
-    .login{
-        font-size: 20px;
-        cursor: pointer;
-        i{
-            font-size: 15px;
+    .btn-wrapper{
+        padding: 7px 0;
+        .member{
+           span{
+               line-height: .1;
+           }
         }
-        span{
-            margin-left: 10px;
+        .login{
+            font-size: 20px;
+            cursor: pointer;
+            .login-wrapper, .logout-wrapper{
+                display: flex;
+                align-items: center;
+                div{
+                    margin-left: 5px;
+                }
+            }
         }
     }
 }

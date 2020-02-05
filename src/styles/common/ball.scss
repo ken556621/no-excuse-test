@@ -1,17 +1,17 @@
-#basketball-img{
+#basketball-img-small{
     text-align: center;
     position: relative;
-    animation: bounding 1s 10 alternate;
+    animation: boundingSmall 1s 10 alternate;
     transform-origin: center;
 }
 
-#basketball{
+#basketball-small{
     //讓線條漸漸畫出
 }
 
 
 
-@keyframes bounding{
+@keyframes boundingSmall{
     0%{
         top: -40px;
         transform: rotateZ(360deg);

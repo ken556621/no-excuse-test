@@ -28,7 +28,7 @@ class ThirdAuth extends Component {
                 const db = firebase.firestore();
                 const history = this.props.history;
                 console.log(user);
-                db.collection("users").doc().set({
+                db.collection("users").doc(user.uid).set({
                     ID: user.uid,
                     email: user.email,
                     name: user.displayName,
@@ -36,7 +36,7 @@ class ThirdAuth extends Component {
                 })
                 .then(function() {
                     console.log("Document successfully written!");
-                    // dispatch({ type: 'LOGIN_SUCCESS' });
+                    dispatch({ type: 'LOGIN_SUCCESS' });
                     history.push('/');
                 })
                 .catch(function(error) {

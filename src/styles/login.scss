@@ -5,6 +5,7 @@ $small: 15px;
 //color
 $facebook: #4267b2;
 $google: #ea4336;
+$white: #ebebf0;
 
 
 .login-container{
@@ -28,6 +29,9 @@ $google: #ea4336;
       .form-control{
         margin: 15px 0px;
         display: flex;
+        .email-icon, .password-icon{
+          color: #ebebf0;
+        }
         .input-wrapper{
           margin-left: 5px;
         }
@@ -50,17 +54,17 @@ $google: #ea4336;
           border-radius: 8px;
         }
         .login, .registration, .home{
-          color: #ffffff;
+          color: #ebebf0;
           background-color: #000000;
           transition: all .3s ease-in;
           &:hover{
             color: #000000;
             letter-spacing: 5px;
-            background-color: #ffffff;
+            background-color: #ebebf0;
           }
           a{
             text-decoration: none;
-            color: #ffffff;
+            color: #ebebf0;
             &:hover{
               color: #000000;
             }

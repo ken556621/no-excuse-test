@@ -5,6 +5,7 @@ $small: 15px;
 //color
 $facebook: #4267b2;
 $google: #ea4336;
+$white: #ebebf0;
 
 
 .register-container{
@@ -19,7 +20,6 @@ $google: #ea4336;
     top: 53%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 8px;
     -webkit-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
     -moz-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
     box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
@@ -28,6 +28,9 @@ $google: #ea4336;
       display: flex;
       .input-wrapper{
         margin-left: 5px;
+      }
+      .name-icon, .email-icon, .password-icon{
+        color: $white;
       }
     }
     span{
@@ -42,22 +45,23 @@ $google: #ea4336;
     }
     .btn-wrapper{
       display: flex;
+      justify-content: space-around;
       margin-top: 20px;
       button{
         padding: 10px;
         font-size: $small;
         border-radius: 8px;
-        color: #ffffff;
+        color: $white;
         background-color: #000000;
         transition: all .3s ease-in;
         &:hover{
             color: #000000;
-            background-color: #ffffff;
+            background-color: $white;
             letter-spacing: 5px;
         }
         a{
           text-decoration: none;
-          color: #ffffff;
+          color: $white;
           &:hover{
             color: #000000;
           }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import firebase from './common/firebase';
 
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import NavBar from './common/navbar';
@@ -34,19 +35,33 @@ class HomePage extends Component {
                 <NavBar history={ this.props.history }/>
                 <main>
                     <div className="banner">
+                        <div className="about">
+                            <Typography variant="h5">
+                                Winning takes precedence over all.
+                            </Typography>
+                            <Typography variant="h5">
+                                There's no gray area.
+                            </Typography>
+                            <Typography variant="h5">
+                                No almosts.
+                            </Typography>
+                            <Typography variant="subtitle1" className="author">
+                                Kobe Bryant
+                            </Typography>
+                        </div>
                         <div className="btn-wrapper">
                             <Link to='/people'>
                                 <Button>
-                                    <div className="find-people">
-                                        找人
-                                    </div>
+                                    <Typography className="find-people" variant="subtitle1">
+                                        Person
+                                    </Typography>
                                 </Button>
                             </Link>
                             <Link to='/place'>
                                 <Button>
-                                    <div className="find-place">
-                                        找場
-                                    </div>
+                                    <Typography className="find-place" variant="subtitle1">
+                                        Location
+                                    </Typography>
                                 </Button>
                             </Link>
                         </div>

@@ -92,7 +92,7 @@ class Register extends Component {
             .then(function() {
                 console.log("Document successfully written!");
                 dispatch({ type: 'LOGIN_SUCCESS' });
-                history.push('/');
+                history.push('/member');
             })
             .catch(function(error) {
                 console.error("Error writing document: ", error);
@@ -106,7 +106,7 @@ class Register extends Component {
                 <div className="register-form">
                     <Basketball />
                     <div className="name-field form-control">
-                        <PersonIcon style={{ fontSize: 30 }} />
+                        <PersonIcon style={{ fontSize: 30 }} className="name-icon" />
                         <div className="name input-wrapper">
                             <input type="text" placeholder="your name" name="name" onChange={ (event) => { this.handleChange(event, 'name') }}></input>
                             <div className={ this.state.nameValid ? "warning" : "hide" }>
@@ -115,7 +115,7 @@ class Register extends Component {
                         </div>
                     </div>
                     <div className="email-field form-control">
-                        <EmailIcon style={{ fontSize: 30 }} />
+                        <EmailIcon style={{ fontSize: 30 }} className="email-icon" />
                         <div className="email input-wrapper">
                             <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
                             <div className={ this.state.emailValid ? "warning" : "hide" }>
@@ -124,7 +124,7 @@ class Register extends Component {
                         </div>
                     </div>
                     <div className="password-field form-control">
-                        <LockIcon style={{ fontSize: 30 }} />
+                        <LockIcon style={{ fontSize: 30 }} className="password-icon" />
                         <div className="password input-wrapper">
                             <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'password') }} />
                             <div className={ this.state.passwordValid ? "warning" : "hide" }>

@@ -29,6 +29,7 @@ class FindPlace extends Component {
     };
 
     componentDidMount(){
+        console.log(GoogleMapReact);
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
         }else{
@@ -37,12 +38,10 @@ class FindPlace extends Component {
     }
 
     getCoordinates = (position) => {
-        const api_key = 'AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o';
         this.setState({
             userLat: position.coords.latitude,
             userLng: position.coords.longitude
         })
-        axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=籃球場&location=25.0424536,121.562731&radius=10000&key=${api_key}`).then(res => console.log(res));
     }
 
     handleLocationError = (error) => {

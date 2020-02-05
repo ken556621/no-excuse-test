@@ -5,27 +5,33 @@ $small: 20px;
 //color
 $facebook: #4267b2;
 $google: #ea4336;
+$white: #ebebf0;
 
 
 .homepage-container{
     .banner{
-        background-image: url(../../img/banner.jpg);
-        background-repeat: no-repeat;
+        background-image: url(../../img/banner2.jpg);
         background-size: cover;
         width: 100vw;
-        height: 70vh;
+        height: calc(100vh - 36px);
+        .about{
+            position: absolute;
+            right: 6%;
+            top: 25%;
+            color: $white;
+            .author{
+                margin: 25px 0px 0px 55px;
+            }
+        }
         .btn-wrapper{
             display: flex;
             position: absolute;
             right: 10%;
-            top: 45%;
-            div{
-                color: #ffffff;
-                padding: 10px;
-                font-size: $normal;
-                border: 1px solid #ffffff;
-                border-radius: 8px;
-                cursor: pointer;
+            top: 65%;
+            .find-people, .find-place{
+                padding: 2px 7px;
+                color: $white;
+                border: 1px solid $white;
             }
             .find-people{
                 margin-right: 10px;

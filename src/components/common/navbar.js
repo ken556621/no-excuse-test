@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import firebase from './firebase';
 
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
 import '../../styles/common/navbar.scss';
 
 
@@ -34,23 +37,33 @@ class NavBar extends Component {
             <nav>
                 <Button className="logo">
                     <Link to='/'>
-                        <img src= { Logo }/>
+                        <Typography>
+                            No Excuse
+                        </Typography>
                     </Link>
                 </Button>
                 <div className="btn-wrapper">
                     <Button className="member">
-                        <AccountCircleIcon />
+                        <Link to='/member'>
+                            <div className={ this.props.authenticated ? 'member-wrapper show' : 'hide' }>
+                                <AccountCircleIcon />
+                            </div>
+                        </Link>
                     </Button>
                     <Button className="login">
                         <Link to='/login'>
-                            <div className={ this.props.authenticated ? 'hide' : 'show' }>
-                                <i className="fas fa-sign-in-alt"></i>
-                                <span>Login</span>
+                            <div className={ this.props.authenticated ? 'hide' : 'login-wrapper show' }>
+                                <ExitToAppIcon />
+                                <Typography variant="subtitle2">
+                                    Login
+                                </Typography>
                             </div>
                         </Link>
-                            <div className={ this.props.authenticated ? 'show' : 'hide' } onClick={ this.logout }>
-                                <i className="fas fa-sign-in-alt"></i>
-                                <span>Logout</span>
+                            <div className={ this.props.authenticated ? 'logout-wrapper show' : 'hide' } onClick={ this.logout }>
+                                <ExitToAppIcon />
+                                <Typography>
+                                    Logout
+                                </Typography>
                             </div>
                     </Button>
                 </div>
