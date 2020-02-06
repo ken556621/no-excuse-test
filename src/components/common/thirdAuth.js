@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import firebase from './firebase';
+import { connect } from 'react-redux';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { updateUser } from '../../actions/user.action';
 
 import '../../styles/common/thirdAuth.scss';
 
@@ -21,23 +23,23 @@ class ThirdAuth extends Component {
           firebase.auth.FacebookAuthProvider.PROVIDER_ID
         ],
         callbacks: {
-            // Avoid redirects after sign-in.
             signInSuccessWithAuthResult: () => {
-                //狀態會自動改變？ 存入 DB
+                const { dispatch, history } = this.props;
                 const user = firebase.auth().currentUser;
+                const { uid, email, displayName, photoURL } = user;
                 const db = firebase.firestore();
-                const history = this.props.history;
-                console.log(user);
-                db.collection("users").doc(user.uid).set({
-                    ID: user.uid,
-                    email: user.email,
-                    name: user.displayName,
-                    photo: user.photoURL
+                db.collection("users").doc(uid).set({
+                    ID: uid,
+                    email: email,
+                    name: displayName,
+                    photo: photoURL
                 })
                 .then(function() {
+                    //lack of friends data
                     console.log("Document successfully written!");
-                    dispatch({ type: 'LOGIN_SUCCESS' });
-                    history.push('/');
+                    dispatch(updateUser(displayName, email, photoURL));
+                    dispatch({ type: "LOGIN_SUCCESS" });
+                    history.push('/member');
                 })
                 .catch(function(error) {
                     console.error("Error writing document: ", error);
@@ -55,5 +57,14 @@ class ThirdAuth extends Component {
         );
     }
 }
+
+function mapStateToProps(store){
+    return {
+        authenticated: store.user.authenticated,
+        authenticating: store.user.authenticating
+    }
+}
+
+
  
-export default ThirdAuth;
+export default connect(mapStateToProps)(ThirdAuth);

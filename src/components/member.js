@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import firebase from './common/firebase';
 
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
@@ -30,6 +31,7 @@ class Member extends Component {
         }
     }
 
+
     openList = () => {
         this.setState({
             open: !this.state.open
@@ -42,8 +44,8 @@ class Member extends Component {
             <div className="member-container">
                 <NavBar history={ this.props.history }/>
                 <div className="user-info">
-                    <Avatar className="user-img" alt="Ken Yu">
-                        K
+                    <Avatar className="user-img" alt="Oh no!" src={ this.props.userPhoto }>
+                        
                     </Avatar>
                     <List className="list-container"
                         aria-labelledby="nested-list-subheader" subheader={
@@ -58,7 +60,7 @@ class Member extends Component {
                                     <PersonIcon color="action" />
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary="Ken Yu" />
+                            <ListItemText primary={ this.props.userName } />
                         </ListItem>
                         <Divider variant="inset" component="li" className="line" />
                         <ListItem button>
@@ -67,7 +69,7 @@ class Member extends Component {
                                     <EmailIcon color="action" />
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary="user1@example.com" />
+                            <ListItemText primary={ this.props.userEmail } />
                         </ListItem>
                         <Divider variant="inset" component="li" className="line" />
                         <ListItem button>
@@ -106,10 +108,14 @@ class Member extends Component {
     }
 }
  
-function mapStateToProps(state){
+function mapStateToProps(store){
     return {
-        authenticated: state.authenticated,
-        authenticating: state.authenticating
+        authenticated: store.user.authenticated,
+        authenticating: store.user.authenticating,
+        userName: store.user.name,
+        userEmail: store.user.email,
+        userPhoto: store.user.photo,
+        userFriends: store.user.friends
     }
 }
 

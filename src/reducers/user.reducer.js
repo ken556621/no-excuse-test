@@ -23,6 +23,14 @@ const registerReducer = (state = initiaState, action) => {
                 authenticating: true,
                 authenticated: false
             }
+        case 'UPDATE_USER':
+            return {
+                ...state,
+                name: action.name,
+                email: action.email,
+                photo: action.photo,
+                friends: action.friends
+            }
         default :
             return state
     }

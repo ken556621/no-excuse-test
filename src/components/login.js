@@ -109,10 +109,10 @@ class Login extends Component {
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(store){
     return {
-        authenticated: state.authenticated,
-        authenticating: state.authenticating
+        authenticated: store.user.authenticated,
+        authenticating: store.user.authenticating
     }
 }
 

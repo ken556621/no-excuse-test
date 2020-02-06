@@ -1,0 +1,34 @@
+// axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=籃球場&location=${position.coords.latitude},${position.coords.longitude}&radius=10000&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o`, config)
+        // .then(data => {
+        //     data.results.forEach(place => {
+        //             //存入 DB
+        //         db.collection("locations").doc(place.id).set({
+        //             id: place.id,
+        //             name: place.name,
+        //             address: place.formatted_address,
+        //             lat: place.geometry.location.lat,
+        //             lng: place.geometry.location.lng,
+        //             global_code: place.plus_code.global_code
+        //         })
+        //         .then(function() {
+        //             console.log("Document successfully written!");
+        //             //改變狀態
+        //             this.setState({
+        //                 court: {
+        //                     id: place.id,
+        //                     name: place.name,
+        //                     address: place.formatted_address,
+        //                     lat: place.geometry.location.lat,
+        //                     lng: place.geometry.location.lng,
+        //                     global_code: place.plus_code.global_code
+        //                 }
+        //             })
+        //         })
+        //         .catch(function(error) {
+        //             console.error("Error writing document: ", error);
+        //         });
+        //     })
+        //     this.setState({
+        //         isLoading: false
+        //     })
+        // })

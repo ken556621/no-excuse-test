@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from './common/firebase';
 import { Link } from 'react-router-dom';
+import { updateUser } from '../actions/user.action';
 
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
@@ -18,13 +19,13 @@ class Register extends Component {
         this.state = {
             userName: '',
             userEmail: '',
+            userPhoto: 'https://image.flaticon.com/icons/svg/747/747376.svg',
             password: '',
-            emailChecked: false,
+            friends: [],
             nameValid: false,
             emailValid: false,
             passwordValid: false,
-            errorMessage: '',
-            submitted: false
+            errorMessage: ''
         }
     }
 
@@ -46,6 +47,7 @@ class Register extends Component {
 
 
     handleSubmit = () => {
+        const { userName, userEmail, userPhoto, friends } = this.state;
         const { dispatch, history } = this.props;
         const db = firebase.firestore();
         const email = this.state.userEmail;
@@ -87,11 +89,13 @@ class Register extends Component {
                 ID: res.user.uid,
                 email: this.state.userEmail,
                 name: this.state.userName,
-                photo: "https://image.flaticon.com/icons/svg/747/747376.svg"
+                photo: "https://image.flaticon.com/icons/svg/747/747376.svg",
+                friendsList: []
             })
             .then(function() {
                 console.log("Document successfully written!");
                 dispatch({ type: 'LOGIN_SUCCESS' });
+                dispatch(updateUser(userName, userEmail, userPhoto, friends));
                 history.push('/member');
             })
             .catch(function(error) {
