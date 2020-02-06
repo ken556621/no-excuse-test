@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import firebase from './common/firebase';
 
-
-
-import Ball from './common/ballImg';
-
+import Map from './common/mapConfig';
 import NavBar from './common/navbar';
+import Ball from './common/ballImg';
 
 
 
@@ -23,36 +21,6 @@ class FindPlace extends Component {
     }
 
 
-    // initMap = () => {
-    //     let map;
-    //     let service;
-    //     let infowindow;
-    //     const sydney = new google.maps.LatLng(-33.867, 151.195);
-
-    //     infowindow = new google.maps.InfoWindow();
-
-    //     map = new google.maps.Map(
-    //         document.getElementById('map'), {center: sydney, zoom: 15});
-
-    //     const request = {
-    //         location: sydney,
-    //         radius: '1000',
-    //         type: ['basketball']
-    //     };
-
-    //     // const service = new google.maps.places.PlacesService(map);
-    //     // service.nearbySearch(request, this.callback);
-    // }
-
-    callback = (results, status) => {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            var place = results[i];
-            createMarker(results[i]);
-          }
-        }
-    }
-
     componentDidMount(){
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
@@ -62,7 +30,6 @@ class FindPlace extends Component {
     }
 
     getCoordinates = (position) => {
-        const db = firebase.firestore();
         this.setState({
             userLat: position.coords.latitude,
             userLng: position.coords.longitude,
@@ -94,9 +61,7 @@ class FindPlace extends Component {
             <div>
                 <NavBar history={ this.props.history }/>
                 <Link to='/placeInfo'>Information</Link>
-                <div id="map">
-
-                </div>
+                <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } />
             </div>
         );
     }

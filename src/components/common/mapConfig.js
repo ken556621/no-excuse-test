@@ -17,7 +17,7 @@ export class MapContainer extends Component {
     }
 
     displayMarker = () => {
-
+        console.log('-----')
     }
 
     onMarkerClick = (props, marker, e) => {
@@ -39,7 +39,7 @@ export class MapContainer extends Component {
 
     render() {
       const { initialLat, initialLng } = this.props;
-      console.log(initialLat, initialLng)  
+      console.log(this.props)  
       return (
         <Map 
             google={this.props.google} 
