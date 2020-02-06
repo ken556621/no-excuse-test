@@ -32,7 +32,8 @@ class ThirdAuth extends Component {
                     ID: uid,
                     email: email,
                     name: displayName,
-                    photo: photoURL
+                    photo: photoURL,
+                    friends: []
                 })
                 .then(function() {
                     //lack of friends data

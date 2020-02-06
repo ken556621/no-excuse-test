@@ -19,7 +19,7 @@ class Register extends Component {
         this.state = {
             userName: '',
             userEmail: '',
-            userPhoto: 'https://image.flaticon.com/icons/svg/747/747376.svg',
+            userPhoto: 'https://image.flaticon.com/icons/svg/23/23072.svg',
             password: '',
             friends: [],
             nameValid: false,
@@ -89,7 +89,7 @@ class Register extends Component {
                 ID: res.user.uid,
                 email: this.state.userEmail,
                 name: this.state.userName,
-                photo: "https://image.flaticon.com/icons/svg/747/747376.svg",
+                photo: "https://image.flaticon.com/icons/svg/23/23072.svg",
                 friendsList: []
             })
             .then(function() {

@@ -50,7 +50,7 @@ class Member extends Component {
                     <List className="list-container"
                         aria-labelledby="nested-list-subheader" subheader={
                         <ListSubheader component="div" id="nested-list-subheader">
-                        Personal Information
+                            Personal Information
                         </ListSubheader>
                         }
                     >
