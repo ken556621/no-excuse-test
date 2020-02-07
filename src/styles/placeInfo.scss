@@ -1,24 +1,39 @@
 
 
 .place-info-container{
-    .card{
-        width: 50%;
-        .card-header{
-            .weather-img{
-
+    .card-board-wrapper{
+        display: flex;
+        justify-content: space-around;
+        .card{
+            width: 50%;
+            margin-top: 10px;
+            .card-header{
+                span{
+                    margin-bottom: 8px;
+                }
+                .setting-btn{
+    
+                }
             }
-            .setting-btn{
-
+            .image{
+                img{
+                    width: 100%;
+                }
             }
-        }
-        .image{
-            img{
-                width: 100%;
-            }
-        }
-        .card-content{
-            .card-words{
-
+            .card-content{
+                .card-words{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 5px;
+                }
+                .card-words-light{
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 8px;
+                    .check-icon{
+                        margin-left: 5px;
+                    }
+                }
             }
         }
     }

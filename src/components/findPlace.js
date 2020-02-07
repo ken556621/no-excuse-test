@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import firebase from './common/firebase';
 
 import Map from './common/mapConfig';
@@ -60,18 +59,17 @@ class FindPlace extends Component {
         return ( 
             <div>
                 <NavBar history={ this.props.history }/>
-                <Link to='/placeInfo'>Information</Link>
-                <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } />
+                <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } history={ this.props.history }/>
             </div>
         );
     }
 }
  
 
-function mapStateToProps(state){
+function mapStateToProps(store){
     return {
-        authenticated: state.authenticated,
-        authenticating: state.authenticating
+        authenticated: store.user.authenticated,
+        authenticating: store.user.authenticating
     }
 }
 
