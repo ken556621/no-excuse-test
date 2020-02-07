@@ -6,6 +6,8 @@ import firebase from './firebase';
 
 import Typography from '@material-ui/core/Typography';
 
+import Ball from './ballImg';
+
 export class MapContainer extends Component {
     constructor(props){
         super(props)
@@ -30,7 +32,7 @@ export class MapContainer extends Component {
         const currentPosition = new google.maps.LatLng(initialLat,initialLng);
         const request = {
             location: currentPosition,
-            radius: '500',
+            radius: '50',
             query: 'basketball'
         };
         const placesArray = [];
@@ -63,6 +65,11 @@ export class MapContainer extends Component {
                         onClick={ this.clickMarker }
                         key={ place.id }
                         id={ place.id }
+                        icon={{
+                            url: 'https://image.flaticon.com/icons/svg/2467/2467984.svg',
+                            anchor: new google.maps.Point(32,32),
+                            scaledSize: new google.maps.Size(40,40)
+                        }}
                     />
                 )
             })
@@ -109,6 +116,11 @@ export class MapContainer extends Component {
                 name={ 'Your location' } 
                 position={{ lat: initialLat, lng: initialLng }}
                 onClick={ this.clickMarker }
+                icon={{
+                    url: 'https://image.flaticon.com/icons/svg/140/140378.svg',
+                    anchor: new google.maps.Point(32,32),
+                    scaledSize: new google.maps.Size(30,30)
+                }}
             />
 
            { this.state.targetPlaces.length === 0 ? null : this.displayMarker() }
