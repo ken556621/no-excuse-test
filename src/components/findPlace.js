@@ -4,7 +4,6 @@ import firebase from './common/firebase';
 
 import Map from './common/mapConfig';
 import NavBar from './common/navbar';
-import Ball from './common/ballImg';
 
 
 
@@ -59,7 +58,7 @@ class FindPlace extends Component {
         return ( 
             <div>
                 <NavBar history={ this.props.history }/>
-                <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } history={ this.props.history }/>
+                <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } history={ this.props.history } />
             </div>
         );
     }

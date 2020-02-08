@@ -6,7 +6,6 @@ import firebase from './firebase';
 
 import Typography from '@material-ui/core/Typography';
 
-import Ball from './ballImg';
 
 export class MapContainer extends Component {
     constructor(props){
@@ -42,11 +41,16 @@ export class MapContainer extends Component {
                 let name = place.name;
                 let placeLat = place.geometry.location.lat();
                 let placeLng = place.geometry.location.lng();
+                let photo = '';
+                if(place.photos){
+                    photo = place.photos[0].getUrl();
+                }
                 placesArray.push({
                     id,
                     name,
                     placeLat,
-                    placeLng
+                    placeLng,
+                    photo: photo || null
                 })
             })
             this.setState({
@@ -110,7 +114,7 @@ export class MapContainer extends Component {
             style={this.style}
             initialCenter={{
             lat: initialLat,
-            lng: initialLng 
+            lng: initialLng  
         }}>
             <Marker 
                 name={ 'Your location' } 
@@ -139,17 +143,15 @@ export class MapContainer extends Component {
     }
   }
 
-function mapStateToProps(state){
+function mapStateToProps(store){
     return {
-        authenticated: state.authenticated,
-        authenticating: state.authenticating
+        authenticated: store.user.authenticated,
+        authenticating: store.user.authenticating
     }
 }
 
 
  
-
-   
-export default GoogleApiWrapper({
+export default connect(mapStateToProps)(GoogleApiWrapper({
     apiKey: ("AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o")
-})(MapContainer)
+})(MapContainer))

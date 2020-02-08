@@ -10,9 +10,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import '../../styles/common/navbar.scss';
 
-
-import Logo from '../../../img/logo.png';
-
 class NavBar extends Component {
     constructor(props){
         super(props)
@@ -32,7 +29,7 @@ class NavBar extends Component {
     }
 
 
-    render() { 
+    render() {
         return ( 
             <nav>
                 <Button className="logo">
