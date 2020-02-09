@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import firebase from './firebase';
 
 import Typography from '@material-ui/core/Typography';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 
 export class MapContainer extends Component {
@@ -20,44 +21,50 @@ export class MapContainer extends Component {
 
     style = {
         width: '100%',
-        height: '100%'
+        height: 'calc(100vh - 50px)'
     }
 
-
-    fetchPlaces = (mapProps, map) => {
+    
+    getPlaces = () => {
+        const db = firebase.firestore();
         const { initialLat, initialLng } = this.props;
-        const { google } = mapProps;
-        const service = new google.maps.places.PlacesService(map);
-        const currentPosition = new google.maps.LatLng(initialLat,initialLng);
-        const request = {
-            location: currentPosition,
-            radius: '50',
-            query: 'basketball'
-        };
-        const placesArray = [];
-        service.textSearch(request, data => {
-            data.forEach(place => {
-                let id = place.place_id;
-                let name = place.name;
-                let placeLat = place.geometry.location.lat();
-                let placeLng = place.geometry.location.lng();
-                let photo = '';
-                if(place.photos){
-                    photo = place.photos[0].getUrl();
+        const radius = 5; //km
+        const targetPlaces = [];
+        db.collection("locations").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                let targetLat = doc.data().location.latitude;
+                let targetLng = doc.data().location.longitude;
+                let distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, targetLat, targetLng);
+                if(distance < radius){
+                    targetPlaces.push(doc.data())
                 }
-                placesArray.push({
-                    id,
-                    name,
-                    placeLat,
-                    placeLng,
-                    photo: photo || null
-                })
-            })
+            });
             this.setState({
-                targetPlaces: placesArray
+                targetPlaces
             })
+            // console.log(targetPlaces)
         });
     }
+
+
+    getDistanceFromLatLonInKm = (lat1,lon1,lat2,lon2) => {
+        const radius = 6371; // Radius of the earth in km
+        const distanceLat = this.deg2rad(lat2-lat1);  // deg2rad below
+        const distanceLon = this.deg2rad(lon2-lon1); 
+        const algorithm = 
+          Math.sin(distanceLat/2) * Math.sin(distanceLat/2) +
+          Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
+          Math.sin(distanceLon/2) * Math.sin(distanceLon/2); 
+        const c = 2 * Math.atan2(Math.sqrt(algorithm), Math.sqrt(1-algorithm)); 
+        const distance = radius * c; // Distance in km
+        return distance
+    }
+      
+
+    deg2rad = (deg) => {
+        return deg * (Math.PI/180)
+    }
+
 
     displayMarker = () => {
         return (
@@ -65,10 +72,12 @@ export class MapContainer extends Component {
                 return (
                     <Marker 
                         name={ place.name } 
-                        position={{ lat: place.placeLat, lng: place.placeLng }}
-                        onClick={ this.clickMarker }
+                        position={{ lat: place.location.latitude, lng: place.location.longitude }}
+                        address={ place.address }
+                        photo={ place.photo }
                         key={ place.id }
                         id={ place.id }
+                        onClick={ this.clickMarker }
                         icon={{
                             url: 'https://image.flaticon.com/icons/svg/2467/2467984.svg',
                             anchor: new google.maps.Point(32,32),
@@ -108,7 +117,7 @@ export class MapContainer extends Component {
       return (
         <Map 
             google={this.props.google} 
-            onReady={this.fetchPlaces}
+            onReady={this.getPlaces}
             onClick={this.onMapClicked}
             zoom={15} 
             style={this.style}
@@ -134,9 +143,12 @@ export class MapContainer extends Component {
                 visible={this.state.showingInfoWindow}
                 onOpen={ this.clickInfoWindow }
             >
-                <Typography>
+                <div className="place-name">
                     { this.state.selectedPlace.name }
-                </Typography>
+                    <div className="place-address">
+                        { this.state.selectedPlace.formatted_address }
+                    </div>
+                </div>
             </InfoWindow>
         </Map>
       );

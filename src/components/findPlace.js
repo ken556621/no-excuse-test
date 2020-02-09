@@ -28,11 +28,11 @@ class FindPlace extends Component {
     }
 
     getCoordinates = (position) => {
-        this.setState({
-            userLat: position.coords.latitude,
-            userLng: position.coords.longitude,
-            isLoading: true
-        })
+        // this.setState({
+        //     userLat: position.coords.latitude,
+        //     userLng: position.coords.longitude,
+        //     isLoading: true
+        // })
     }
 
     handleLocationError = (error) => {
