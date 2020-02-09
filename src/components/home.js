@@ -30,6 +30,7 @@ class HomePage extends Component {
     }
 
     render() { 
+        console.log(this.props)
         return ( 
             <div className="homepage-container">
                 <NavBar history={ this.props.history }/>

@@ -1,10 +1,10 @@
 
-export function storeCourts(id, name, placeLat, placeLng, cb) {
+export function storeCourts(id, name, address, photo, cb) {
     return  {
         type: "STORE_COURTS",
         id,
         name,
-        placeLat,
-        placeLng
+        address,
+        photo
     };
-}
+} 

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import firebase from './firebase';
 
 import InfoWindow from './infoWindow';
-import Typography from '@material-ui/core/Typography';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import { storeCourts } from '../../actions/location.action';
+
 
 
 export class MapContainer extends Component {
@@ -90,9 +89,6 @@ export class MapContainer extends Component {
     }
 
     clickMarker = (props, marker, e) => {
-        const infowindow = new this.props.google.maps.InfoWindow({
-            content: "hello world"
-        });
         return (
             this.setState({
                 selectedPlace: props,
@@ -111,13 +107,16 @@ export class MapContainer extends Component {
         }
     };
 
-    clickInfoWindow = (id) => {
-        const { history } = this.props;
+    clickInfoWindow = (id, name, address, photo) => {
+        const { dispatch, history } = this.props;
+        //add to redux
+        dispatch(storeCourts(id, name, address, photo))
         history.push(`/placeInfo?${id}`);
     }
 
     render() {
       const { initialLat, initialLng } = this.props;
+      const { id, name, address, photo } = this.state.selectedPlace;
       return (
         <Map 
             google={this.props.google} 
@@ -145,7 +144,7 @@ export class MapContainer extends Component {
             <InfoWindow 
                 marker={this.state.activeMarker}
                 visible={this.state.showingInfoWindow}
-                onClick={ () => this.clickInfoWindow(this.state.selectedPlace.id) }
+                onClick={ () => this.clickInfoWindow(id, name, address, photo) }
             >
                 <div className="place-name">
                     { this.state.selectedPlace.name }

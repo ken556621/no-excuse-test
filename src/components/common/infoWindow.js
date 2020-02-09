@@ -61,7 +61,8 @@ export class InfoWindow extends React.Component {
   }
 
   onOpen() {
-    const infoWindowContent = document.getElementsByClassName('gm-style-iw-c');
+    const { children: { props: {className} } } = this.props;
+    const infoWindowContent = document.getElementsByClassName(className);
     infoWindowContent[0].addEventListener('click', () => {
         this.props.onClick()
     })  

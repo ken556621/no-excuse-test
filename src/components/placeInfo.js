@@ -33,6 +33,17 @@ class PlaceInfo extends Component {
     componentDidMount(){
         const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
+        console.log(this.props);
+        //if redux have data, load from redux, otherwise load from firebase
+        if(this.props.id !== ''){
+            this.setState({
+                isLoading: false,
+                name: this.props.name,
+                address: this.props.address,
+                photo: this.props.photo
+            })
+            return
+        }
         db.collection("locations").where("id", "==", place_ID)
         .get()
         .then((querySnapshot) => {
@@ -98,10 +109,14 @@ class PlaceInfo extends Component {
     }
 }
  
-function mapStateToProps(state){
+function mapStateToProps(store){
     return {
-        authenticated: state.authenticated,
-        authenticating: state.authenticating
+        authenticated: store.user.authenticated,
+        authenticating: store.user.authenticating,
+        id: store.location.id,
+        name: store.location.name,
+        address: store.location.address,
+        photo: store.location.photo
     }
 }
 
