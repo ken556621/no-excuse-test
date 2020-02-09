@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import firebase from './common/firebase';
 
 import Navbar from './common/navbar';
 import Card from '@material-ui/core/Card';
@@ -9,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
 import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
+import ClearIcon from '@material-ui/icons/Clear';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 
 import Boards from './boards';
@@ -17,7 +19,38 @@ import '../styles/placeInfo.scss';
 class PlaceInfo extends Component {
     constructor(props){
         super(props)
+        this.state = {
+            isLoading: true,
+            name: '',
+            address: '',
+            photo: '',
+            courtStatus: '下雨天容易滑',
+            light: true,
+            toilet: false
+        }
     }
+
+    componentDidMount(){
+        const db = firebase.firestore();
+        const place_ID = this.props.location.search.slice(1);
+        db.collection("locations").where("id", "==", place_ID)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data());
+                this.setState({
+                    isLoading: false,
+                    name: doc.data().name,
+                    address: doc.data().address,
+                    photo: doc.data().photo,
+                })
+            });
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+    }
+
     render() { 
         return ( 
             <div className="place-info-container">
@@ -31,11 +64,11 @@ class PlaceInfo extends Component {
                                 <SportsBasketballIcon />
                             </IconButton>
                             }
-                            title="台北和平籃球館"
-                            subheader="106台灣台北市大安區敦南街76巷28號"
+                            title={ this.state.name }
+                            subheader={ this.state.address }
                         />
                         <div className="image">
-                            <img src="https://images.unsplash.com/photo-1537835441678-0d136a68fe01?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80"/>
+                            <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.state.photo}&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o`} />
                         </div>
                         <CardContent className="card-content">
                             <Typography className="card-words" variant="body2" color="textSecondary" component="span">
@@ -45,12 +78,15 @@ class PlaceInfo extends Component {
                             <Typography className="card-words" variant="body2" color="textSecondary" component="span">
                                 <Typography className="card-words-light">
                                     夜間照明: 
-                                    <CheckRoundedIcon className="check-icon"/>
+                                    { this.state.light ? <CheckRoundedIcon className="check-icon"/> : <ClearIcon className="check-icon" /> }
                                 </Typography>
                                 <CreateRoundedIcon />
                             </Typography>
                             <Typography className="card-words" variant="body2" color="textSecondary" component="span">
-                                廁所: 無
+                                <Typography className="card-words-light">
+                                廁所: 
+                                    { this.state.light ? <CheckRoundedIcon className="check-icon"/> : <ClearIcon className="check-icon" /> }
+                                </Typography>
                                 <CreateRoundedIcon />
                             </Typography>
                         </CardContent>

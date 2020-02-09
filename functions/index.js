@@ -21,7 +21,7 @@ exports.createUser = functions.https.onRequest((req, res) => {
 
 exports.getMapData = functions.https.onRequest((req, res) => {
     const db = admin.firestore();
-    fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=basketball&location=121,25&radius=50000&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o')
+    fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=basketball&location=25.0405568,121.5397528&radius=10000&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o')
     .then(res => res.json())
     .then(data => {
         data.results.forEach(place => {
@@ -33,7 +33,7 @@ exports.getMapData = functions.https.onRequest((req, res) => {
                     console.log("Document data is existed:", doc.data());
                 } else {
                     // doc.data() will be undefined in this case
-                    console.log("No such document!");
+                    console.log("No such document!", doc.data());
                     //store db
                     db.collection("locations").doc(place.id).set({
                         id: place.id,
@@ -42,7 +42,8 @@ exports.getMapData = functions.https.onRequest((req, res) => {
                         photo: place.photos[0].photo_reference,
                         location: new admin.firestore.GeoPoint(place.geometry.location.lat, place.geometry.location.lng),
                         global_code: place.plus_code.global_code,
-                        compound_code: place.plus_code.compound_code
+                        compound_code: place.plus_code.compound_code,
+                        store_time: new Date()
                     })
                     .then(function() {
                         console.log("Document successfully written!");

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import firebase from './firebase';
 
+import InfoWindow from './infoWindow';
 import Typography from '@material-ui/core/Typography';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
@@ -24,7 +25,7 @@ export class MapContainer extends Component {
         height: 'calc(100vh - 50px)'
     }
 
-    
+
     getPlaces = () => {
         const db = firebase.firestore();
         const { initialLat, initialLng } = this.props;
@@ -42,7 +43,6 @@ export class MapContainer extends Component {
             this.setState({
                 targetPlaces
             })
-            // console.log(targetPlaces)
         });
     }
 
@@ -90,6 +90,9 @@ export class MapContainer extends Component {
     }
 
     clickMarker = (props, marker, e) => {
+        const infowindow = new this.props.google.maps.InfoWindow({
+            content: "hello world"
+        });
         return (
             this.setState({
                 selectedPlace: props,
@@ -108,8 +111,9 @@ export class MapContainer extends Component {
         }
     };
 
-    clickInfoWindow = () => {
-        console.log('-------------')
+    clickInfoWindow = (id) => {
+        const { history } = this.props;
+        history.push(`/placeInfo?${id}`);
     }
 
     render() {
@@ -137,23 +141,24 @@ export class MapContainer extends Component {
             />
 
            { this.state.targetPlaces.length === 0 ? null : this.displayMarker() }
-   
+
             <InfoWindow 
                 marker={this.state.activeMarker}
                 visible={this.state.showingInfoWindow}
-                onOpen={ this.clickInfoWindow }
+                onClick={ () => this.clickInfoWindow(this.state.selectedPlace.id) }
             >
                 <div className="place-name">
                     { this.state.selectedPlace.name }
                     <div className="place-address">
-                        { this.state.selectedPlace.formatted_address }
+                        { this.state.selectedPlace.address }
                     </div>
                 </div>
             </InfoWindow>
         </Map>
       );
     }
-  }
+}
+
 
 function mapStateToProps(store){
     return {
