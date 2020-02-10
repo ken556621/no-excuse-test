@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from './common/firebase';
-import { Link } from 'react-router-dom';
 
 import Navbar from './common/navbar';
 import Card from '@material-ui/core/Card';
@@ -64,6 +63,16 @@ class PlaceInfo extends Component {
         });
     }
 
+    openGroup = () => {
+        const { history } = this.props;
+        const place_ID = this.props.location.search.slice(1);
+        if(!this.props.authenticated){
+            window.alert('Please login first!');
+            return
+        }
+        history.push(`/openGroup?${place_ID}`)
+    }
+
     render() { 
         return ( 
             <div className={ this.state.isLoading ? 'load' : "place-info-container" }>
@@ -108,11 +117,9 @@ class PlaceInfo extends Component {
                                     <CreateRoundedIcon />
                                 </IconButton>
                             </Typography>
-                            <Link to='/openGroup'>
-                                <Button className="open-group-btn" variant="contained" color="primary">
-                                    Open Group
-                                </Button>
-                            </Link>
+                            <Button className="open-group-btn" variant="contained" color="primary" onClick={ this.openGroup }>
+                                Open Group
+                            </Button>
                         </CardContent>
                     </Card>
                     <Boards />

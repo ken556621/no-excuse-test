@@ -93,10 +93,11 @@ class Register extends Component {
                 friendsList: []
             })
             .then(function() {
+                const uid = res.user.uid;
                 console.log("Document successfully written!");
                 dispatch({ type: 'LOGIN_SUCCESS' });
-                dispatch(updateUser(userName, userEmail, userPhoto, friends));
-                history.push('/member');
+                dispatch(updateUser(uid, userName, userEmail, userPhoto, friends));
+                history.push('/member'); 
             })
             .catch(function(error) {
                 console.error("Error writing document: ", error);

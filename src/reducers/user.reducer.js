@@ -26,6 +26,7 @@ const registerReducer = (state = initiaState, action) => {
         case 'UPDATE_USER':
             return {
                 ...state,
+                uid: action.uid,
                 name: action.name,
                 email: action.email,
                 photo: action.photo,

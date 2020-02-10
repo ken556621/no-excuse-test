@@ -9,6 +9,7 @@ import '../styles/login.scss';
 import firebase from './common/firebase';
 import BasketballImg from './common/basketballImg';
 import ThirdAuth from './common/thirdAuth';
+import { updateUser } from '../actions/user.action'; 
 
 
 class Login extends Component {
@@ -50,12 +51,13 @@ class Login extends Component {
                 emailValid: true,
                 errorMessage: errorCode
             })
-            console.log({errorCode}, {errorMessage})
         }).then(res => {
-            console.log(res);
             if(!res){
                 return
             }
+            const { uid, displayName, email, photoURL } = res.user;
+            const friends = [];
+            dispatch(updateUser(uid, displayName, email, photoURL, friends))
             dispatch({ type: 'LOGIN_SUCCESS' });
             history.push('/member');
         });

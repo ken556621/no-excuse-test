@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import firebase from './firebase';
 
 import InfoWindow from './infoWindow';
+import Button from '@material-ui/core/Button';
 
 import { storeCourts } from '../../actions/location.action';
 
@@ -13,7 +14,7 @@ export class MapContainer extends Component {
     constructor(props){
         super(props)
         this.state = {
-            targetPlaces: '',     
+            targetPlaces: '',   
             showingInfoWindow: false,
             activeMarker: {},
             selectedPlace: {},    
@@ -31,13 +32,14 @@ export class MapContainer extends Component {
         const { initialLat, initialLng } = this.props;
         const radius = 5; //km
         const targetPlaces = [];
+        
         db.collection("locations").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 let targetLat = doc.data().location.latitude;
                 let targetLng = doc.data().location.longitude;
                 let distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, targetLat, targetLng);
                 if(distance < radius){
-                    targetPlaces.push(doc.data())
+                    targetPlaces.push(doc.data());
                 }
             });
             this.setState({
@@ -75,6 +77,7 @@ export class MapContainer extends Component {
                         position={{ lat: place.location.latitude, lng: place.location.longitude }}
                         address={ place.address }
                         photo={ place.photo }
+                        rooms={ place.rooms }
                         key={ place.id }
                         id={ place.id }
                         onClick={ this.clickMarker }
@@ -147,10 +150,15 @@ export class MapContainer extends Component {
                 visible={this.state.showingInfoWindow}
                 onClick={ () => this.clickInfoWindow(id, name, address, photo) }
             >
-                <div className="place-name">
-                    { this.state.selectedPlace.name }
+                <div className="place-container">
+                    <div className="place-name">
+                        { this.state.selectedPlace.name }
+                    </div>
                     <div className="place-address">
                         { this.state.selectedPlace.address }
+                    </div>
+                    <div className="place-rooms">
+                        { this.state.selectedPlace.rooms ?  <div className="groups">{ this.state.selectedPlace.rooms.map(room => <div className="group" key={ this.state.selectedPlace.id }>{ room.name }</div>) }</div> : null }
                     </div>
                 </div>
             </InfoWindow>
