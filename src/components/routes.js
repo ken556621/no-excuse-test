@@ -6,6 +6,7 @@ import Login from './login';
 import FindPeople from './findPeople';
 import FindPlace from './findPlace';
 import PlaceInfo from './placeInfo';
+import openGroup from './openGroup';
 import Member from './member';
 
 export default (
@@ -16,6 +17,7 @@ export default (
             <Route exact path="/people" component={ FindPeople } />
             <Route exact path="/place" component={ FindPlace } />
             <Route exact path="/placeInfo" component={ PlaceInfo } />
+            <Route exact path="/openGroup" component={ openGroup } />
             <Route exact path="/member" component={ Member } />
             <Route exact path="/" component={ Home } />
         </Switch>

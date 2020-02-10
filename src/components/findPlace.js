@@ -5,7 +5,7 @@ import firebase from './common/firebase';
 import Map from './common/mapConfig';
 import NavBar from './common/navbar';
 
-
+import '../styles/findplace.scss';
 
 class FindPlace extends Component {
     constructor(props){
@@ -28,11 +28,11 @@ class FindPlace extends Component {
     }
 
     getCoordinates = (position) => {
-        // this.setState({
-        //     userLat: position.coords.latitude,
-        //     userLng: position.coords.longitude,
-        //     isLoading: true
-        // })
+        this.setState({
+            userLat: position.coords.latitude,
+            userLng: position.coords.longitude,
+            isLoading: true
+        })
     }
 
     handleLocationError = (error) => {
@@ -56,7 +56,7 @@ class FindPlace extends Component {
 
     render() { 
         return ( 
-            <div>
+            <div className="find-place-container">
                 <NavBar history={ this.props.history }/>
                 <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } history={ this.props.history } />
             </div>

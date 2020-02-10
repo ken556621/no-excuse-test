@@ -1,0 +1,11 @@
+
+.find-place-container{
+    .place-name{
+        cursor: pointer;
+        transition: all .3s ease-in;
+        &:hover{
+            color: #ffffff;
+            background-color: #000000;
+        }
+    }
+}

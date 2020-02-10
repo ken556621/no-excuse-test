@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import firebase from './firebase';
 
 import InfoWindow from './infoWindow';
+
 import { storeCourts } from '../../actions/location.action';
 
 
@@ -19,7 +20,7 @@ export class MapContainer extends Component {
         }
     }
 
-    style = {
+    mapStyle = {
         width: '100%',
         height: 'calc(100vh - 50px)'
     }
@@ -119,11 +120,11 @@ export class MapContainer extends Component {
       const { id, name, address, photo } = this.state.selectedPlace;
       return (
         <Map 
-            google={this.props.google} 
-            onReady={this.getPlaces}
-            onClick={this.onMapClicked}
+            google={ this.props.google } 
+            onReady={ this.getPlaces }
+            onClick={ this.onMapClicked }
             zoom={15} 
-            style={this.style}
+            style={ this.mapStyle }
             initialCenter={{
             lat: initialLat,
             lng: initialLng  

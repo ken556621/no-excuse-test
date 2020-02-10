@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from './common/firebase';
+import { Link } from 'react-router-dom';
 
 import Navbar from './common/navbar';
 import Card from '@material-ui/core/Card';
@@ -12,7 +13,9 @@ import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
 import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
 import ClearIcon from '@material-ui/icons/Clear';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
+import Button from '@material-ui/core/Button';
 
+import Load from './common/load';
 import Boards from './boards';
 import '../styles/placeInfo.scss';
 
@@ -33,7 +36,6 @@ class PlaceInfo extends Component {
     componentDidMount(){
         const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
-        console.log(this.props);
         //if redux have data, load from redux, otherwise load from firebase
         if(this.props.id !== ''){
             this.setState({
@@ -64,7 +66,7 @@ class PlaceInfo extends Component {
 
     render() { 
         return ( 
-            <div className="place-info-container">
+            <div className={ this.state.isLoading ? 'load' : "place-info-container" }>
                 <Navbar history={ this.props.history } />
                 <div className="card-board-wrapper">
                     <Card className="card">
@@ -79,27 +81,38 @@ class PlaceInfo extends Component {
                             subheader={ this.state.address }
                         />
                         <div className="image">
-                            <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.state.photo}&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o`} />
+                            <img src={ `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.state.photo}&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o` } />
                         </div>
                         <CardContent className="card-content">
                             <Typography className="card-words" variant="body2" color="textSecondary" component="span">
                                 場地狀況: 下雨天容易滑 
-                                <CreateRoundedIcon />
+                                <IconButton className="setting-btn" aria-label="settings">
+                                    <CreateRoundedIcon />
+                                </IconButton>
                             </Typography>
                             <Typography className="card-words" variant="body2" color="textSecondary" component="span">
                                 <Typography className="card-words-light">
                                     夜間照明: 
                                     { this.state.light ? <CheckRoundedIcon className="check-icon"/> : <ClearIcon className="check-icon" /> }
                                 </Typography>
-                                <CreateRoundedIcon />
+                                <IconButton className="setting-btn" aria-label="settings">
+                                    <CreateRoundedIcon />
+                                </IconButton>
                             </Typography>
                             <Typography className="card-words" variant="body2" color="textSecondary" component="span">
                                 <Typography className="card-words-light">
                                 廁所: 
                                     { this.state.light ? <CheckRoundedIcon className="check-icon"/> : <ClearIcon className="check-icon" /> }
                                 </Typography>
-                                <CreateRoundedIcon />
+                                <IconButton className="setting-btn" aria-label="settings">
+                                    <CreateRoundedIcon />
+                                </IconButton>
                             </Typography>
+                            <Link to='/openGroup'>
+                                <Button className="open-group-btn" variant="contained" color="primary">
+                                    Open Group
+                                </Button>
+                            </Link>
                         </CardContent>
                     </Card>
                     <Boards />
