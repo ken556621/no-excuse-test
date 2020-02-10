@@ -111,16 +111,16 @@ export class MapContainer extends Component {
         }
     };
 
-    clickInfoWindow = (id, name, address, photo) => {
+    clickInfoWindow = (id, name, address, photo, rooms) => {
         const { dispatch, history } = this.props;
         //add to redux
-        dispatch(storeCourts(id, name, address, photo))
+        dispatch(storeCourts(id, name, address, photo, rooms))
         history.push(`/placeInfo?${id}`);
     }
 
     render() {
       const { initialLat, initialLng } = this.props;
-      const { id, name, address, photo } = this.state.selectedPlace;
+      const { id, name, address, photo, rooms } = this.state.selectedPlace;
       return (
         <Map 
             google={ this.props.google } 
@@ -148,7 +148,7 @@ export class MapContainer extends Component {
             <InfoWindow 
                 marker={this.state.activeMarker}
                 visible={this.state.showingInfoWindow}
-                onClick={ () => this.clickInfoWindow(id, name, address, photo) }
+                onClick={ () => this.clickInfoWindow(id, name, address, photo, rooms) }
             >
                 <div className="place-container">
                     <div className="place-name">

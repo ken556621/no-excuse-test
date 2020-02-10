@@ -40,6 +40,7 @@ class Member extends Component {
 
 
     render() { 
+        console.log(this.props)
         return ( 
             <div className="member-container">
                 <NavBar history={ this.props.history }/>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from './common/firebase';
 import NavBar from './common/navbar';
+import { storeGroups } from '../actions/group.action';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -25,7 +26,7 @@ class OpenGroup extends Component {
         const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
         //先拿之前的資料，避免覆蓋以前
-        var docRef = db.collection("locations").doc(place_ID);
+        const docRef = db.collection("locations").doc(place_ID);
         docRef.get().then((doc) => {
             if (doc.exists) {
                 console.log("Document data:", doc.data());
@@ -65,21 +66,7 @@ class OpenGroup extends Component {
         const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
         const uid = this.props.uid;
-
-        //先拿之前的資料，避免覆蓋以前
-        var docRef = db.collection("locations").doc(place_ID);
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-                console.log("Document data:", doc.data());
-                this.setState({
-                    prevRooms: doc.data().rooms
-                })
-            } else {
-                console.log("No such document!");
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
+        const { name, people, time, intensity } = this.state;
 
         db.collection("locations").doc(place_ID).update(
             {
@@ -88,10 +75,10 @@ class OpenGroup extends Component {
                     {
                         uid: uid,
                         place_id: place_ID,
-                        name: this.state.name,
-                        people: this.state.people,
-                        time: this.state.time,
-                        intensity: this.state.intensity,
+                        name: name,
+                        people: people,
+                        time: time,
+                        intensity: intensity,
                         store_time: new Date()
                     }
                 ]
@@ -100,7 +87,8 @@ class OpenGroup extends Component {
         .then(() => {
             const { history, dispatch } = this.props;
             console.log("Document successfully written!");
-            history.push('/placeInfo');
+            dispatch(storeGroups(name, people, time, intensity));
+            history.push(`/placeInfo?${place_ID}`);
         })
         .catch((error) => {
             console.error("Error writing document: ", error);

@@ -2,6 +2,7 @@
 
 .place-info-container{
     .card-board-wrapper{
+        margin-bottom: 20px;
         display: flex;
         justify-content: space-around;
         .card{
@@ -33,6 +34,26 @@
                     .check-icon{
                         margin-left: 5px;
                     }
+                }
+            }
+        }
+    }
+    .groups{
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        .group-container{
+            display: flex;
+            justify-content: space-between;
+            width: 45%;
+            margin-bottom: 20px;
+            .col-left{
+
+            }
+            .col-right{
+                text-align: center;
+                .hoster{
+                    margin: 10px;
                 }
             }
         }

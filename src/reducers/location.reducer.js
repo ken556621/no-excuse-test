@@ -13,7 +13,8 @@ const locationReducer = (state = initiaState, action) => {
                 id: action.id,
                 name: action.name,
                 address: action.address,
-                photo: action.photo
+                photo: action.photo,
+                rooms: action.rooms
             }
         default :
             return state

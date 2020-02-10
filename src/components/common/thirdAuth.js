@@ -38,7 +38,7 @@ class ThirdAuth extends Component {
                 .then(function() {
                     //lack of friends data
                     console.log("Document successfully written!");
-                    dispatch(updateUser(displayName, email, photoURL));
+                    dispatch(updateUser(uid, displayName, email, photoURL)); 
                     dispatch({ type: "LOGIN_SUCCESS" });
                     history.push('/member');
                 })

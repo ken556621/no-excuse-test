@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button';
 
 import Load from './common/load';
 import Boards from './boards';
+import Groups from './groups';
 import '../styles/placeInfo.scss';
 
 class PlaceInfo extends Component {
@@ -28,7 +29,8 @@ class PlaceInfo extends Component {
             photo: '',
             courtStatus: '下雨天容易滑',
             light: true,
-            toilet: false
+            toilet: false,
+            rooms: ''
         }
     }
 
@@ -41,7 +43,8 @@ class PlaceInfo extends Component {
                 isLoading: false,
                 name: this.props.name,
                 address: this.props.address,
-                photo: this.props.photo
+                photo: this.props.photo,
+                rooms: this.props.rooms
             })
             return
         }
@@ -55,6 +58,7 @@ class PlaceInfo extends Component {
                     name: doc.data().name,
                     address: doc.data().address,
                     photo: doc.data().photo,
+                    rooms: doc.data().rooms
                 })
             });
         })
@@ -67,7 +71,13 @@ class PlaceInfo extends Component {
         const { history } = this.props;
         const place_ID = this.props.location.search.slice(1);
         if(!this.props.authenticated){
+            //若沒有註冊，不能開
             window.alert('Please login first!');
+            return
+        }
+        if(this.state.rooms.find(room => room.uid === this.props.uid)){
+            //若開場過，不能再開
+            window.alert('You already open it!');
             return
         }
         history.push(`/openGroup?${place_ID}`)
@@ -124,6 +134,9 @@ class PlaceInfo extends Component {
                     </Card>
                     <Boards />
                 </div>
+                <div className="groups">
+                    { this.state.rooms ? <Groups rooms={ this.state.rooms }/>: null }        
+                </div>
             </div>
         );
     }
@@ -133,10 +146,12 @@ function mapStateToProps(store){
     return {
         authenticated: store.user.authenticated,
         authenticating: store.user.authenticating,
+        uid: store.user.uid,
         id: store.location.id,
         name: store.location.name,
         address: store.location.address,
-        photo: store.location.photo
+        photo: store.location.photo,
+        rooms: store.location.rooms
     }
 }
 
