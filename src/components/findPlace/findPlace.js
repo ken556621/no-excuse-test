@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase from './common/firebase';
+import firebase from '../common/firebase';
 
-import Map from './common/mapConfig';
-import NavBar from './common/navbar';
+import Map from './mapConfig';
+import NavBar from '../common/navbar';
 
-import '../styles/findplace.scss';
+import '../../styles/findplace.scss';
 
 class FindPlace extends Component {
     constructor(props){

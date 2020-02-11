@@ -39,21 +39,19 @@
         }
     }
     .groups{
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
         .group-container{
             display: flex;
-            justify-content: space-between;
-            width: 45%;
             margin-bottom: 20px;
-            .col-left{
+            .card-container{
+                display: flex;
+                .col-left{
 
-            }
-            .col-right{
-                text-align: center;
-                .hoster{
-                    margin: 10px;
+                }
+                .col-right{
+                    text-align: center;
+                    .hoster{
+                        margin: 10px;
+                    }
                 }
             }
         }

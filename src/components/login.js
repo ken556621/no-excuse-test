@@ -46,7 +46,6 @@ class Login extends Component {
         firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
-            const errorMessage = error.message;
             this.setState({
                 emailValid: true,
                 errorMessage: errorCode
@@ -57,7 +56,7 @@ class Login extends Component {
             }
             const { uid, displayName, email, photoURL } = res.user;
             const friends = [];
-            dispatch(updateUser(uid, displayName, email, photoURL, friends))
+            dispatch(updateUser(uid, displayName, email, photoURL, friends));
             dispatch({ type: 'LOGIN_SUCCESS' });
             history.push('/member');
         });

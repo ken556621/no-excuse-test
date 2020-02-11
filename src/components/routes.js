@@ -4,10 +4,10 @@ import Home from './home';
 import Register from './register';
 import Login from './login';
 import FindPeople from './findPeople';
-import FindPlace from './findPlace';
-import PlaceInfo from './placeInfo';
-import openGroup from './openGroup';
-import Member from './member';
+import FindPlace from './findPlace/findPlace';
+import PlaceInfo from './placeInfo/placeInfo';
+import openGroup from './placeInfo/openGroup';
+import Member from './member/member';
 
 export default (
     <div>

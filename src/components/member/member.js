@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase from './common/firebase';
+import firebase from '../common/firebase';
 
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
@@ -20,27 +20,51 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 
-import NavBar from './common/navbar';
-import '../styles/member.scss';
+import NavBar from '../common/navbar';
+import '../../styles/member.scss';
 
 class Member extends Component {
     constructor(props){
         super(props)
         this.state = {
-            open: false
+            openFriends: false,
+            openGroups: false,
+            groups: ''
         }
     }
 
+    componentDidMount(){
+        const db = firebase.firestore();
+        const { uid } = this.props;
+        const groups = [];
+        if(!uid){
+            const user = firebase.auth().currentUser;
+            console.log(user)
+            return
+        }
+        db.collection("users").doc(uid).collection("rooms").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                groups.push(doc.data());
+            });
+            this.setState({
+                groups
+            })
+        });
+    }
 
-    openList = () => {
+    openFriendsList = () => {
         this.setState({
-            open: !this.state.open
+            openFriends: !this.state.openFriends
         })
     }
 
+    openGroupsList = () => {
+        this.setState({
+            openGroups: !this.state.openGroups
+        })
+    }
 
     render() { 
-        console.log(this.props)
         return ( 
             <div className="member-container">
                 <NavBar history={ this.props.history }/>
@@ -61,7 +85,7 @@ class Member extends Component {
                                     <PersonIcon color="action" />
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={ this.props.userName } />
+                            <ListItemText primary={ this.props.userName ? this.props.userName : "You don't have a name right now" } />
                         </ListItem>
                         <Divider variant="inset" component="li" className="line" />
                         <ListItem button>
@@ -82,26 +106,49 @@ class Member extends Component {
                             <ListItemText primary="Injuries are a part of the game. Every athlete knows that." />
                         </ListItem>
                         <Divider variant="inset" component="li" className="line" />
-                        <ListItem button onClick={ this.openList }>
+                        <ListItem button onClick={ this.openFriendsList }>
                             <ListItemAvatar>
                                 <Avatar>
                                     <PeopleAltIcon color="action" />
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText primary="Friends list." />
-                            {this.state.open ? <ExpandLess className="arrow" /> : <ExpandMore className="arrow" />}
+                            { this.state.openFriends ? <ExpandLess className="arrow" /> : <ExpandMore className="arrow" /> }
                         </ListItem>
                         <Divider variant="inset" component="li" className="line" /> 
-                        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                        <Collapse in={ this.state.openFriends } timeout="auto" unmountOnExit>
                             <List component="div" disablePadding className="friend">
                                 <ListItem button >
                                     <ListItemIcon>
                                         <PersonIcon className="friend-icon" />
                                     </ListItemIcon>
-                                    <ListItemText primary="Ethan" />
+                                    <ListItemText className="friend-list" primary="Ethan" />
                                 </ListItem>
                             </List>
-                        </Collapse>     
+                        </Collapse>
+                        <ListItem button onClick={ this.openGroupsList }>
+                            <ListItemAvatar>
+                                <Avatar>
+                                    <PeopleAltIcon color="action" />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary="Groups list." />
+                            { this.state.openGroups ? <ExpandLess className="arrow" /> : <ExpandMore className="arrow" /> }
+                        </ListItem>
+                        <Collapse in={ this.state.openGroups } timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding className="friend">
+                                <ListItem button >
+                                    <ListItemIcon>
+                                        <PersonIcon className="friend-icon" />
+                                    </ListItemIcon>
+                                    { this.state.groups ? this.state.groups.map(group => {
+                                        return (
+                                            <ListItemText className="group-list" primary={ group.groupName } />
+                                        )
+                                    }) : <ListItemText className="group-list" primary="You should go and give some bucket!" /> }
+                                </ListItem>
+                            </List>
+                        </Collapse>        
                     </List>
                 </div>
             </div>
@@ -113,6 +160,7 @@ function mapStateToProps(store){
     return {
         authenticated: store.user.authenticated,
         authenticating: store.user.authenticating,
+        uid: store.user.uid,
         userName: store.user.name,
         userEmail: store.user.email,
         userPhoto: store.user.photo,

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase from './common/firebase';
+import firebase from '../common/firebase';
 
-import Navbar from './common/navbar';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,10 +13,11 @@ import ClearIcon from '@material-ui/icons/Clear';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import Button from '@material-ui/core/Button';
 
-import Load from './common/load';
+import Navbar from '../common/navbar';
+import Load from '../common/load';
 import Boards from './boards';
-import Groups from './groups';
-import '../styles/placeInfo.scss';
+import Rooms from './rooms';
+import '../../styles/placeInfo.scss';
 
 class PlaceInfo extends Component {
     constructor(props){
@@ -29,8 +29,7 @@ class PlaceInfo extends Component {
             photo: '',
             courtStatus: '下雨天容易滑',
             light: true,
-            toilet: false,
-            rooms: ''
+            toilet: false
         }
     }
 
@@ -38,13 +37,12 @@ class PlaceInfo extends Component {
         const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
         //if redux have data, load from redux, otherwise load from firebase
-        if(this.props.id !== ''){
+        if(this.props.place_ID !== ''){
             this.setState({
                 isLoading: false,
                 name: this.props.name,
                 address: this.props.address,
-                photo: this.props.photo,
-                rooms: this.props.rooms
+                photo: this.props.photo
             })
             return
         }
@@ -52,13 +50,11 @@ class PlaceInfo extends Component {
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                console.log(doc.id, " => ", doc.data());
                 this.setState({
                     isLoading: false,
                     name: doc.data().name,
                     address: doc.data().address,
-                    photo: doc.data().photo,
-                    rooms: doc.data().rooms
+                    photo: doc.data().photo
                 })
             });
         })
@@ -67,25 +63,28 @@ class PlaceInfo extends Component {
         });
     }
 
-    openGroup = () => {
+    openGroup = () => { 
         const { history } = this.props;
+        const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
-        if(!this.props.authenticated){
-            //若沒有註冊，不能開
-            window.alert('Please login first!');
-            return
-        }
-        if(this.state.rooms.find(room => room.uid === this.props.uid)){
-            //若開場過，不能再開
-            window.alert('You already open it!');
-            return
-        }
-        history.push(`/openGroup?${place_ID}`)
+        
+        const docRef = db.collection("locations").doc(place_ID).collection("rooms").doc(this.props.uid);
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                window.alert('You already open the group here!')
+            } else {
+                history.push(`/openGroup?${place_ID}`)
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
     }
 
     render() { 
+        const place_ID = this.props.location.search.slice(1);
         return ( 
-            <div className={ this.state.isLoading ? 'load' : "place-info-container" }>
+            <div className="place-info-container">
                 <Navbar history={ this.props.history } />
                 <div className="card-board-wrapper">
                     <Card className="card">
@@ -131,27 +130,23 @@ class PlaceInfo extends Component {
                                 Open Group
                             </Button>
                         </CardContent>
-                    </Card>
+                    </Card> 
                     <Boards />
                 </div>
                 <div className="groups">
-                    { this.state.rooms ? <Groups rooms={ this.state.rooms }/>: null }        
+                    <Rooms place_ID={ place_ID }/>   
                 </div>
             </div>
         );
     }
-}
+} 
  
 function mapStateToProps(store){
     return {
         authenticated: store.user.authenticated,
         authenticating: store.user.authenticating,
         uid: store.user.uid,
-        id: store.location.id,
-        name: store.location.name,
-        address: store.location.address,
-        photo: store.location.photo,
-        rooms: store.location.rooms
+        place_ID: store.location.id
     }
 }
 

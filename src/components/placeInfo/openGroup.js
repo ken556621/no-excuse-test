@@ -1,44 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase from './common/firebase';
-import NavBar from './common/navbar';
-import { storeGroups } from '../actions/group.action';
+import firebase from '../common/firebase';
+import NavBar from '../common/navbar';
+import { storeGroups } from '../../actions/group.action';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import '../styles/openGroup.scss';
+import '../../styles/openGroup.scss';
 
 class OpenGroup extends Component {
     constructor(props){
         super(props)
-        this.state = {
+        this.state = { 
             name: '',
             people: '',
             time: '',
-            intensity: '',
-            prevRooms: ''
+            intensity: ''
         }
-    }
-
-    componentDidMount(){
-        const db = firebase.firestore();
-        const place_ID = this.props.location.search.slice(1);
-        //先拿之前的資料，避免覆蓋以前
-        const docRef = db.collection("locations").doc(place_ID);
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-                console.log("Document data:", doc.data());
-                this.setState({
-                    prevRooms: doc.data().rooms
-                })
-            } else {
-                console.log("No such document!");
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
     }
 
     handleInput = (e) => {
@@ -68,26 +48,30 @@ class OpenGroup extends Component {
         const uid = this.props.uid;
         const { name, people, time, intensity } = this.state;
 
-        db.collection("locations").doc(place_ID).update(
-            {
-                rooms:[
-                     ...this.state.prevRooms,
-                    {
-                        uid: uid,
-                        place_id: place_ID,
-                        name: name,
-                        people: people,
-                        time: time,
-                        intensity: intensity,
-                        store_time: new Date()
-                    }
-                ]
-            }
+        db.collection("locations").doc(place_ID).collection("rooms").doc(uid).set(
+           {
+            uid: uid,
+            place_id: place_ID,
+            name: name,
+            people: people,
+            time: time,
+            intensity: intensity,
+            store_time: new Date() 
+           }
         )
         .then(() => {
-            const { history, dispatch } = this.props;
+            //多存一個給 map 使用
+            db.collection("locations").doc(place_ID).update({
+                rooms: firebase.firestore.FieldValue.arrayUnion(name)
+            }).then(() => {
+                console.log("Document successfully updated!");
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+            });
+            const { dispatch, history } = this.props;
             console.log("Document successfully written!");
-            dispatch(storeGroups(name, people, time, intensity));
+            dispatch(storeGroups(uid, name, people, time, intensity));
             history.push(`/placeInfo?${place_ID}`);
         })
         .catch((error) => {

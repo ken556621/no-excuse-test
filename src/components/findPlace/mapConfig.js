@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { connect } from 'react-redux';
-import firebase from './firebase';
+import firebase from '../common/firebase';
 
 import InfoWindow from './infoWindow';
-import Button from '@material-ui/core/Button';
 
 import { storeCourts } from '../../actions/location.action';
 
@@ -14,7 +13,7 @@ export class MapContainer extends Component {
     constructor(props){
         super(props)
         this.state = {
-            targetPlaces: '',   
+            targetPlaces: '',
             showingInfoWindow: false,
             activeMarker: {},
             selectedPlace: {},    
@@ -35,9 +34,9 @@ export class MapContainer extends Component {
         
         db.collection("locations").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                let targetLat = doc.data().location.latitude;
-                let targetLng = doc.data().location.longitude;
-                let distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, targetLat, targetLng);
+                const targetLat = doc.data().location.latitude;
+                const targetLng = doc.data().location.longitude;
+                const distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, targetLat, targetLng);
                 if(distance < radius){
                     targetPlaces.push(doc.data());
                 }
@@ -46,7 +45,11 @@ export class MapContainer extends Component {
                 targetPlaces
             })
         });
+
     }
+
+   
+    
 
 
     getDistanceFromLatLonInKm = (lat1,lon1,lat2,lon2) => {
@@ -77,7 +80,7 @@ export class MapContainer extends Component {
                         position={{ lat: place.location.latitude, lng: place.location.longitude }}
                         address={ place.address }
                         photo={ place.photo }
-                        rooms={ place.rooms }
+                        room={ place.rooms }
                         key={ place.id }
                         id={ place.id }
                         onClick={ this.clickMarker }
@@ -111,16 +114,16 @@ export class MapContainer extends Component {
         }
     };
 
-    clickInfoWindow = (id, name, address, photo, rooms) => {
+    clickInfoWindow = (id, name, address, photo) => {
         const { dispatch, history } = this.props;
         //add to redux
-        dispatch(storeCourts(id, name, address, photo, rooms))
+        dispatch(storeCourts(id, name, address, photo))
         history.push(`/placeInfo?${id}`);
     }
 
     render() {
       const { initialLat, initialLng } = this.props;
-      const { id, name, address, photo, rooms } = this.state.selectedPlace;
+      const { id, name, address, photo, room } = this.state.selectedPlace;
       return (
         <Map 
             google={ this.props.google } 
@@ -148,17 +151,19 @@ export class MapContainer extends Component {
             <InfoWindow 
                 marker={this.state.activeMarker}
                 visible={this.state.showingInfoWindow}
-                onClick={ () => this.clickInfoWindow(id, name, address, photo, rooms) }
+                onClick={ () => this.clickInfoWindow(id, name, address, photo) }
             >
                 <div className="place-container">
                     <div className="place-name">
-                        { this.state.selectedPlace.name }
+                        { name }
                     </div>
                     <div className="place-address">
-                        { this.state.selectedPlace.address }
+                        { address }
                     </div>
                     <div className="place-rooms">
-                        { this.state.selectedPlace.rooms ?  <div className="groups">{ this.state.selectedPlace.rooms.map(room => <div className="group" key={ this.state.selectedPlace.id }>{ room.name }</div>) }</div> : null }
+                        <div className="groups">
+                            { room ? <div className="group" key={ id }>{ room }</div> : null }
+                        </div>
                     </div>
                 </div>
             </InfoWindow>
