@@ -26,25 +26,24 @@ export class MapContainer extends Component {
     }
 
 
-    getPlaces = () => {
+    getPlaces = async () => {
         const db = firebase.firestore();
         const { initialLat, initialLng } = this.props;
         const radius = 5; //km
         const targetPlaces = [];
         
-        db.collection("locations").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                const targetLat = doc.data().location.latitude;
-                const targetLng = doc.data().location.longitude;
-                const distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, targetLat, targetLng);
-                if(distance < radius){
-                    targetPlaces.push(doc.data());
-                }
-            });
-            this.setState({
-                targetPlaces
-            })
+        const querySnapshot = await db.collection("locations").get();
+        querySnapshot.forEach((doc) => {
+            const targetLat = doc.data().location.latitude;
+            const targetLng = doc.data().location.longitude;
+            const distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, targetLat, targetLng);
+            if(distance < radius){
+                targetPlaces.push(doc.data());
+            }
         });
+        this.setState({
+            targetPlaces
+        })
 
     }
 

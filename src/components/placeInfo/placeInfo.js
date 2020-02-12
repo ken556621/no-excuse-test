@@ -68,7 +68,7 @@ class PlaceInfo extends Component {
         const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
         
-        const docRef = db.collection("locations").doc(place_ID).collection("rooms").doc(this.props.uid);
+        const docRef = db.collection("rooms").doc(place_ID);
 
         docRef.get().then((doc) => {
             if (doc.exists) {
@@ -99,7 +99,7 @@ class PlaceInfo extends Component {
                             subheader={ this.state.address }
                         />
                         <div className="image">
-                            <img src={ `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.state.photo}&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o` } />
+                            <img src={ `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.state.photo}&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o` } alt="Please wait for second" />
                         </div>
                         <CardContent className="card-content">
                             <Typography className="card-words" variant="body2" color="textSecondary" component="span">

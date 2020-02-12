@@ -25,34 +25,27 @@ class Groups extends Component {
         const { place_ID } = this.props;
         const rooms = [];
         //get rooms data
-        db.collection("locations").doc(place_ID).collection("rooms").get().then((querySnapshot) => {
+        db.collection("rooms").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                rooms.push(doc.data());
-                this.setState({
-                    rooms
-                })
-            });
-        });
-        //get participatants data
-        db.collection("locations").doc(place_ID).collection("rooms").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                console.log(doc.data())
+                 //get participatants data
+                let roomPerson = Object.assign({}, doc.data());
+                
             });
         });
     }
 
     joinGroup = (e) => {
         const { authenticated, uid } = this.props;
+        if (!authenticated) {
+            window.alert('You are not sign in yet!');
+            return 
+        } 
         //不能參加自己開的房間
         if(e.target.parentElement.id === uid){
             window.alert('You can not join your own room!');
             return
         }
-        if (authenticated) {
-            this.storeUsersToRoom(e.target.parentElement.id, uid);
-        } else {
-            window.alert('You are not sign in yet!');
-        }
+        this.storeUsersToRoom(e.target.parentElement.id, uid);
     }
 
     storeUsersToRoom = (hoster_uid, participant_uid) => {
@@ -100,16 +93,16 @@ class Groups extends Component {
                             <div className="col-left">
                                 <CardContent>
                                     <Typography color="textSecondary" gutterBottom>
-                                    { room.name }
+                                        { room.name }
                                     </Typography>
                                     <Typography variant="h5" component="h2">
-                                    Need: { room.people } people
+                                        Need: { room.people_need } people
                                     </Typography>
                                     <Typography color="textSecondary">
-                                    Intensity: { room.intensity }
+                                        Intensity: { room.intensity }
                                     </Typography>
                                     <Typography variant="body2" component="p">
-                                    We play at: { room.time }
+                                        We play at: { room.time }
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
@@ -117,7 +110,7 @@ class Groups extends Component {
                                 </CardActions>
                             </div>
                             <div className="col-right">
-                                <Avatar className="hoster" alt="Hoster" src="#" />
+                                 { room.people ? room.people.map(person => <Avatar key={ person.uid } className="participater" alt="Participater" src={ person.userPhoto } />) : console.log('no participater') }
                             </div>
                         </Card>
                     )

@@ -16,6 +16,7 @@ class OpenGroup extends Component {
         this.state = { 
             name: '',
             people: '',
+            date: '',
             time: '',
             intensity: ''
         }
@@ -31,6 +32,10 @@ class OpenGroup extends Component {
             this.setState({
                 people: e.target.value
             })
+        }else if(targetElement.matches('.standard-basic-date')){
+            this.setState({
+                date: e.target.value
+            })    
         }else if(targetElement.matches('.standard-basic-time')){
             this.setState({
                 time: e.target.value
@@ -46,29 +51,22 @@ class OpenGroup extends Component {
         const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
         const uid = this.props.uid;
-        const { name, people, time, intensity } = this.state;
+        const { name, people, date, time, intensity } = this.state;
 
-        db.collection("locations").doc(place_ID).collection("rooms").doc(uid).set(
+        db.collection("rooms").doc().set(
            {
-            uid: uid,
-            place_id: place_ID,
+            host: uid,
+            place_ID: place_ID,
             name: name,
-            people: people,
+            people_need: people,
+            date: date,
             time: time,
             intensity: intensity,
+            participants: [],
             store_time: new Date() 
            }
         )
         .then(() => {
-            //多存一個給 map 使用
-            db.collection("locations").doc(place_ID).update({
-                rooms: firebase.firestore.FieldValue.arrayUnion(name)
-            }).then(() => {
-                console.log("Document successfully updated!");
-            })
-            .catch((error) => {
-                console.error("Error updating document: ", error);
-            });
             const { dispatch, history } = this.props;
             console.log("Document successfully written!");
             dispatch(storeGroups(uid, name, people, time, intensity));
@@ -89,8 +87,9 @@ class OpenGroup extends Component {
                         Open Group
                     </Typography>
                     <TextField className="standard-basic-name" label="Name (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
-                    <TextField className="standard-basic-people" label="People Needed (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
-                    <TextField className="standard-basic-time" label="Time (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
+                    <TextField className="standard-basic-people" type="number" label="People Needed (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
+                    <TextField className="standard-basic-date" type="date" margin="normal" onChange={ (e) => this.handleInput(e) } />
+                    <TextField className="standard-basic-time" type="string" margin="normal" onChange={ (e) => this.handleInput(e) } />
                     <TextField className="standard-basic-intensity" label="Intensity" margin="normal" onChange={ (e) => this.handleInput(e) } />
                     <Button className="submit-btn" variant="contained" color="primary" onClick={ this.handleSubmit }>
                         Submit
