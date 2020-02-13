@@ -5,10 +5,10 @@ $white: #ebebf0;
     background-image: url(../../img/member2.jpg);
     background-size: cover;
     width: 100vw;
-    height: 100vh;
+    height: 120vh;
     .user-info{
         padding: 10px;
-        position: fixed;
+        position: absolute;
         top: 55%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -29,9 +29,9 @@ $white: #ebebf0;
             .arrow{
                 color: $white;
             }
-            .friend{
+            .friends, .groups{
                 margin-left: 30px;
-                .friend-icon{
+                .friends-icon, .groups-icon{
                     color: $white;
                 }
             }

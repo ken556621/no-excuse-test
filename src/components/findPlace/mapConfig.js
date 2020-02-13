@@ -32,19 +32,26 @@ export class MapContainer extends Component {
         const radius = 5; //km
         const targetPlaces = [];
         
-        const querySnapshot = await db.collection("locations").get();
-        querySnapshot.forEach((doc) => {
-            const targetLat = doc.data().location.latitude;
-            const targetLng = doc.data().location.longitude;
+        const locationsQuery = await db.collection("locations").get();
+
+        for (let i in locationsQuery.docs) {
+            const doc = locationsQuery.docs[i];
+            const locationsData = Object.assign({}, doc.data());
+            const targetLat = locationsData.location.latitude;
+            const targetLng = locationsData.location.longitude;
             const distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, targetLat, targetLng);
+            locationsData.rooms = [];
             if(distance < radius){
-                targetPlaces.push(doc.data());
+                const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
+                roomsQuery.forEach((room) => {
+                    locationsData.rooms.push(room.data())
+                })
+                targetPlaces.push(locationsData);
             }
-        });
+        }
         this.setState({
             targetPlaces
         })
-
     }
 
    
@@ -79,7 +86,7 @@ export class MapContainer extends Component {
                         position={{ lat: place.location.latitude, lng: place.location.longitude }}
                         address={ place.address }
                         photo={ place.photo }
-                        room={ place.rooms }
+                        rooms={ place.rooms }
                         key={ place.id }
                         id={ place.id }
                         onClick={ this.clickMarker }
@@ -104,7 +111,7 @@ export class MapContainer extends Component {
         )
     }
 
-    onMapClicked = (props) => {
+    onMapClicked = () => {
         if (this.state.showingInfoWindow) {
           this.setState({
             showingInfoWindow: false,
@@ -122,7 +129,8 @@ export class MapContainer extends Component {
 
     render() {
       const { initialLat, initialLng } = this.props;
-      const { id, name, address, photo, room } = this.state.selectedPlace;
+      const { id, name, address, photo } = this.state.selectedPlace;
+      const rooms = this.state.selectedPlace.rooms || [];
       return (
         <Map 
             google={ this.props.google } 
@@ -161,7 +169,7 @@ export class MapContainer extends Component {
                     </div>
                     <div className="place-rooms">
                         <div className="groups">
-                            { room ? <div className="group" key={ id }>{ room }</div> : null }
+                            { rooms.length !== 0 ? rooms.map(room => <div className="group" key={ id }>{ room.placeName }</div>) : null }
                         </div>
                     </div>
                 </div>

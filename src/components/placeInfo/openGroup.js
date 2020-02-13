@@ -57,8 +57,8 @@ class OpenGroup extends Component {
            {
             host: uid,
             place_ID: place_ID,
-            name: name,
-            people_need: people,
+            placeName: name,
+            peopleNeed: people,
             date: date,
             time: time,
             intensity: intensity,
@@ -89,7 +89,7 @@ class OpenGroup extends Component {
                     <TextField className="standard-basic-name" label="Name (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
                     <TextField className="standard-basic-people" type="number" label="People Needed (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
                     <TextField className="standard-basic-date" type="date" margin="normal" onChange={ (e) => this.handleInput(e) } />
-                    <TextField className="standard-basic-time" type="string" margin="normal" onChange={ (e) => this.handleInput(e) } />
+                    <TextField className="standard-basic-time" type="string" label="Time (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
                     <TextField className="standard-basic-intensity" label="Intensity" margin="normal" onChange={ (e) => this.handleInput(e) } />
                     <Button className="submit-btn" variant="contained" color="primary" onClick={ this.handleSubmit }>
                         Submit

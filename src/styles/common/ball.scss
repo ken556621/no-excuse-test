@@ -1,31 +1,13 @@
 #basketball-img-small{
+    display: flex;
+    align-items: center;
+    height: 30px;
     text-align: center;
     position: relative;
-    animation: boundingSmall 1s 10 alternate;
-    transform-origin: center;
     cursor: pointer;
-    &:hover{
-        z-index: 1000;
-    }
 }
 
 #basketball-small{
     //讓線條漸漸畫出
-}
-
-
-
-@keyframes boundingSmall{
-    0%{
-        top: -30px;
-        transform: rotateZ(360deg);
-    };
-    50%{
-        top: 15px;
-    };
-    100%{
-        top: -20px;
-        transform: rotateZ(360deg);
-    };
 }
 

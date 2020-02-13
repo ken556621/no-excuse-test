@@ -20,64 +20,78 @@ class Groups extends Component {
         }
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const db = firebase.firestore();
-        const { place_ID } = this.props;
         const rooms = [];
-        //get rooms data
-        db.collection("rooms").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                 //get participatants data
-                let roomPerson = Object.assign({}, doc.data());
-                
-            });
-        });
+        //get rooms data & get participants data
+        const querySnapshot = await db.collection("rooms").get();
+
+        for (let i in querySnapshot.docs) {
+            const doc = querySnapshot.docs[i];
+            let roomsData = Object.assign({}, doc.data());
+            roomsData.room_ID = doc.id;
+            roomsData.participantsData = [];
+
+            for (let index = 0; index < roomsData.participants.length; index++) {
+                let participant = roomsData.participants[index];
+                const docRef = await db.collection("users").doc(participant).get();
+                if (docRef.exists) {
+                    roomsData.participantsData.push(docRef.data());
+                } else {
+                    console.log("No such document!");
+                }
+            }
+            rooms.push(roomsData);
+            this.setState({
+                rooms
+            })
+        }
     }
 
-    joinGroup = (e) => {
+    joinGroup = async (e) => {
+        const db = firebase.firestore();
         const { authenticated, uid } = this.props;
+        const roomID = e.target.parentElement.id;
+        let isHost = false;
+        let isParticipant = false;
         if (!authenticated) {
             window.alert('You are not sign in yet!');
             return 
         } 
-        //不能參加自己開的房間
-        if(e.target.parentElement.id === uid){
-            window.alert('You can not join your own room!');
+        
+        //不能參加自己開的房間 + 已經參加過的不能重複點選
+        const docRef = await db.collection("rooms").doc(roomID).get();
+        if (docRef.exists) {
+            if(docRef.data().host === uid){
+                isHost = true
+            }
+            if(docRef.data().participants.find(participant => participant === uid)){
+                isParticipant = true
+            }
+        } else {
+            console.log("No such document!");
+        }
+
+        if(isHost){
+            window.alert('You can not join your own group!');
             return
         }
-        this.storeUsersToRoom(e.target.parentElement.id, uid);
+        
+        if(isParticipant){
+            window.alert('You already join this group!');
+            return
+        }
+        this.storeUsersToRoom(roomID);
     }
 
-    storeUsersToRoom = (hoster_uid, participant_uid) => {
+    storeUsersToRoom = (room_ID) => {
         const db = firebase.firestore();
-        const { uid, userName, userEmail, userPhoto, place_ID, placeName, address, placePhoto, groupName, groupTime, groupPeople, groupIntensity } = this.props;
-        const docRef = db.collection("locations").doc(place_ID).collection("rooms").doc(hoster_uid).collection("participants").doc(participant_uid);
-        docRef.set({
-            uid,
-            userName,
-            userEmail,
-            userPhoto
-        }).then(() => {
-            db.collection("users").doc(participant_uid).collection("rooms").doc(place_ID).set({
-                place_ID,
-                placeName,
-                address,
-                placePhoto,
-                groupName,
-                groupTime,
-                groupPeople,
-                groupIntensity
-            })
-            .then(function() {
-                window.alert('Success joined!')
-            })
-            .catch(function(error) {
-                console.error("Error writing document: ", error);
-            });
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
-        });
+        const { uid } = this.props;
+        const docRef = db.collection("rooms").doc(room_ID);
+        docRef.update({
+            participants: firebase.firestore.FieldValue.arrayUnion(uid)
+        }); 
+        window.alert('Join success!');       
     }
 
     render() { 
@@ -89,14 +103,14 @@ class Groups extends Component {
             <div className="group-container">
                 { rooms.map(room => {
                     return (
-                        <Card key={ room.uid } className="card-container">
+                        <Card key={ room.host } className="card-container">
                             <div className="col-left">
                                 <CardContent>
                                     <Typography color="textSecondary" gutterBottom>
-                                        { room.name }
+                                        { room.placeName }
                                     </Typography>
                                     <Typography variant="h5" component="h2">
-                                        Need: { room.people_need } people
+                                        Need: { room.peopleNeed } people
                                     </Typography>
                                     <Typography color="textSecondary">
                                         Intensity: { room.intensity }
@@ -106,11 +120,11 @@ class Groups extends Component {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button id={ room.uid } onClick={ (e) => this.joinGroup(e) } size="small" color="primary">Join Now!</Button>
+                                    <Button id={ room.room_ID } onClick={ (e) => this.joinGroup(e) } size="small" color="primary">Join Now!</Button>
                                 </CardActions>
                             </div>
                             <div className="col-right">
-                                 { room.people ? room.people.map(person => <Avatar key={ person.uid } className="participater" alt="Participater" src={ person.userPhoto } />) : console.log('no participater') }
+                                 { room.participantsData.length !== 0 ? room.participantsData.map(person => <Avatar key={ person.ID } className="participater" alt="Participater" src={ person.photo } />) : console.log('no participater') }
                             </div>
                         </Card>
                     )

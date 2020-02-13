@@ -63,22 +63,22 @@ class PlaceInfo extends Component {
         });
     }
 
-    openGroup = () => { 
-        const { history } = this.props;
+    openGroup = async () => { 
         const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
+        const { uid, history } = this.props;
+        let isHost = false;
         
-        const docRef = db.collection("rooms").doc(place_ID);
-
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-                window.alert('You already open the group here!')
-            } else {
-                history.push(`/openGroup?${place_ID}`)
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
+        //can't open two group in same place
+        const querySnapshot = await db.collection("rooms").where("host", "==", uid).get();
+        querySnapshot.forEach((doc) => {
+            isHost = true;
+        })
+        if(isHost){
+            window.alert("You already have opened the group in this place!");
+        }else{
+            history.push(`/openGroup?${ place_ID }`);
+        }
     }
 
     render() { 
