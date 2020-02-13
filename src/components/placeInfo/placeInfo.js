@@ -14,7 +14,6 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import Button from '@material-ui/core/Button';
 
 import Navbar from '../common/navbar';
-import Load from '../common/load';
 import Boards from './boards';
 import Rooms from './rooms';
 import '../../styles/placeInfo.scss';
@@ -36,16 +35,6 @@ class PlaceInfo extends Component {
     componentDidMount(){
         const db = firebase.firestore();
         const place_ID = this.props.location.search.slice(1);
-        //if redux have data, load from redux, otherwise load from firebase
-        if(this.props.place_ID !== ''){
-            this.setState({
-                isLoading: false,
-                name: this.props.name,
-                address: this.props.address,
-                photo: this.props.photo
-            })
-            return
-        }
         db.collection("locations").where("id", "==", place_ID)
         .get()
         .then((querySnapshot) => {
@@ -134,7 +123,7 @@ class PlaceInfo extends Component {
                     <Boards />
                 </div>
                 <div className="groups">
-                    <Rooms place_ID={ place_ID }/>   
+                    <Rooms place_ID={ place_ID } history={ this.props.history }/>   
                 </div>
             </div>
         );

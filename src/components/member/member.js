@@ -124,7 +124,7 @@ class Member extends Component {
                                     <PeopleAltIcon color="action" />
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary="Friends list." />
+                            <ListItemText primary="Friends list" />
                             { this.state.openFriends ? <ExpandLess className="arrow" /> : <ExpandMore className="arrow" /> }
                         </ListItem>
                         <Divider variant="inset" component="li" className="line" /> 
@@ -144,7 +144,7 @@ class Member extends Component {
                                     <EmojiPeopleIcon color="action" />
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary="Groups list." />
+                            <ListItemText primary="Groups list" />
                             { this.state.openGroups ? <ExpandLess className="arrow" /> : <ExpandMore className="arrow" /> }
                         </ListItem>
                         <Collapse in={ this.state.openGroups } timeout="auto" unmountOnExit>

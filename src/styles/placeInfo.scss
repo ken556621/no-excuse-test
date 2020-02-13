@@ -1,4 +1,4 @@
-
+$ball: #e8581c;
 
 .place-info-container{
     .card-board-wrapper{
@@ -26,14 +26,17 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                }
-                .card-words-light{
-                    display: flex;
-                    align-items: center;
-                    margin-bottom: 8px;
-                    .check-icon{
-                        margin-left: 5px;
+                    .card-words-light{
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 8px;
+                        .check-icon{
+                            margin-left: 5px;
+                        }
                     }
+                }
+                .open-group-btn{
+                    background-color: $ball;
                 }
             }
         }
@@ -49,9 +52,15 @@
 
                 }
                 .col-right{
-                    text-align: center;
-                    .participater{
+                    .modify-btn{
                         margin: 10px;
+                    }
+                    .participants-icons{
+                        margin-top: 110px;
+                        .participater{
+                            width: 20px;
+                            height: 20px;
+                        }
                     }
                 }
             }
