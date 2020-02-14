@@ -45,12 +45,31 @@ class Member extends Component {
             history.push('/');
             return
         }
+        //參加的房間
         db.collection("rooms").where("participants", "array-contains", uid)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 const roomsData = Object.assign({}, doc.data());
                 roomsData.room_ID = doc.id;
+                roomsData.hoster = "";
+                groups.push(roomsData);
+            });
+            this.setState({
+                groups
+            })
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+        //開的房間
+        db.collection("rooms").where("host", "==", uid)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const roomsData = Object.assign({}, doc.data());
+                roomsData.room_ID = doc.id;
+                roomsData.hoster = "hoster";
                 groups.push(roomsData);
             });
             this.setState({
@@ -151,7 +170,6 @@ class Member extends Component {
                             <List component="div" disablePadding className="groups">
                                 { 
                                   groups.length !== 0 ? groups.map((group) => {
-                                      console.log(group)
                                     return (
                                         <ListItem button key={ group.room_ID }>
                                             <ListItemIcon>
@@ -160,7 +178,7 @@ class Member extends Component {
                                                 </Badge>
                                             </ListItemIcon>
                                             <Link to={ `/placeInfo?${group.place_ID}` }>
-                                                <ListItemText className="group-list" primary={ group.placeName + " " + "date:" + group.date } />
+                                                <ListItemText className="group-list" primary={ group.placeName + " " + "date:" + group.date + " " +  group.hoster } />
                                             </Link>
                                         </ListItem>
                                     )

@@ -22,16 +22,27 @@ $ball: #e8581c;
                 }
             }
             .card-content{
-                .card-words{
+                .info-wrapper{
                     display: flex;
                     justify-content: space-between;
-                    align-items: center;
-                    .card-words-light{
+                    .edit-place-name{
+                        margin: 0;
+                    }
+                    .card-words{
                         display: flex;
+                        justify-content: space-between;
                         align-items: center;
-                        margin-bottom: 8px;
-                        .check-icon{
-                            margin-left: 5px;
+                        .card-words-light{
+                            margin: 0;
+                            .MuiButtonBase-root{
+                                color: #e8581c;
+                            }
+                        }
+                        .card-words-toilet{
+                            margin: 0;
+                            .MuiButtonBase-root{
+                                color: #e8581c;
+                            }
                         }
                     }
                 }
@@ -46,9 +57,10 @@ $ball: #e8581c;
             display: flex;
             margin-bottom: 20px;
             justify-content: space-around;
-            width: 55%;
             .card-container{
                 display: flex;
+                justify-content: space-between;
+                width: 33%;
                 .col-left{
                     .edit-room-container{
                         padding: 10px;
@@ -70,8 +82,13 @@ $ball: #e8581c;
                     .modify-btn{
                         margin: 10px;
                     }
+                    .fake{
+                        width: 16px;
+                        height: 16px;
+                    }
                     .participants-icons{
                         margin-bottom: 10px;
+                        margin-right: 10px;
                         .participater{
                             width: 20px;
                             height: 20px;

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import firebase from '../common/firebase';
 
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 class EditRoom extends Component {

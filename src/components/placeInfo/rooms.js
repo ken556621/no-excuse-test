@@ -24,7 +24,8 @@ class Groups extends Component {
             hostersPhoto: '',
             userPhoto: '',
             rooms: '',
-            editStatus: false
+            editRoom: '',
+            isEditing: false
         }
     }
 
@@ -100,13 +101,13 @@ class Groups extends Component {
 
     storeUsersToRoom = (room_ID) => {
         const db = firebase.firestore();
-        const { uid, history } = this.props;
+        const { uid } = this.props;
         const docRef = db.collection("rooms").doc(room_ID);
         docRef.update({
             participants: firebase.firestore.FieldValue.arrayUnion(uid)
         }); 
         window.alert('Join success!');
-        history.push('/place');       
+        this.fetchRooms();
     }
 
     delete = (e) => {
@@ -124,22 +125,45 @@ class Groups extends Component {
         const db = firebase.firestore();
         if(moment(roomData.date).isBefore()){
             db.collection("rooms").doc(roomData.room_ID).delete().then(() => {
-                console.log("Document successfully deleted!");
+                window.alert("You can't choose the day before today!");
+                this.fetchRooms();
             }).catch((error) => {
                 console.error("Error removing document: ", error);
             });
         }
     }
 
-    editRoom = () => {
-        this.setState({
-            editStatus: !this.state.editStatus
-        })
+    editRoom = (e) => {
+        if(e){
+            const targetID = e.target.parentElement.parentElement.id;
+            this.setState({
+                editRoom: targetID,
+                isEditing: !this.state.isEditing
+            })
+        }else{
+            this.setState({
+                isEditing: !this.state.isEditing
+            })
+        }
+    }
+
+    quitGroup = (e) => {
+        const db = firebase.firestore();
+        const { uid } = this.props;
+        const targetID = e.target.parentElement.id;
+        const docRef = db.collection("rooms").doc(targetID);
+        if (window.confirm("Do you really want to quit?")) { 
+            docRef.update({
+                participants: firebase.firestore.FieldValue.arrayRemove(uid)
+            }); 
+            this.fetchRooms();
+        }
     }
 
 
     render() { 
         const { rooms } = this.state;
+        const { uid } = this.props;
         if(!rooms){
             return <div></div>
         }
@@ -150,7 +174,7 @@ class Groups extends Component {
                         <Card key={ room.host } className="card-container">
                             {/* edit or not */}
                             { 
-                                this.state.editStatus ? <EditRoom room={ room } editRoom={ this.editRoom } /> : 
+                                this.state.editRoom === room.room_ID && this.state.isEditing ? <EditRoom room={ room } editRoom={ this.editRoom } /> : 
                                 <div className="col-left">
                                     <CardContent>
                                         <Typography color="textSecondary" gutterBottom>
@@ -170,19 +194,33 @@ class Groups extends Component {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
-                                        { room.participants.length >= room.peopleNeed ? <Button size="small" color="primary" disabled>Join Now!</Button> : <Button id={ room.room_ID } onClick={ (e) => this.joinGroup(e) } size="small" color="primary">Join Now!</Button> }
+                                        { 
+                                            room.participants.length >= room.peopleNeed ? 
+                                            <Button size="small" color="primary" disabled>Join Now!</Button> : 
+                                            <Button id={ room.room_ID } onClick={ (e) => this.joinGroup(e) } size="small" color="primary">Join Now!
+                                            </Button>
+                                        }
+                                        { 
+                                            room.participants.find(participant => participant === uid) ? 
+                                            <Button id={ room.room_ID } onClick={ (e) => this.quitGroup(e) } size="small" color="primary">Quit!</Button> :
+                                            null 
+                                        }
                                     </CardActions>
                                 </div> 
                             }
                             <div className="col-right">
-                                <div className="modify-btn">
-                                    <IconButton size="small" onClick={ this.editRoom }>
-                                        <CreateRoundedIcon fontSize="small" />
-                                    </IconButton>
-                                    <IconButton id={ room.room_ID } size="small" onClick={ (e) => this.delete(e) }>
-                                        <DeleteIcon fontSize="small" />
-                                    </IconButton>
-                                </div>
+                                { 
+                                    room.host === uid ?
+                                    <div className="modify-btn">
+                                        <IconButton id={ room.room_ID } size="small" onClick={ (e) => this.editRoom(e) }>
+                                            <CreateRoundedIcon fontSize="small" />
+                                        </IconButton>
+                                        <IconButton id={ room.room_ID } size="small" onClick={ (e) => this.delete(e) }>
+                                            <DeleteIcon fontSize="small" />
+                                        </IconButton>
+                                    </div> : 
+                                    <div className="fake"></div>
+                                }
                                 <AvatarGroup className="participants-icons">
                                  { room.participantsData.length !== 0 ? room.participantsData.map(person => <Avatar key={ person.ID } className="participater" alt="Participater" sizes="10px" src={ person.photo } />) : console.log('no participater') }
                                 </AvatarGroup>

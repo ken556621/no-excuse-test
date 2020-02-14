@@ -21,7 +21,7 @@ exports.createUser = functions.https.onRequest((req, res) => {
 
 exports.getMapData = functions.https.onRequest((req, res) => {
     const db = admin.firestore();
-    fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=basketball&location=25.0405568,121.5397528&radius=10000&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o')
+    fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=basketball&location=24.9936185,121.5022254&radius=10000&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o')
     .then(res => res.json())
     .then(data => {
         data.results.forEach(place => {

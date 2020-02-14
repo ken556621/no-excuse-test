@@ -7,15 +7,18 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
 import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
 import ClearIcon from '@material-ui/icons/Clear';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import Navbar from '../common/navbar';
 import Boards from './boards';
 import Rooms from './rooms';
+import Ball from '../common/basketballImg';
 import '../../styles/placeInfo.scss';
 
 class PlaceInfo extends Component {
@@ -23,6 +26,8 @@ class PlaceInfo extends Component {
         super(props)
         this.state = {
             isLoading: true,
+            isEditing: false,
+            editTarget: '',
             name: '',
             address: '',
             photo: '',
@@ -45,10 +50,35 @@ class PlaceInfo extends Component {
                     address: doc.data().address,
                     photo: doc.data().photo
                 })
+                if(doc.data().courtStatus){
+                    this.setState({
+                        courtStatus: doc.data().courtStatus,
+                        light: doc.data().light,
+                        toilet: doc.data().toilet
+                    })
+                }
             });
         })
         .catch((error) => {
             console.log("Error getting documents: ", error);
+        });
+    }
+
+    componentWillUnmount(){
+        //store user update detail before close the page
+        const db = firebase.firestore();
+        const place_ID = this.props.location.search.slice(1);
+        const { courtStatus, light, toilet } = this.state;
+        db.collection("locations").doc(place_ID).update({
+            courtStatus,
+            light,
+            toilet
+        })
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
         });
     }
 
@@ -70,8 +100,44 @@ class PlaceInfo extends Component {
         }
     }
 
+    editInfo = (e) => {
+        if(e){
+            const targetID = e.target.parentElement.parentElement.id;
+            this.setState({
+                isEditing: !this.state.isEditing,
+                editTarget: targetID
+            })
+        }else{
+            this.setState({
+                isEditing: !this.state.isEditing
+            })
+        }
+    }
+
+    handleInput = (e) => {
+        const targetElement = e.target.parentElement.parentElement;
+        if(targetElement.matches('.edit-place-name')){
+            this.setState({
+                courtStatus: e.target.value
+            })
+        }
+    }
+
+    toggleCheckBox = (e) => {
+        if(e.target.value === "hasLight"){
+            this.setState({
+                light: !this.state.light
+            })
+        }else if(e.target.value === "hasToilet"){
+            this.setState({
+                toilet: !this.state.toilet
+            })
+        }
+    }
+
     render() { 
         const place_ID = this.props.location.search.slice(1);
+        const { name, address, photo, isEditing, editTarget, courtStatus, light, toilet} = this.state;
         return ( 
             <div className="place-info-container">
                 <Navbar history={ this.props.history } />
@@ -79,42 +145,61 @@ class PlaceInfo extends Component {
                     <Card className="card">
                         <CardHeader
                             className="card-header"
-                            action={
-                            <IconButton className="setting-btn" aria-label="settings">
-                                <SportsBasketballIcon />
-                            </IconButton>
-                            }
-                            title={ this.state.name }
-                            subheader={ this.state.address }
+                            title={ name }
+                            subheader={ address }
                         />
                         <div className="image">
-                            <img src={ `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.state.photo}&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o` } alt="Please wait for second" />
+                            { 
+                                photo ? 
+                                <img src={ `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo}&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o` } alt="Please wait for second" /> : 
+                                <Ball />
+                            } 
                         </div>
                         <CardContent className="card-content">
-                            <Typography className="card-words" variant="body2" color="textSecondary" component="span">
-                                場地狀況: 下雨天容易滑 
-                                <IconButton className="setting-btn" aria-label="settings">
-                                    <CreateRoundedIcon />
-                                </IconButton>
-                            </Typography>
-                            <Typography className="card-words" variant="body2" color="textSecondary" component="span">
-                                <Typography className="card-words-light">
-                                    夜間照明: 
-                                    { this.state.light ? <CheckRoundedIcon className="check-icon"/> : <ClearIcon className="check-icon" /> }
+                          <div className="info-wrapper">
+                            { 
+                                editTarget === "place-status" && isEditing ? 
+                                <TextField className="edit-place edit-place-name" value={ courtStatus } label="Place Status" margin="normal" size="small" onChange={ (e) => this.handleInput(e) } /> :
+                                <Typography className="card-words" variant="body2" color="textSecondary" component="span">
+                                場地狀況: { courtStatus }
                                 </Typography>
-                                <IconButton className="setting-btn" aria-label="settings">
-                                    <CreateRoundedIcon />
-                                </IconButton>
-                            </Typography>
-                            <Typography className="card-words" variant="body2" color="textSecondary" component="span">
-                                <Typography className="card-words-light">
-                                廁所: 
-                                    { this.state.light ? <CheckRoundedIcon className="check-icon"/> : <ClearIcon className="check-icon" /> }
+                            }
+                            <IconButton id="place-status" onClick={ (e) => this.editInfo(e) } className="setting-btn" aria-label="settings">
+                                <CreateRoundedIcon />
+                            </IconButton>
+                          </div>
+                          <div className="info-wrapper">
+                                <Typography className="card-words" variant="body2" color="textSecondary" component="span">
+                                    <FormControlLabel
+                                        value="hasLight"
+                                        control={
+                                            <Checkbox 
+                                            checked={ light }
+                                            onChange={ (e) => this.toggleCheckBox(e) }
+                                            value="hasLight" />
+                                        }
+                                        label="夜間燈光照明: "
+                                        labelPlacement="start"
+                                        className="card-words-light"
+                                    />
                                 </Typography>
-                                <IconButton className="setting-btn" aria-label="settings">
-                                    <CreateRoundedIcon />
-                                </IconButton>
-                            </Typography>
+                           </div>
+                           <div className="info-wrapper"> 
+                                <Typography className="card-words" variant="body2" color="textSecondary" component="span">
+                                    <FormControlLabel
+                                        value="hasToilet"
+                                        control={
+                                            <Checkbox 
+                                            checked={ toilet }
+                                            onChange={ (e) => this.toggleCheckBox(e) }
+                                            value="hasToilet" />
+                                        }
+                                        label="廁所: "
+                                        labelPlacement="start"
+                                        className="card-words-toilet"
+                                    />
+                                </Typography>
+                           </div>
                             <Button className="open-group-btn" variant="contained" color="primary" onClick={ this.openGroup }>
                                 Open Group
                             </Button>
