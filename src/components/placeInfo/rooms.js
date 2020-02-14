@@ -14,6 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import EditRoom from './editRoom';
+
 
 class Groups extends Component {
     constructor(props){ 
@@ -21,7 +23,8 @@ class Groups extends Component {
         this.state = {
             hostersPhoto: '',
             userPhoto: '',
-            rooms: ''
+            rooms: '',
+            editStatus: false
         }
     }
 
@@ -128,6 +131,13 @@ class Groups extends Component {
         }
     }
 
+    editRoom = () => {
+        this.setState({
+            editStatus: !this.state.editStatus
+        })
+    }
+
+
     render() { 
         const { rooms } = this.state;
         if(!rooms){
@@ -138,31 +148,35 @@ class Groups extends Component {
                 { rooms.map(room => {
                     return (
                         <Card key={ room.host } className="card-container">
-                            <div className="col-left">
-                                <CardContent>
-                                    <Typography color="textSecondary" gutterBottom>
-                                        Need: { room.peopleNeed } people
-                                    </Typography>
-                                    <Typography variant="h5" component="h2">
-                                        { room.placeName }
-                                    </Typography>
-                                    <Typography color="textSecondary">
-                                        Intensity: { room.intensity }
-                                    </Typography>
-                                    <Typography variant="body2" component="p">
-                                        Date: { room.date } 
-                                    </Typography>
-                                    <Typography variant="body2" component="p">
-                                        Time: { room.time } 
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button id={ room.room_ID } onClick={ (e) => this.joinGroup(e) } size="small" color="primary">Join Now!</Button>
-                                </CardActions>
-                            </div>
+                            {/* edit or not */}
+                            { 
+                                this.state.editStatus ? <EditRoom room={ room } editRoom={ this.editRoom } /> : 
+                                <div className="col-left">
+                                    <CardContent>
+                                        <Typography color="textSecondary" gutterBottom>
+                                            Need: { room.peopleNeed } people
+                                        </Typography>
+                                        <Typography variant="h5" component="h2">
+                                            { room.placeName }
+                                        </Typography>
+                                        <Typography color="textSecondary">
+                                            Intensity: { room.intensity }
+                                        </Typography>
+                                        <Typography variant="body2" component="p">
+                                            Date: { room.date } 
+                                        </Typography>
+                                        <Typography variant="body2" component="p">
+                                            Time: { room.time } 
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        { room.participants.length >= room.peopleNeed ? <Button size="small" color="primary" disabled>Join Now!</Button> : <Button id={ room.room_ID } onClick={ (e) => this.joinGroup(e) } size="small" color="primary">Join Now!</Button> }
+                                    </CardActions>
+                                </div> 
+                            }
                             <div className="col-right">
                                 <div className="modify-btn">
-                                    <IconButton size="small">
+                                    <IconButton size="small" onClick={ this.editRoom }>
                                         <CreateRoundedIcon fontSize="small" />
                                     </IconButton>
                                     <IconButton id={ room.room_ID } size="small" onClick={ (e) => this.delete(e) }>

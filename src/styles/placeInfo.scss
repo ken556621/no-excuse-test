@@ -46,17 +46,32 @@ $ball: #e8581c;
             display: flex;
             margin-bottom: 20px;
             justify-content: space-around;
+            width: 55%;
             .card-container{
                 display: flex;
                 .col-left{
-
+                    .edit-room-container{
+                        padding: 10px;
+                        .edit-room{
+                            font-size: 15px;
+                            .MuiFormLabel-filled{
+                                font-size: 13px;
+                            }
+                        }
+                        .submit-btn{
+                            display: block;
+                        }
+                    }
                 }
                 .col-right{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
                     .modify-btn{
                         margin: 10px;
                     }
                     .participants-icons{
-                        margin-top: 110px;
+                        margin-bottom: 10px;
                         .participater{
                             width: 20px;
                             height: 20px;
