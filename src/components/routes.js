@@ -3,7 +3,7 @@ import { Switch,Route } from "react-router-dom";
 import Home from './home';
 import Register from './register';
 import Login from './login';
-import FindPeople from './findPeople';
+import FindPeople from './findPeople/findPeople';
 import FindPlace from './findPlace/findPlace';
 import PlaceInfo from './placeInfo/placeInfo';
 import openGroup from './placeInfo/openGroup';

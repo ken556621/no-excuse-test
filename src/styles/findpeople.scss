@@ -1,0 +1,19 @@
+
+.find-people-container{
+    .friends-list-wrapper{
+        background-image: url(../../img/member2.jpg);
+        background-size: cover;
+        width: 100vw;
+        height: 100vh;
+        .friends-list{
+            padding: 10px;
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            .friend-name{
+                color: #ffffff;
+            }
+        }
+    }
+}

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import firebase from '../common/firebase';
 
 import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -20,6 +21,9 @@ import EmailIcon from '@material-ui/icons/Email';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
 
 
 import NavBar from '../common/navbar';
@@ -30,21 +34,133 @@ class Member extends Component {
     constructor(props){
         super(props)
         this.state = {
+            isUser: false,
+            isFriend: false,
+            userPhoto: '',
+            userName: '',
+            userEmail: '',
             openFriends: false,
             openGroups: false,
+            friends: '',
             groups: ''
         }
     }
 
     componentDidMount(){
-        const { uid, history } = this.props;
         const db = firebase.firestore();
-        const groups = [];
+        const { uid, history } = this.props;
+        const person_ID = this.props.location.search.slice(1);
         if(!uid){
             console.log('Not log in yet!');
             history.push('/');
             return
         }
+        //Loading friend's data & check user and friend status
+        if(person_ID){
+
+            db.collection("networks").where("inviter", "==", uid).where("invitee", "==", person_ID).where("status", "==", "accept")
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log("we are friend!");
+                    this.setState({
+                        isFriend: true
+                    })
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+
+            db.collection("networks").where("inviter", "==", person_ID).where("invitee", "==", uid).where("status", "==", "accept")
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log("we are friend!");
+                    this.setState({
+                        isFriend: true
+                    })
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+
+            this.fetchMemberData(person_ID);
+        }else{
+            this.setState({
+                isUser: true
+            })
+            this.fetchMemberData(uid);
+        }   
+    }
+
+    fetchMemberData = (uid) => {
+        const db = firebase.firestore();
+        const friends = [];
+        const groups = [];
+
+        //用戶基本資訊
+        db.collection("users").doc(uid)
+        .get().then((doc) => {
+            if (doc.exists) {
+                this.setState({
+                    userPhoto: doc.data().photo,
+                    userName: doc.data().name,
+                    userEmail: doc.data().email
+                })
+            }else{
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+
+        //待確認的朋友
+        db.collection("networks").where("invitee", "==", uid).where("status", "==", "pending")
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                
+            });
+            this.setState({
+                
+            })
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+
+        //朋友 被邀請者
+        db.collection("networks").where("invitee", "==", uid).where("status", "==", "accept")
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                
+            });
+            this.setState({
+                
+            })
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+
+        //朋友 邀請者
+        db.collection("networks").where("inviter", "==", uid).where("status", "==", "accept")
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                
+            });
+            this.setState({
+                
+            })
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+
         //參加的房間
         db.collection("rooms").where("participants", "array-contains", uid)
         .get()
@@ -62,6 +178,7 @@ class Member extends Component {
         .catch((error) => {
             console.log("Error getting documents: ", error);
         });
+
         //開的房間
         db.collection("rooms").where("host", "==", uid)
         .get()
@@ -93,20 +210,54 @@ class Member extends Component {
         })
     }
 
+    addFriend = () => {
+        const db = firebase.firestore();
+        const { uid, history } = this.props;
+        const person_ID = this.props.location.search.slice(1);
+        db.collection("networks").doc().set({
+            inviter: uid,
+            invitee: person_ID,
+            status: "pending"
+        }).then(() => {
+            window.alert('Waitting for comfirm')
+            history.push('/people');
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+        
+    }
+
     render() { 
-        const { history, userPhoto, userName, userEmail } = this.props;
-        const { groups } = this.state;
+        const { isUser, isFriend, userPhoto, userName, userEmail, groups } = this.state;
+        const { history } = this.props;
         return ( 
             <div className="member-container">
                 <NavBar history={ history }/>
                 <div className="user-info">
+                    { 
+                        isUser ? 
+                        <IconButton className="modify-btn-wrapper">
+                            <SportsBasketballIcon className="modify-btn"/>
+                        </IconButton> : 
+                        null
+                    }
                     <Avatar className="user-img" alt="Oh no!" src={ userPhoto }>
                         
                     </Avatar>
                     <List className="list-container"
                         aria-labelledby="nested-list-subheader" subheader={
-                        <ListSubheader component="div" id="nested-list-subheader">
-                            Personal Information
+                        <ListSubheader className="subheader-wrapper" component="div" id="nested-list-subheader">
+                            <Typography>
+                                Personal Information
+                            </Typography>
+                            { 
+                                !isFriend && !isUser ?  
+                                <Button className="add-friend-btn" variant="contained" size="small" onClick={ this.addFriend }>
+                                    Add Friend
+                                </Button> : 
+                                null
+                            } 
                         </ListSubheader>
                         }
                     >
@@ -192,7 +343,14 @@ class Member extends Component {
                                         </ListItem>
                                 }
                             </List>
-                        </Collapse>        
+                        </Collapse> 
+                        { 
+                            isFriend && !isUser ?  
+                            <Button className="remove-friend-btn" variant="contained" size="small">
+                                Remove Friend
+                            </Button> : 
+                            null
+                        }        
                     </List>
                 </div>
             </div>
