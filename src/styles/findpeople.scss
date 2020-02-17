@@ -1,3 +1,5 @@
+$white: #ebebf0;
+$ball: #e8581c;
 
 .find-people-container{
     .friends-list-wrapper{
@@ -5,14 +7,65 @@
         background-size: cover;
         width: 100vw;
         height: 100vh;
+        .search-bar{
+            position: absolute;
+            top: 10vh;
+            left: 60vw;
+            width: 30vw;
+            label{
+                color: $white;
+            }
+            .Mui-focused{
+                color: $ball;
+            }
+            input{
+                color: $white;
+            }
+            span{
+                color: $white;
+            }
+            .MuiInput-underline{
+                border-bottom: 1px solid $white;
+                &:after{
+                    border-bottom: 1px solid $ball;
+                }
+            }
+        }
         .friends-list{
+            width: 60vw;
             padding: 10px;
             position: absolute;
             top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
+            .friend-img{
+                margin-right: 10px;
+                width: 70px;
+                height: 70px;
+                color: $white;
+                border-radius: 50%;
+                background-color: $white;
+                img{
+                    padding: 10px;
+                }
+            }
             .friend-name{
-                color: #ffffff;
+                color: $white;
+                span{
+                    font-size: 30px;
+                }
+                p{
+                    font-size: 20px;
+                    color: $white;
+                }
+            }
+            .friend-groups{
+                padding: 10px;
+                font-size: 30px;
+                color: $ball;
+                background-color: #000000;
+                border-radius: 8px;
+                cursor: pointer;
             }
         }
     }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from '../common/firebase';
 import NavBar from '../common/navbar';
-import { storeGroups } from '../../actions/group.action';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -67,9 +66,8 @@ class OpenGroup extends Component {
            }
         )
         .then(() => {
-            const { dispatch, history } = this.props;
+            const { history } = this.props;
             console.log("Document successfully written!");
-            dispatch(storeGroups(uid, name, people, time, intensity));
             history.push(`/placeInfo?${place_ID}`);
         })
         .catch((error) => {

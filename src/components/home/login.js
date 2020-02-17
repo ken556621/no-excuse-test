@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 
-import '../styles/login.scss';
-import firebase from './common/firebase';
-import BasketballImg from './common/basketballImg';
-import ThirdAuth from './common/thirdAuth';
-import { updateUser } from '../actions/user.action'; 
+
+import firebase from '../common/firebase';
+import BasketballImg from '../common/basketballImg';
+import ThirdAuth from '../common/thirdAuth';
+import { updateUser } from '../../actions/user.action'; 
+
+import '../../styles/login.scss';
 
 
 class Login extends Component {
@@ -23,7 +25,7 @@ class Login extends Component {
             errorMessage: '',
             submitted: false
         }
-    }
+    } 
 
 
     handleChange = (event, type) => {
@@ -55,8 +57,7 @@ class Login extends Component {
                 return
             }
             const { uid, displayName, email, photoURL } = res.user;
-            const friends = [];
-            dispatch(updateUser(uid, displayName, email, photoURL, friends));
+            dispatch(updateUser(uid, displayName, email, photoURL));
             dispatch({ type: 'LOGIN_SUCCESS' });
             history.push('/member');
         });

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase from '../common/firebase';
 
 import Map from './mapConfig';
 import NavBar from '../common/navbar';
+import Load from '../common/load';
 
 import '../../styles/findplace.scss';
 
@@ -11,9 +11,9 @@ class FindPlace extends Component {
     constructor(props){
         super(props)
         this.state = {
-            userLat: 25.0424536,
-            userLng: 121.562731,
-            isLoading: false,
+            userLat: '',
+            userLng: '',
+            isLoading: true,
             court: []
         }
     }
@@ -31,7 +31,7 @@ class FindPlace extends Component {
         this.setState({
             userLat: position.coords.latitude,
             userLng: position.coords.longitude,
-            isLoading: true
+            isLoading: false
         })
     }
 
@@ -55,6 +55,10 @@ class FindPlace extends Component {
       
 
     render() { 
+        const { isLoading } = this.state;
+        if(isLoading){
+            return <div><Load /></div>
+        }
         return ( 
             <div className="find-place-container">
                 <NavBar history={ this.props.history }/>

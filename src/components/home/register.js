@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase from './common/firebase';
 import { Link } from 'react-router-dom';
-import { updateUser } from '../actions/user.action';
+import firebase from '../common/firebase';
+import { updateUser } from '../../actions/user.action';
 
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 
-import Basketball from './common/basketballImg';
-import '../styles/register.scss';
+import Basketball from '../common/basketballImg';
+import '../../styles/register.scss';
 
 
 
@@ -21,7 +21,6 @@ class Register extends Component {
             userEmail: '',
             userPhoto: 'https://image.flaticon.com/icons/svg/23/23072.svg',
             password: '',
-            friends: [],
             nameValid: false,
             emailValid: false,
             passwordValid: false,
@@ -47,7 +46,7 @@ class Register extends Component {
 
 
     handleSubmit = () => {
-        const { userName, userEmail, userPhoto, friends } = this.state;
+        const { userName, userEmail, userPhoto } = this.state;
         const { dispatch, history } = this.props;
         const db = firebase.firestore();
         const email = this.state.userEmail;
@@ -89,17 +88,16 @@ class Register extends Component {
                 ID: res.user.uid,
                 email: this.state.userEmail,
                 name: this.state.userName,
-                photo: "https://image.flaticon.com/icons/svg/23/23072.svg",
-                friendsList: []
+                photo: "https://image.flaticon.com/icons/svg/23/23072.svg"
             })
-            .then(function() {
+            .then(() => {
                 const uid = res.user.uid;
                 console.log("Document successfully written!");
+                dispatch(updateUser(uid, userName, userEmail, userPhoto));
                 dispatch({ type: 'LOGIN_SUCCESS' });
-                dispatch(updateUser(uid, userName, userEmail, userPhoto, friends));
                 history.push('/member'); 
             })
-            .catch(function(error) {
+            .catch((error) => {
                 console.error("Error writing document: ", error);
             });
         })

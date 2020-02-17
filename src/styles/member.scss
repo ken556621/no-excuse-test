@@ -8,6 +8,7 @@ $ball: #e8581c;
     width: 100vw;
     height: 120vh;
     .user-info{
+        min-width: 50vw;
         padding: 10px;
         position: absolute;
         top: 55%;
@@ -34,10 +35,10 @@ $ball: #e8581c;
                     display: inline;
                 }
                 .add-friend-btn{
-                    color: #e8581c;
+                    color: $ball;
                 }
             }
-            .MuiTypography-body1, .MuiListSubheader-sticky, .MuiDivider-inset{
+            .MuiTypography-body1, .MuiListSubheader-sticky, .MuiDivider-inset {
                 color: $white;
             }
             .line{
@@ -46,8 +47,24 @@ $ball: #e8581c;
             .arrow{
                 color: $white;
             }
+            .edit-name{
+                label, input{
+                    color: $white;
+                }
+            }
+            .edit-quate{
+                label, input{
+                    color: $white;
+                }
+            }
+            .pending-friends-qty{
+                color: $white;
+            }
             .friends, .groups{
                 margin-left: 30px;
+                .accept-btn{
+                    margin-right: 5px;
+                }
                 .friends-icon, .groups-icon{
                     color: $white;
                 }

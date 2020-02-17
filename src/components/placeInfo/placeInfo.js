@@ -7,8 +7,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
-import ClearIcon from '@material-ui/icons/Clear';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';

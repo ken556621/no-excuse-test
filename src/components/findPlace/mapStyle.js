@@ -37,7 +37,7 @@ const mapStyle =
       "featureType": "administrative.country",
       "elementType": "geometry.stroke",
       "stylers": [
-        {
+        { 
           "color": "#4b6878"
         }
       ]

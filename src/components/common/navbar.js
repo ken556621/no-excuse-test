@@ -41,7 +41,10 @@ class NavBar extends Component {
                 </Button>
                 <div className="btn-wrapper">
                     <Button className="member">
-                        <Link to='/member'>
+                        <Link to={{
+                            pathname: "/member",
+                            key: `123`
+                        }}>
                             <div className={ this.props.authenticated ? 'member-wrapper show' : 'hide' }>
                                 <AccountCircleIcon />
                             </div>

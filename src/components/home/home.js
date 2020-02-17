@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import firebase from './common/firebase';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import NavBar from './common/navbar';
-import '../styles/home.scss';
+import NavBar from '../common/navbar';
+import '../../styles/home.scss';
 
 
 
@@ -15,18 +14,6 @@ import '../styles/home.scss';
 class HomePage extends Component {
     constructor(props){
         super(props);
-    }
-
-    componentDidMount(){
-        const { dispatch } = this.props;
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-              console.log('Login success');
-              dispatch({ type: 'LOGIN_SUCCESS' });
-            } else {
-              console.log('Not login yet')
-            }
-        });
     }
 
     render() { 

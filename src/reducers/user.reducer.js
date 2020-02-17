@@ -1,6 +1,6 @@
 const initiaState = {
     authenticated: false,
-    authenticating: false
+    authenticating: true
 }
 
 const registerReducer = (state = initiaState, action) => {
@@ -29,8 +29,7 @@ const registerReducer = (state = initiaState, action) => {
                 uid: action.uid,
                 name: action.name,
                 email: action.email,
-                photo: action.photo,
-                friends: action.friends
+                photo: action.photo
             }
         default :
             return state

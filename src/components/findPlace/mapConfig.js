@@ -5,8 +5,7 @@ import firebase from '../common/firebase';
 
 import InfoWindow from './infoWindow';
 import MapStyle from './mapStyle';
-
-import { storeCourts } from '../../actions/location.action';
+import Load from '../common/load';
 
 
 
@@ -19,6 +18,10 @@ export class MapContainer extends Component {
             activeMarker: {},
             selectedPlace: {},    
         }
+    }
+
+    myStyle = {
+        height: "calc(100vh - 50px)"
     }
 
 
@@ -116,10 +119,8 @@ export class MapContainer extends Component {
         }
     };
 
-    clickInfoWindow = (id, name, address, photo) => {
-        const { dispatch, history } = this.props;
-        //add to redux
-        dispatch(storeCourts(id, name, address, photo))
+    clickInfoWindow = (id) => {
+        const { history } = this.props;
         history.push(`/placeInfo?${id}`);
     }
 
@@ -134,6 +135,7 @@ export class MapContainer extends Component {
             onClick={ this.onMapClicked }
             zoom={15} 
             styles={ MapStyle }
+            style={ this.myStyle }
             initialCenter={{
             lat: initialLat,
             lng: initialLng  

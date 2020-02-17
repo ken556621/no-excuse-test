@@ -237,18 +237,7 @@ function mapStateToProps(store){
     return {
         authenticated: store.user.authenticated,
         authenticating: store.user.authenticating,
-        uid: store.user.uid,
-        userName: store.user.name,
-        userEmail: store.user.email,
-        userPhoto: store.user.photo,
-        id: store.location.id,
-        placeName: store.location.name,
-        address: store.location.address,
-        placePhoto: store.location.photo,
-        groupName: store.group.name,
-        groupTime: store.group.time,
-        groupPeople: store.group.people,
-        groupIntensity: store.group.intensity
+        uid: store.user.uid
     }
 }
 
