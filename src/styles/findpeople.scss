@@ -6,38 +6,41 @@ $ball: #e8581c;
         background-image: url(../../img/member2.jpg);
         background-size: cover;
         width: 100vw;
-        height: 100vh;
-        .search-bar{
-            position: absolute;
-            top: 10vh;
-            left: 60vw;
-            width: 30vw;
-            label{
-                color: $white;
+        height: 100%;
+        min-height: 100vh;
+        .btn-autocomplete-wrapper{
+            display: flex;
+            justify-content: flex-end;
+            .btn-wrapper{
+                display: flex;
+                margin-top: 30px;
+                margin-right: 10px;
+                span{
+                    color: $ball;
+                }
             }
-            .Mui-focused{
-                color: $ball;
-            }
-            input{
-                color: $white;
-            }
-            span{
-                color: $white;
-            }
-            .MuiInput-underline{
-                border-bottom: 1px solid $white;
-                &:after{
-                    border-bottom: 1px solid $ball;
+            .autocomplete{
+                margin-right: 10px;
+                .search-bar{
+                    width: 30vw;
+                    label{
+                        color: $white;
+                    }
+                    .Mui-focused{
+                        color: $ball;
+                    }
+                    input{
+                        color: $white;
+                    }
+                    span{
+                        color: $white;
+                    }
                 }
             }
         }
         .friends-list{
-            width: 60vw;
+            width: 75vw;
             padding: 10px;
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             .friend-img{
                 margin-right: 10px;
                 width: 70px;
@@ -60,12 +63,15 @@ $ball: #e8581c;
                 }
             }
             .friend-groups{
-                padding: 10px;
-                font-size: 30px;
+                padding: 5px;
+                font-size: 20px;
                 color: $ball;
                 background-color: #000000;
                 border-radius: 8px;
                 cursor: pointer;
+            }
+            .default-group{
+                color: $white;
             }
         }
     }

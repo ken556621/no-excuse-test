@@ -9,7 +9,8 @@ import LockIcon from '@material-ui/icons/Lock';
 import firebase from '../common/firebase';
 import BasketballImg from '../common/basketballImg';
 import ThirdAuth from '../common/thirdAuth';
-import { updateUser } from '../../actions/user.action'; 
+import { updateUser } from '../../actions/user.action';
+import Load from '../common/load'; 
 
 import '../../styles/login.scss';
 
@@ -27,6 +28,14 @@ class Login extends Component {
         }
     } 
 
+    componentDidUpdate(){
+        const { history, authenticated, authenticating } = this.props;
+        if(!authenticating){
+            if(authenticated){
+                history.push('/')
+            }
+        }
+    }
 
     handleChange = (event, type) => {
         if(type === 'email' && event.target.value){
@@ -65,6 +74,12 @@ class Login extends Component {
 
 
     render() { 
+        const { authenticated, authenticating } = this.props;
+        if(authenticating){
+            if(!authenticated){
+                <Load />
+            }
+        }
         return ( 
             <div className="login-container">
                 <div className = "login-form">

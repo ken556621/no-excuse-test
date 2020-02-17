@@ -28,12 +28,14 @@ import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
 import NavBar from '../common/navbar';
 import Friends from './friends';
 import Groups from './groups';
+import Load from '../common/load';
 import '../../styles/member.scss';
 
 class Member extends Component {
     constructor(props){
         super(props)
         this.state = {
+            isLoading: true,
             isUser: false,
             isFriend: false,
             isModify: false,
@@ -90,6 +92,7 @@ class Member extends Component {
             this.setState({
                 isUser: true
             })
+            console.log(uid)
             this.fetchMemberData(uid);
         }   
     }
@@ -99,6 +102,9 @@ class Member extends Component {
         const db = firebase.firestore();
         const { userName, userQuate } = this.state;
         const { uid } = this.props;
+        if(!uid){
+            return 
+        }
         db.collection("users").doc(uid).update({
             name: userName,
             quate: userQuate
@@ -139,6 +145,7 @@ class Member extends Component {
             pendingFriend.push(doc.data());
         }
         this.setState({
+            isLoading: false,
             pendingFriendQty: pendingFriend.length
         })
     }
@@ -224,19 +231,27 @@ class Member extends Component {
     }
 
     render() { 
-        const { isUser, isFriend, isModify, userPhoto, userName, userEmail, userQuate, pendingFriendQty } = this.state;
+        const { isLoading, isUser, isFriend, isModify, userPhoto, userName, userEmail, userQuate, pendingFriendQty } = this.state;
         const { history } = this.props;
+        if(isLoading){
+            return <Load />
+        }
         return ( 
             <div className="member-container">
                 <NavBar history={ history }/>
                 <div className="user-info">
-                    { 
-                        isUser ? 
-                        <IconButton className="modify-btn-wrapper" onClick={ this.modify }>
-                            <SportsBasketballIcon className="modify-btn"/>
-                        </IconButton> : 
-                        null
-                    }
+                    <div className="modify-btn-wrapper">
+                        <div className="fake">
+
+                        </div>
+                        { 
+                            isUser ? 
+                            <IconButton onClick={ this.modify }>
+                                <SportsBasketballIcon className="modify-btn"/>
+                            </IconButton> : 
+                            null
+                        }
+                    </div>
                     <Avatar className="user-img" alt="Oh no!" src={ userPhoto } />
                     <List className="list-container"
                         aria-labelledby="nested-list-subheader" subheader={

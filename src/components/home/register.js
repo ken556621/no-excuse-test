@@ -9,6 +9,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 
 import Basketball from '../common/basketballImg';
+import Load from '../common/load';
 import '../../styles/register.scss';
 
 
@@ -25,6 +26,15 @@ class Register extends Component {
             emailValid: false,
             passwordValid: false,
             errorMessage: ''
+        }
+    }
+
+    componentDidUpdate(){
+        const { history, authenticated, authenticating } = this.props;
+        if(!authenticating){
+            if(authenticated){
+                history.push('/')
+            }
         }
     }
 
@@ -104,6 +114,12 @@ class Register extends Component {
     }
 
     render() { 
+        const { authenticated, authenticating } = this.props;
+        if(authenticating){
+            if(!authenticated){
+                <Load />
+            }
+        }
         return ( 
             <div className="register-container">
                 <div className="register-form">
@@ -154,10 +170,10 @@ class Register extends Component {
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(store){
     return {
-        authenticated: state.authenticated,
-        authenticating: state.authenticating
+        authenticated: store.user.authenticated,
+        authenticating: store.user.authenticating
     }
 }
 

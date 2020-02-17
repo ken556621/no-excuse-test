@@ -57,7 +57,7 @@ class FindPlace extends Component {
     render() { 
         const { isLoading } = this.state;
         if(isLoading){
-            return <div><Load /></div>
+            return <Load />
         }
         return ( 
             <div className="find-place-container">

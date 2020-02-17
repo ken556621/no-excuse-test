@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import firebase from '../common/firebase';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Button from '@material-ui/core/Button';
 
 import NavBar from '../common/navbar';
+import AllUsers from './allUsers';
+import Friends from './friends';
 import Load from '../common/load';
 
 import '../../styles/findpeople.scss';
@@ -22,8 +19,12 @@ class FindPeople extends Component {
         super(props)
         this.state = {
             isLoading: true,
-            allUser: '',
-            friends: ''
+            allUsers: '',
+            friends: '',
+            allUsersMode: false,
+            friendsMode: false,
+            targetUserName: '',
+            targetUser: ''
         }
     }
 
@@ -31,6 +32,25 @@ class FindPeople extends Component {
         const { uid } = this.props;
         this.getAllUsers();
         this.getFriends(uid);
+    }
+
+    getAllUsers = async () => {
+        const db = firebase.firestore();
+        const allUsers = [];
+        const userSnapshot = await db.collection("users").get();
+        for (let i in userSnapshot.docs) {
+            const doc = userSnapshot.docs[i]
+            const allUsersData = Object.assign({}, doc.data());
+            allUsersData.hostRooms = [];
+            const roomSnapshot = await db.collection("rooms").where("host", "==", allUsersData.ID).get();
+            roomSnapshot.forEach((room) => {
+                allUsersData.hostRooms.push(room.data());
+            })
+            allUsers.push(allUsersData);
+        }
+        this.setState({
+            allUsers
+        })
     }
 
     getFriends = async (uid) => {
@@ -72,80 +92,89 @@ class FindPeople extends Component {
         })
     }
 
-    getAllUsers = async () => {
-        const db = firebase.firestore();
-        const allUser = [];
-        const userSnapshot = await db.collection("users").get();
-        userSnapshot.forEach((doc) => {
-            allUser.push(doc.data());
-        })
-        this.setState({
-            allUser
-        })
+    changeMode = (e) => {
+        const target_ID = e.target.parentElement.id;
+        if(target_ID === "all-users"){
+            this.setState({
+                allUsersMode: !this.state.allUsersMode,
+                friendsMode: false
+            })
+        }else if(target_ID === "friends"){
+            this.setState({
+                allUsersMode: false,
+                friendsMode: !this.state.friendsMode
+            })
+        }
     }
 
-    clickRoom = (e) => {
-        const { history } = this.props;
-        history.push(`/placeInfo?${e.target.id}`);
+    handleInput = (e) => {
+        if(e.key === 'Enter'){
+            const targetUserName = e.target.value;
+
+            this.setState({
+                targetUserName
+            }, this.filterUser)
+        }
+    }
+
+    handleClick = (e) => {
+        const targetUserName = e.target.innerText
+        
+        this.setState({
+            targetUserName
+        }, this.filterUser)
+    }
+
+    filterUser = () => {
+        const { allUsers, targetUserName } = this.state;
+        const targetUser = allUsers.filter(user => {
+            return (
+                user.name === targetUserName
+            )
+        })
+        if(targetUser.length === 0){
+            return 
+        }else{
+            this.setState({
+                allUsersMode:false,
+                friendsMode: false,
+                targetUser
+            })
+        }
     }
 
     render() { 
-        const { isLoading, allUser, friends } = this.state;
+        const { isLoading, allUsers, friends, targetUser, allUsersMode, friendsMode } = this.state;
         const { history } = this.props;
-        console.log(allUser)
-        if(isLoading && allUser.length === 0){
+        if(isLoading && allUsers.length === 0){
             return <Load />
         }
         return ( 
             <div className="find-people-container">
                 <NavBar history={ history }/>
                 <div className="friends-list-wrapper">
-                <Autocomplete
-                    options={ allUser }
-                    getOptionLabel={ option => option.name }
-                    id="disable-clearable"
-                    className="search-bar"
-                    renderInput={params => (
-                    <TextField {...params} label="Find Friends" margin="normal" fullWidth />
-                    )}
-                />
+                <div className="btn-autocomplete-wrapper">
+                    <div className="btn-wrapper">
+                        <Button id="all-users" onClick={ (e) => this.changeMode(e) }>All</Button>
+                        <Button id="friends" onClick={ (e) => this.changeMode(e) }>Friends</Button>
+                    </div>  
+                    <div className="autocomplete">
+                        <Autocomplete
+                            onChange={ (e) => this.handleClick(e) }
+                            // options={ allUsers }
+                            // getOptionLabel={ option => option.name }
+                            id="disable-clearable"
+                            className="search-bar"
+                            renderInput={params => (
+                            <TextField {...params} onKeyDown={ (e) => this.handleInput(e) } label="Find Friends" margin="normal" fullWidth />
+                            )}
+                        />
+                    </div>
+                </div>
                     <List className="friends-list" dense>
-                        { 
-                            friends.length !== 0 ?
-                            friends.map(person => {
-                                const labelId = `checkbox-list-secondary-label-${person}`;
-                                return (
-                                <ListItem key={person.ID} button divider>
-                                    <ListItemAvatar>
-                                        <Link to={{
-                                            pathname: "/member",
-                                            search: "?lBLWRbtQAcVHMVITDODWHeFfovk1",
-                                            key: `${person.ID}`
-                                        }}>
-                                            <Avatar
-                                                className="friend-img"
-                                                alt={`Avatar n°${person.name}`}
-                                                src={ person.photo }
-                                            />
-                                        </Link>
-                                    </ListItemAvatar>
-                                    <ListItemText id={labelId} className="friend-name" primary={ person.name } secondary={ person.quate ? person.quate : "hi" } />
-                                    { 
-                                        person.hostRooms.length !== 0 ? 
-                                        person.hostRooms.map((room) => {
-                                            return(
-                                                <ListItemSecondaryAction key={ room.place_ID } id={ room.place_ID } className="friend-groups" onClick={ (e) => this.clickRoom(e) }>
-                                                   { room.placeName }
-                                                </ListItemSecondaryAction>
-                                            )
-                                        }) :
-                                        <div>No room yet!</div>
-                                    }
-                                </ListItem>
-                                );
-                            }) :
-                            null
-                        }
+                        { allUsersMode ? <AllUsers allUsers={ allUsers } history={ history }/> : null }
+                        { friendsMode ? <Friends friends={ friends } history={ history }/> : null }
+                        { targetUser ? <AllUsers allUsers={ targetUser } history={ history }/> : null }
                     </List>
                 </div>
             </div>
@@ -153,7 +182,6 @@ class FindPeople extends Component {
     }
 }
  
-
 function mapStateToProps(store){
     return {
         authenticated: store.user.authenticated,
@@ -162,6 +190,4 @@ function mapStateToProps(store){
     }
 }
 
-
- 
 export default connect(mapStateToProps)(FindPeople);

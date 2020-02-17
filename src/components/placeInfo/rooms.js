@@ -13,6 +13,8 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Badge from '@material-ui/core/Badge';
+import PersonIcon from '@material-ui/icons/Person';
 
 import EditRoom from './editRoom';
 
@@ -177,9 +179,9 @@ class Groups extends Component {
                                 this.state.editRoom === room.room_ID && this.state.isEditing ? <EditRoom room={ room } editRoom={ this.editRoom } /> : 
                                 <div className="col-left">
                                     <CardContent>
-                                        <Typography color="textSecondary" gutterBottom>
-                                            Need: { room.peopleNeed } people
-                                        </Typography>
+                                        <Badge className="people-need-qty" color="error" badgeContent={ room.peopleNeed } showZero>
+                                            <PersonIcon />
+                                        </Badge>
                                         <Typography variant="h5" component="h2">
                                             { room.placeName }
                                         </Typography>
