@@ -6,9 +6,10 @@ nav{
     align-items: center;
     background-color: $white;
     .logo{
-        img{
-            width: 100px;
-            height: 100px;
+        .MuiTypography-body1{
+            font-size: 25px;
+            font-family: 'Sriracha', cursive;
+            font-weight: 800;
         }
     }
     .btn-wrapper{
@@ -19,7 +20,7 @@ nav{
            }
         }
         .login{
-            font-size: 20px;
+            font-size: 15px;
             cursor: pointer;
             .login-wrapper, .logout-wrapper{
                 display: flex;

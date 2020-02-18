@@ -105,7 +105,7 @@ class Register extends Component {
                 console.log("Document successfully written!");
                 dispatch(updateUser(uid, userName, userEmail, userPhoto));
                 dispatch({ type: 'LOGIN_SUCCESS' });
-                history.push('/member'); 
+                history.push('/'); 
             })
             .catch((error) => {
                 console.error("Error writing document: ", error);

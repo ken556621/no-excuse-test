@@ -1,5 +1,17 @@
 
 .find-place-container{
+    .search-bar-wrapper{
+        display: flex;
+        .search-bar{
+            margin-left: 2.5%;
+            width: 35vw;
+            max-width: 300px;
+        }
+        .current-position-btn{
+            margin-left: 10px;
+            margin-top: 24px;
+        }
+    }
     .place-container{
         cursor: pointer;
         .place-name{

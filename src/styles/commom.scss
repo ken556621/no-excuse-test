@@ -4,6 +4,10 @@ body{
     padding: 0;
 }
 
+h1, h2, h3, h4, h5, p{
+    font-family: 'Sriracha', cursive;
+}
+
 a, li{
     text-decoration: none;
     list-style: none;
@@ -30,5 +34,13 @@ button{
     border: 1px solid #000000;
     border-radius: 8px;
     background-color: #ffffff;
+}
+
+.start-rotating{
+    transform: rotate(0deg);
+}
+
+.end-rotating{
+    transform: rotate(180deg);
 }
 

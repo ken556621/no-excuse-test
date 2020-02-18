@@ -24,12 +24,11 @@ $white: #ebebf0;
             }
         }
         .btn-wrapper{
-            display: flex;
             position: absolute;
-            right: 10%;
+            right: 35%;
             top: 65%;
-            .find-people, .find-place{
-                padding: 2px 7px;
+            .find-place{
+                padding: 4px 9px;
                 color: $white;
                 border: 1px solid $white;
             }

@@ -40,6 +40,33 @@ class NavBar extends Component {
                     </Link>
                 </Button>
                 <div className="btn-wrapper">
+                    <Button className="find-location">
+                        <Link to={{
+                            pathname: "/people"
+                        }}>
+                            <Typography className="find-location-words" variant="subtitle2">
+                                我的團
+                            </Typography>
+                        </Link>
+                    </Button>
+                    <Button className="find-location">
+                        <Link to={{
+                            pathname: "/place"
+                        }}>
+                            <Typography className="find-location-words" variant="subtitle2">
+                                找團
+                            </Typography>
+                        </Link>
+                    </Button>
+                    <Button className="find-location">
+                        <Link to={{
+                            pathname: "/place"
+                        }}>
+                            <Typography className="find-location-words" variant="subtitle2">
+                                團友列表
+                            </Typography>
+                        </Link>
+                    </Button>
                     <Button className="member">
                         <Link to={{
                             pathname: "/member",
@@ -55,14 +82,14 @@ class NavBar extends Component {
                             <div className={ this.props.authenticated ? 'hide' : 'login-wrapper show' }>
                                 <ExitToAppIcon />
                                 <Typography variant="subtitle2">
-                                    Login
+                                    登入
                                 </Typography>
                             </div>
                         </Link>
                             <div className={ this.props.authenticated ? 'logout-wrapper show' : 'hide' } onClick={ this.logout }>
                                 <ExitToAppIcon />
-                                <Typography>
-                                    Logout
+                                <Typography variant="subtitle2">
+                                    登出
                                 </Typography>
                             </div>
                     </Button>

@@ -6,8 +6,22 @@ $ball: #e8581c;
         display: flex;
         justify-content: space-around;
         .card{
-            width: 50%;
+            width: 40%;
             margin-top: 10px;
+            .MuiCardHeader-root{
+                padding: 0 0 0 16px;
+            }
+            .image{
+                img{
+                    width: 100%;
+                    transform:scale(1,1);
+                    transition: all 1s ease-out;
+                    &:hover{
+                        opacity: .8;
+                        transform:scale(1.2,1.2);
+                    }
+                }
+            }
             .card-header{
                 span{
                     margin-bottom: 8px;
@@ -16,10 +30,8 @@ $ball: #e8581c;
     
                 }
             }
-            .image{
-                img{
-                    width: 100%;
-                }
+            .expand-btn{
+                display: block;
             }
             .card-content{
                 .info-wrapper{
@@ -27,6 +39,9 @@ $ball: #e8581c;
                     justify-content: space-between;
                     .edit-place-name{
                         margin: 0;
+                    }
+                    .static-info{
+                        margin: 10px 0;
                     }
                     .card-words{
                         display: flex;
@@ -46,6 +61,9 @@ $ball: #e8581c;
                         }
                     }
                 }
+                .rent-state{
+                    border-bottom: 1px solid #000000;
+                }
                 .open-group-btn{
                     background-color: $ball;
                 }
@@ -53,6 +71,7 @@ $ball: #e8581c;
         }
     }
     .groups{
+        margin-top: 10px;
         .group-container{
             display: flex;
             margin-bottom: 20px;
@@ -60,7 +79,6 @@ $ball: #e8581c;
             .card-container{
                 display: flex;
                 justify-content: space-between;
-                width: 33%;
                 .col-left{
                     .edit-room-container{
                         padding: 10px;

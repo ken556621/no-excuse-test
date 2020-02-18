@@ -68,7 +68,7 @@ class Login extends Component {
             const { uid, displayName, email, photoURL } = res.user;
             dispatch(updateUser(uid, displayName, email, photoURL));
             dispatch({ type: 'LOGIN_SUCCESS' });
-            history.push('/member');
+            history.push('/');
         });
     }
 

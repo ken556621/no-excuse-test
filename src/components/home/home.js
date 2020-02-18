@@ -37,17 +37,10 @@ class HomePage extends Component {
                             </Typography>
                         </div>
                         <div className="btn-wrapper">
-                            <Link to='/people'>
-                                <Button>
-                                    <Typography className="find-people" variant="subtitle1">
-                                        Person
-                                    </Typography>
-                                </Button>
-                            </Link>
                             <Link to='/place'>
                                 <Button>
-                                    <Typography className="find-place" variant="subtitle1">
-                                        Location
+                                    <Typography className="find-place" variant="h5">
+                                        找團
                                     </Typography>
                                 </Button>
                             </Link>

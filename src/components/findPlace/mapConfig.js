@@ -6,6 +6,7 @@ import firebase from '../common/firebase';
 import InfoWindow from './infoWindow';
 import MapStyle from './mapStyle';
 import Load from '../common/load';
+import { height } from '@material-ui/system';
 
 
 
@@ -21,14 +22,19 @@ export class MapContainer extends Component {
     }
 
     myStyle = {
-        height: "calc(100vh - 50px)"
+        width: "95%",
+        height: "70%",
+        position: "abosolute",
+        top: "40%",
+        left: "50%",
+        transform: "translate(-50%, -50%)"
     }
 
 
     getPlaces = async () => {
         const db = firebase.firestore();
         const { initialLat, initialLng } = this.props;
-        const radius = 5; //km
+        const radius = 2; //km
         const targetPlaces = [];
         
         const locationsQuery = await db.collection("locations").get();
