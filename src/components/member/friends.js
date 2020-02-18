@@ -3,8 +3,16 @@ import firebase from '../common/firebase';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Collapse from '@material-ui/core/Collapse';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import Badge from '@material-ui/core/Badge';
+import Divider from '@material-ui/core/Divider';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
@@ -14,6 +22,7 @@ class Friends extends Component {
     constructor(props){
         super(props);
         this.state = {
+            openFriends: false,
             friends: '',
             pendingFriends: ''
         }
@@ -91,42 +100,64 @@ class Friends extends Component {
         }
     }
 
+    openFriendsList = () => {
+        this.setState({
+            openFriends: !this.state.openFriends
+        })
+    }
+
     render() { 
-        const { friends, pendingFriends } = this.state;
-        const { isUser } = this.props;
+        const { openFriends, friends, pendingFriends } = this.state;
+        const { pendingFriendQty } = this.props;
         return (
-            <List component="div" disablePadding className="friends">
-                { 
-                    friends ? 
-                    friends.map(friend => 
-                    <Link to={ `/member?${friend.ID}` } key={ friend.ID }>
-                        <ListItem button >
+            <div>
+                <ListItem button onClick={ this.openFriendsList }>
+                    <ListItemAvatar>
+                    <Badge className="pending-friends-qty" color="error" badgeContent={ openFriends ? 0 : pendingFriendQty }>
+                        <Avatar>
+                            <PeopleAltIcon color="action" />
+                        </Avatar>
+                    </Badge>
+                    </ListItemAvatar>
+                    <ListItemText primary="Friends list" />
+                    { openFriends ? <ExpandLess className="arrow" /> : <ExpandMore className="arrow" /> }
+                </ListItem>
+                <Divider variant="inset" component="li" className="line" /> 
+                <Collapse in={ openFriends } timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding className="friends">
+                        { 
+                            friends ? 
+                            friends.map(friend => 
+                            <Link to={ `/member?${friend.ID}` } key={ friend.ID }>
+                                <ListItem button >
+                                        <ListItemIcon>
+                                            <PersonIcon className="friends-icon" />
+                                        </ListItemIcon>
+                                        <ListItemText className="friends-list" primary={ friend.name } />
+                                </ListItem>
+                            </Link>) :
+                            null
+                        }
+                        {  
+                            pendingFriends ? 
+                            pendingFriends.map(friend => 
+                            <ListItem key={ friend.ID } id={ friend.ID } button >
                                 <ListItemIcon>
                                     <PersonIcon className="friends-icon" />
                                 </ListItemIcon>
                                 <ListItemText className="friends-list" primary={ friend.name } />
-                        </ListItem>
-                    </Link>) :
-                    null
-                }
-                { 
-                    pendingFriends && isUser ? 
-                    pendingFriends.map(friend => 
-                    <ListItem key={ friend.ID } id={ friend.ID } button >
-                        <ListItemIcon>
-                            <PersonIcon className="friends-icon" />
-                        </ListItemIcon>
-                        <ListItemText className="friends-list" primary={ friend.name } />
-                        <Button className="accept-btn" onClick={ (e) => this.accept(e) } variant="contained" size="small">
-                            accept
-                        </Button>
-                        <Button className="decline-btn" onClick={ (e) => this.decline(e) } variant="contained" size="small">
-                            decline
-                        </Button>
-                    </ListItem>) :
-                    null
-                }
-            </List>
+                                <Button className="accept-btn" onClick={ (e) => this.accept(e) } variant="contained" size="small">
+                                    accept
+                                </Button>
+                                <Button className="decline-btn" onClick={ (e) => this.decline(e) } variant="contained" size="small">
+                                    decline
+                                </Button>
+                            </ListItem>) :
+                            null
+                        }
+                    </List>
+                </Collapse>
+            </div>
         );
     }
 }

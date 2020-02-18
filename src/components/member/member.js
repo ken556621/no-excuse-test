@@ -5,9 +5,6 @@ import firebase from '../common/firebase';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -17,13 +14,9 @@ import Divider from '@material-ui/core/Divider';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import Badge from '@material-ui/core/Badge';
-import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
-
 
 import NavBar from '../common/navbar';
 import Friends from './friends';
@@ -43,8 +36,6 @@ class Member extends Component {
             userName: '',
             userEmail: '',
             userQuate: '',
-            openFriends: false,
-            openGroups: false,
             pendingFriendQty: ''
         }
     }
@@ -60,6 +51,12 @@ class Member extends Component {
         }
         //Loading friend's data & check user and friend status
         if(person_ID){
+            if(person_ID === uid){
+                this.setState({
+                    isUser: true
+                })
+                this.fetchMemberData(uid);
+            }
 
             db.collection("networks").where("inviter", "==", uid).where("invitee", "==", person_ID).where("status", "==", "accept")
             .get()
@@ -92,7 +89,6 @@ class Member extends Component {
             this.setState({
                 isUser: true
             })
-            console.log(uid)
             this.fetchMemberData(uid);
         }   
     }
@@ -105,16 +101,17 @@ class Member extends Component {
         if(!uid){
             return 
         }
-        db.collection("users").doc(uid).update({
-            name: userName,
-            quate: userQuate
-        })
-        .then(() => {
-            console.log("Document successfully written!");
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
-        });
+        //fix: when should store this?
+        // db.collection("users").doc(uid).update({
+        //     name: userName,
+        //     quate: userQuate
+        // })
+        // .then(() => {
+        //     console.log("Document successfully written!");
+        // })
+        // .catch((error) => {
+        //     console.error("Error writing document: ", error);
+        // });
     }
 
     fetchMemberData = async (uid) => {
@@ -151,9 +148,29 @@ class Member extends Component {
     }
 
     modify = () => {
+        const db = firebase.firestore();
+        const { userName, userQuate } = this.state;
+        const { uid } = this.props;
+        if(!uid){
+            return 
+        }
+        //fix: over write other user's name & quate
+        // db.collection("users").doc(uid).update({
+        //     name: userName,
+        //     quate: userQuate
+        // })
+        // .then(() => {
+        //     console.log("Document successfully written!");
+        // })
+        // .catch((error) => {
+        //     console.error("Error writing document: ", error);
+        // });
         this.setState({
             isModify: !this.state.isModify
         })
+    }
+
+    keypressModify = (e) => {
     }
 
     handleInput = (e) => {
@@ -167,18 +184,6 @@ class Member extends Component {
                 userName: e.target.value
             })
         }
-    }
-
-    openFriendsList = () => {
-        this.setState({
-            openFriends: !this.state.openFriends
-        })
-    }
-
-    openGroupsList = () => {
-        this.setState({
-            openGroups: !this.state.openGroups
-        })
     }
 
     addFriend = () => {
@@ -242,11 +247,10 @@ class Member extends Component {
                 <div className="user-info">
                     <div className="modify-btn-wrapper">
                         <div className="fake">
-
                         </div>
                         { 
                             isUser ? 
-                            <IconButton onClick={ this.modify }>
+                            <IconButton onClick={ this.modify } onKeyDown={ (e) => this.keypressModify(e) }>
                                 <SportsBasketballIcon className="modify-btn"/>
                             </IconButton> : 
                             null
@@ -304,33 +308,14 @@ class Member extends Component {
                             }
                         </ListItem>
                         <Divider variant="inset" component="li" className="line" />
-                        <ListItem button onClick={ this.openFriendsList }>
-                            <ListItemAvatar>
-                            <Badge className="pending-friends-qty" color="error" badgeContent={ this.state.openFriends || !isUser ? 0 : pendingFriendQty }>
-                                <Avatar>
-                                    <PeopleAltIcon color="action" />
-                                </Avatar>
-                            </Badge>
-                            </ListItemAvatar>
-                            <ListItemText primary="Friends list" />
-                            { this.state.openFriends ? <ExpandLess className="arrow" /> : <ExpandMore className="arrow" /> }
-                        </ListItem>
-                        <Divider variant="inset" component="li" className="line" /> 
-                        <Collapse in={ this.state.openFriends } timeout="auto" unmountOnExit>
-                            <Friends isUser={ isUser } />
-                        </Collapse>
-                        <ListItem button onClick={ this.openGroupsList }>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <EmojiPeopleIcon color="action" />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="Groups list" />
-                            { this.state.openGroups ? <ExpandLess className="arrow" /> : <ExpandMore className="arrow" /> }
-                        </ListItem>
-                        <Collapse in={ this.state.openGroups } timeout="auto" unmountOnExit>
-                            <Groups />
-                        </Collapse> 
+                        {
+                            isUser ?
+                            <div>
+                                <Friends pendingFriendQty={ pendingFriendQty } />
+                                <Groups />
+                            </div> :
+                            null
+                        }
                         { 
                             isFriend && !isUser ?  
                             <Button className="remove-friend-btn" onClick={ this.removeFriend } variant="contained" size="small">
@@ -353,6 +338,4 @@ function mapStateToProps(store){
     }
 }
 
-
- 
 export default connect(mapStateToProps)(Member);

@@ -143,6 +143,7 @@ class Groups extends Component {
                 isEditing: !this.state.isEditing
             })
         }else{
+            this.fetchRooms();
             this.setState({
                 isEditing: !this.state.isEditing
             })
@@ -179,7 +180,7 @@ class Groups extends Component {
                                 this.state.editRoom === room.room_ID && this.state.isEditing ? <EditRoom room={ room } editRoom={ this.editRoom } /> : 
                                 <div className="col-left">
                                     <CardContent>
-                                        <Badge className="people-need-qty" color="error" badgeContent={ room.peopleNeed } showZero>
+                                        <Badge className="people-need-qty" color="error" badgeContent={ room.peopleNeed - room.participantsData.length } showZero>
                                             <PersonIcon />
                                         </Badge>
                                         <Typography variant="h5" component="h2">

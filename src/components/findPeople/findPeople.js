@@ -161,8 +161,9 @@ class FindPeople extends Component {
                     <div className="autocomplete">
                         <Autocomplete
                             onChange={ (e) => this.handleClick(e) }
-                            // options={ allUsers }
-                            // getOptionLabel={ option => option.name }
+                            //fix: invalid props
+                            options={ allUsers }
+                            getOptionLabel={ option => option.name }
                             id="disable-clearable"
                             className="search-bar"
                             renderInput={params => (

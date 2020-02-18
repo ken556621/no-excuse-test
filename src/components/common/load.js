@@ -11,7 +11,7 @@ class Load extends Component {
     mystyle = {
         position: 'fixed',
         top: '50%',
-        left: '50%',
+        left: '43%',
         zIndex: 100
     };
 

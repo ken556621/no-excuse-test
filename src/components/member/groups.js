@@ -3,10 +3,16 @@ import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import Badge from '@material-ui/core/Badge';
 
 import Ball from '../common/ballImg';
@@ -15,6 +21,7 @@ class Groups extends Component {
     constructor(props){
         super(props)
         this.state = {
+            openGroups: false,
             groups: ''
         }
     }
@@ -46,34 +53,53 @@ class Groups extends Component {
         })
     }
 
+    openGroupsList = () => {
+        this.setState({
+            openGroups: !this.state.openGroups
+        })
+    }
+
     render() { 
         const { groups } = this.state;
         return ( 
-            <List component="div" disablePadding className="groups">
-                { 
-                    groups.length !== 0 ? groups.map((group) => {
-                    return (
-                        <ListItem button key={ group.room_ID }>
-                            <ListItemIcon>
-                                <Badge badgeContent={ group.participants.length } color="secondary" anchorOrigin={{ vertical: 'top',horizontal: 'left' }}>
-                                    <Ball className="groups-icon" />
-                                </Badge>
-                            </ListItemIcon>
-                            <Link to={ `/placeInfo?${group.place_ID}` }>
-                                <ListItemText className="group-list" primary={ group.placeName + " " + "date:" + group.date + " " +  group.hoster } />
-                            </Link>
-                        </ListItem>
-                    )
-                    }) :  <ListItem button>
-                            <ListItemIcon>
-                                <Badge badgeContent={ 0 } color="secondary" anchorOrigin={{ vertical: 'top',horizontal: 'left' }}>
-                                    <Ball className="groups-icon" />
-                                </Badge>
-                            </ListItemIcon>
-                            <ListItemText className="group-list" primary="You should go and give some bucket!" />
-                        </ListItem>
-                }
-            </List>
+            <div>
+                <ListItem button onClick={ this.openGroupsList }>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <EmojiPeopleIcon color="action" />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Groups list" />
+                    { this.state.openGroups ? <ExpandLess className="arrow" /> : <ExpandMore className="arrow" /> }
+                </ListItem>
+                <Collapse in={ this.state.openGroups } timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding className="groups">
+                        { 
+                            groups.length !== 0 ? groups.map((group) => {
+                            return (
+                                <ListItem button key={ group.room_ID }>
+                                    <ListItemIcon>
+                                        <Badge badgeContent={ group.participants.length } color="secondary" anchorOrigin={{ vertical: 'top',horizontal: 'left' }}>
+                                            <Ball className="groups-icon" />
+                                        </Badge>
+                                    </ListItemIcon>
+                                    <Link to={ `/placeInfo?${group.place_ID}` }>
+                                        <ListItemText className="group-list" primary={ group.placeName + " " + "date:" + group.date + " " +  group.hoster } />
+                                    </Link>
+                                </ListItem>
+                            )
+                            }) :  <ListItem button>
+                                    <ListItemIcon>
+                                        <Badge badgeContent={ 0 } color="secondary" anchorOrigin={{ vertical: 'top',horizontal: 'left' }}>
+                                            <Ball className="groups-icon" />
+                                        </Badge>
+                                    </ListItemIcon>
+                                    <ListItemText className="group-list" primary="You should go and give some bucket!" />
+                                </ListItem>
+                        }
+                    </List>
+                </Collapse> 
+            </div>
         );
     }
 }

@@ -45,7 +45,7 @@ class EditRoom extends Component {
         const db = firebase.firestore();
         let targetID = e.target.parentElement.id;
         const { name, people, date, time, intensity } = this.state;
-        console.log(targetID)
+        //fix: button click not presize
 
         db.collection("rooms").doc(targetID).update(
             {
