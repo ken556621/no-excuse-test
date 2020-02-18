@@ -19,7 +19,8 @@ class FindPlace extends Component {
             userLat: '',
             userLng: '',
             isLoading: true,
-            allCourts: ''
+            allCourts: '',
+            searhUserMode: false
         }
     }
 
@@ -79,11 +80,13 @@ class FindPlace extends Component {
     }
 
     searchUser = () => {
-        
+        this.setState({
+            searhUserMode: !this.state.searhUserMode
+        })
     }
 
     render() { 
-        const { isLoading, allCourts } = this.state;
+        const { isLoading, allCourts, searhUserMode } = this.state;
         if(isLoading){
             return <Load />
         }
@@ -92,6 +95,7 @@ class FindPlace extends Component {
                 <NavBar history={ this.props.history }/>
                 <div className="search-bar-wrapper">
                     <Autocomplete
+                        //fix: invalid props
                         onChange={ (e) => this.handleClick(e) }
                         options={ allCourts }
                         getOptionLabel={ option => option.name }
@@ -103,7 +107,7 @@ class FindPlace extends Component {
                     />
                     <Button className="current-position-btn" onClick={ this.searchUser }>以我位置搜尋</Button>
                 </div>
-                <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } history={ this.props.history } />
+                <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } history={ this.props.history } searhUserMode={ searhUserMode } />
             </div>
         );
     }

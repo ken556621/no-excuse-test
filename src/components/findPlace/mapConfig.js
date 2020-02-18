@@ -131,7 +131,7 @@ export class MapContainer extends Component {
     }
 
     render() {
-      const { initialLat, initialLng } = this.props;
+      const { initialLat, initialLng, searhUserMode } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
       return (
@@ -157,7 +157,7 @@ export class MapContainer extends Component {
                 }}
             />
 
-           { this.state.targetPlaces.length === 0 ? null : this.displayMarker() }
+           { this.state.targetPlaces.length === 0 || !searhUserMode ? null : this.displayMarker() }
 
             <InfoWindow 
                 marker={this.state.activeMarker}
