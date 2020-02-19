@@ -18,11 +18,12 @@ $ball: #e8581c;
                     transition: all 1s ease-out;
                     &:hover{
                         opacity: .8;
-                        transform:scale(1.2,1.2);
+                        transform:scale(1.1,1.1);
                     }
                 }
             }
             .card-header{
+                margin-top: 5px;
                 span{
                     margin-bottom: 8px;
                 }

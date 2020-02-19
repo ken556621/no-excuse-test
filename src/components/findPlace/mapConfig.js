@@ -6,7 +6,6 @@ import firebase from '../common/firebase';
 import InfoWindow from './infoWindow';
 import MapStyle from './mapStyle';
 import Load from '../common/load';
-import { height } from '@material-ui/system';
 
 
 
@@ -17,19 +16,22 @@ export class MapContainer extends Component {
             targetPlaces: '',
             showingInfoWindow: false,
             activeMarker: {},
-            selectedPlace: {},    
+            selectedPlace: {}
         }
     }
 
     myStyle = {
         width: "95%",
-        height: "70%",
-        position: "abosolute",
-        top: "40%",
-        left: "50%",
-        transform: "translate(-50%, -50%)"
+        height: "100%",
+        margin: "0 auto"
     }
 
+    componentDidMount(){
+        const { targetPlaceName } = this.props;
+        if(targetPlaceName){
+            this.getTargetPlace()
+        }
+    }
 
     getPlaces = async () => {
         const db = firebase.firestore();
@@ -59,9 +61,6 @@ export class MapContainer extends Component {
         })
     }
 
-   
-    
-
 
     getDistanceFromLatLonInKm = (lat1,lon1,lat2,lon2) => {
         const radius = 6371; // Radius of the earth in km
@@ -82,9 +81,9 @@ export class MapContainer extends Component {
     }
 
 
-    displayMarker = () => {
+    displayMarker = (places) => {
         return (
-            this.state.targetPlaces.map((place) => {
+            places.map((place) => {
                 return (
                     <Marker 
                         name={ place.name } 
@@ -95,18 +94,31 @@ export class MapContainer extends Component {
                         key={ place.id }
                         id={ place.id }
                         onClick={ this.clickMarker }
-                        icon={{
-                            url: 'https://image.flaticon.com/icons/svg/2467/2467984.svg',
-                            anchor: new google.maps.Point(32,32),
-                            scaledSize: new google.maps.Size(40,40)
-                        }}
+                        onMouseover={ this.hoverMarker }
+                        icon={ 
+                            place.rooms.length === 0 ? 
+                            {
+                                url: 'https://image.flaticon.com/icons/svg/2467/2467984.svg',
+                                anchor: new google.maps.Point(32,32),
+                                scaledSize: new google.maps.Size(40,40)
+                            } :
+                            {
+                                url: 'https://image.flaticon.com/icons/svg/1692/1692975.svg',
+                                anchor: new google.maps.Point(32,32),
+                                scaledSize: new google.maps.Size(40,40)
+                            }
+                        }
                     />
                 )
             })
         )
     }
 
-    clickMarker = (props, marker, e) => {
+    hoverMarker = (props, marker, e) => {
+        const { showingInfoWindow } = this.state;
+        if(showingInfoWindow){
+            return
+        }
         return (
             this.setState({
                 selectedPlace: props,
@@ -130,55 +142,67 @@ export class MapContainer extends Component {
         history.push(`/placeInfo?${id}`);
     }
 
+    windowHasClosed = () => {
+        this.setState({
+            showingInfoWindow: false
+        })
+    }
+
     render() {
-      const { initialLat, initialLng, searhUserMode } = this.props;
+      const { targetPlaces } = this.state;
+      const { initialLat, initialLng, searhUserMode, searchPlaceMode, searchPlaceData } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
       return (
-        <Map 
-            google={ this.props.google } 
-            onReady={ this.getPlaces }
-            onClick={ this.onMapClicked }
-            zoom={15} 
-            styles={ MapStyle }
-            style={ this.myStyle }
-            initialCenter={{
-            lat: initialLat,
-            lng: initialLng  
-        }}>
-            <Marker 
-                name={ 'Your location' } 
-                position={{ lat: initialLat, lng: initialLng }}
-                onClick={ this.clickMarker }
-                icon={{
-                    url: 'https://image.flaticon.com/icons/svg/140/140378.svg',
-                    anchor: new google.maps.Point(32,32),
-                    scaledSize: new google.maps.Size(30,30)
-                }}
-            />
+        <div className="map-container">
+            <Map 
+                google={ this.props.google } 
+                onReady={ this.getPlaces }
+                onClick={ this.onMapClicked }
+                zoom={15} 
+                styles={ MapStyle }
+                style={ this.myStyle }
+                initialCenter={{
+                lat: initialLat,
+                lng: initialLng  
+            }}>
+                <Marker 
+                    name={ 'Your location' } 
+                    position={{ lat: initialLat, lng: initialLng }}
+                    icon={{
+                        url: 'https://image.flaticon.com/icons/svg/140/140378.svg',
+                        anchor: new google.maps.Point(32,32),
+                        scaledSize: new google.maps.Size(30,30)
+                    }}
+                />
 
-           { this.state.targetPlaces.length === 0 || !searhUserMode ? null : this.displayMarker() }
+            { targetPlaces.length === 0 || !searhUserMode ? null : this.displayMarker(targetPlaces) }
+            { !searchPlaceData || !searchPlaceMode ? null : this.displayMarker(searchPlaceData) }
 
-            <InfoWindow 
-                marker={this.state.activeMarker}
-                visible={this.state.showingInfoWindow}
-                onClick={ () => this.clickInfoWindow(id, name, address, photo) }
-            >
-                <div className="place-container">
-                    <div className="place-name">
-                        { name }
-                    </div>
-                    <div className="place-address">
-                        { address }
-                    </div>
-                    <div className="place-rooms">
-                        <div className="groups">
-                            { rooms.length !== 0 ? rooms.map(room => <div className="group" key={ id }>{ room.placeName }</div>) : null }
+                <InfoWindow 
+                    marker={ this.state.activeMarker }
+                    visible={ this.state.showingInfoWindow }
+                    onClose={ this.windowHasClosed }
+                    onClick={ () => this.clickInfoWindow(id, name, address, photo) }
+                >
+                    <div className="place-container">
+                        <div className="col-left">
+                            
+                        </div>
+                        <div className="col-right">
+                            <div className="place-name">
+                                { name }
+                            </div>
+                            <div className="place-rooms">
+                                <div className="groups">
+                                    { rooms.length !== 0 ? rooms.map(room => <div className="group" key={ id }>{ room.placeName }</div>) : null }
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </InfoWindow>
-        </Map>
+                </InfoWindow>
+            </Map>
+        </div>
       );
     }
 }

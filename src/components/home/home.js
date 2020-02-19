@@ -35,15 +35,15 @@ class HomePage extends Component {
                             <Typography variant="subtitle1" className="author">
                                 Kobe Bryant
                             </Typography>
-                        </div>
-                        <div className="btn-wrapper">
-                            <Link to='/place'>
-                                <Button>
-                                    <Typography className="find-place" variant="h5">
-                                        找團
-                                    </Typography>
-                                </Button>
-                            </Link>
+                            <div className="btn-wrapper">
+                                <Link to='/place'>
+                                    <Button>
+                                        <Typography className="find-group" variant="subtitle2">
+                                            Join Group
+                                        </Typography>
+                                    </Button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </main>

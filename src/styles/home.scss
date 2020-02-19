@@ -6,6 +6,7 @@ $small: 20px;
 $facebook: #4267b2;
 $google: #ea4336;
 $white: #ebebf0;
+$ball: #e8581c;
 
 
 .homepage-container{
@@ -24,16 +25,12 @@ $white: #ebebf0;
             }
         }
         .btn-wrapper{
-            position: absolute;
-            right: 35%;
-            top: 65%;
-            .find-place{
-                padding: 4px 9px;
+            .find-group{
+                margin-top: 10px;
+                padding: 10px 20px;
                 color: $white;
-                border: 1px solid $white;
-            }
-            .find-people{
-                margin-right: 10px;
+                background-color: $ball;
+                border-radius: 8px;
             }
         }
     }

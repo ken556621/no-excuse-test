@@ -23,8 +23,11 @@ class FindPlace extends Component {
             userLng: '',
             isLoading: true,
             allCourts: '',
+            targetPlaceName: '',
             searhUserMode: false,
-            mapMode: false,
+            searchPlaceMode: false,
+            searchPlaceData: '',
+            mapMode: true,
             listMode: false
         }
     }
@@ -40,9 +43,17 @@ class FindPlace extends Component {
             console.log('Not support in this browser.');
         }
         //get all the place
-        db.collection("locations").get().then((querySnapshot) => {
+        // db.collection("locations").get().then((querySnapshot) => {
+        //     querySnapshot.forEach((doc) => {
+        //         allCourts.push(doc.data().name);
+        //     });
+        //     this.setState({
+        //         allCourts
+        //     })
+        // });
+        db.collection("locations").orderBy("name", "desc").limit(20).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                allCourts.push(doc.data());
+                allCourts.push(doc.data().name);
             });
             this.setState({
                 allCourts
@@ -76,12 +87,31 @@ class FindPlace extends Component {
     }
 
     handleClick = (e) => {
-        const targetUserName = e.target.innerText
-        
+        const targetPlaceName = e.target.innerText
+        this.setState({
+            targetPlaceName,
+            searchPlaceMode: true
+        }, this.getTargetPlace)
     }
 
-    handleInput = () => {
-
+    getTargetPlace = async () => {
+        const { targetPlaceName } = this.state;
+        const db = firebase.firestore();
+        const searchPlaceData = [];
+        const locationSnapshot = await db.collection("locations").where("name", "==", targetPlaceName).get();
+        for (let i in locationSnapshot.docs) {
+            const doc = locationSnapshot.docs[i]
+            let locationData = Object.assign({}, doc.data());
+            locationData.rooms = [];
+            const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
+            roomsQuery.forEach((room) => {
+                locationData.rooms.push(room.data())
+            })
+            searchPlaceData.push(locationData)
+            this.setState({
+                searchPlaceData
+            })
+        }
     }
 
     searchUser = () => {
@@ -94,39 +124,43 @@ class FindPlace extends Component {
         const target_ID = e.target.parentElement.id;
         if(target_ID === "map"){
             this.setState({
-                mapMode: true
+                mapMode: true,
+                listMode: false
             })
         }else if(target_ID === "list"){
             this.setState({
+                mapMode: false,
                 listMode: true
             })
         }
     }
 
     render() {
-        const { isLoading, allCourts, searhUserMode } = this.state;
-        console.log(allCourts)
-        if(isLoading){
+        const { userLat, userLng, isLoading, allCourts, searhUserMode, searchPlaceMode, searchPlaceData, mapMode, listMode } = this.state;
+        if(isLoading || allCourts === 0){
             return <Load />
         }
         return ( 
             <div className="find-place-container">
                 <NavBar history={ this.props.history }/>
                 <div className="navi-wrapper">
-                    <div className="search-bar-wrapper">
-                        <Autocomplete
-                            //fix: invalid props
-                            onChange={ (e) => this.handleClick(e) }
-                            options={ allCourts }
-                            getOptionLabel={ option => option.name }
-                            id="disable-clearable"
-                            className="search-bar"
-                            renderInput={params => (
-                            <TextField {...params} onKeyDown={ (e) => this.handleInput(e) } label="請輸入場地名稱" margin="normal" fullWidth />
-                            )}
-                        />
-                        <Button className="current-position-btn" onClick={ this.searchUser }>以我位置搜尋</Button>
-                    </div>
+                    { listMode ? 
+                        <div></div> :
+                        <div className="search-bar-wrapper">
+                            <Autocomplete
+                                //fix: invalid props
+                                onChange={ (e) => this.handleClick(e) }
+                                options={ (allCourts) }
+                                getOptionLabel={ option => option }
+                                id="disable-clearable"
+                                className="search-bar"
+                                renderInput={params => (
+                                <TextField {...params} label="請輸入場地名稱" margin="normal" fullWidth />
+                                )}
+                            />
+                            <Button className="current-position-btn" onClick={ this.searchUser }>以目前位置搜尋</Button>
+                        </div>
+                    }
                     <div className="mark-explain">
                         <Typography className="user-explain" variant="subtitle1">
                             <img src="https://image.flaticon.com/icons/svg/140/140378.svg"/>
@@ -146,8 +180,8 @@ class FindPlace extends Component {
                         <Button id="map" className="map-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>地圖</Button>
                         <Button id="list" className="list-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>場地列表</Button>
                 </div>
-                <GroupList />
-                <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } history={ this.props.history } searhUserMode={ searhUserMode } />
+                { mapMode ? <Map initialLat={ userLat } initialLng={ userLng } history={ this.props.history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } /> : null }
+                { listMode ?  <GroupList initialLat={ userLat } initialLng={ userLng } /> : null }
             </div>
         );
     }

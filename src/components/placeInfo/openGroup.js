@@ -62,7 +62,7 @@ class OpenGroup extends Component {
             time: time,
             intensity: intensity,
             participants: [],
-            store_time: new Date() 
+            store_time: firebase.firestore.FieldValue.serverTimestamp()
            }
         )
         .then(() => {
