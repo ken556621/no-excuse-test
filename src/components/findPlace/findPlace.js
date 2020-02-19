@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import Map from './mapConfig';
+import GroupList from './groupList';
 import NavBar from '../common/navbar';
 import Load from '../common/load';
+import TaipeiDistrict from './taipeiDistrict';
 
 import '../../styles/findplace.scss';
 
@@ -20,7 +23,9 @@ class FindPlace extends Component {
             userLng: '',
             isLoading: true,
             allCourts: '',
-            searhUserMode: false
+            searhUserMode: false,
+            mapMode: false,
+            listMode: false
         }
     }
 
@@ -85,28 +90,63 @@ class FindPlace extends Component {
         })
     }
 
-    render() { 
+    handleMode = (e) => {
+        const target_ID = e.target.parentElement.id;
+        if(target_ID === "map"){
+            this.setState({
+                mapMode: true
+            })
+        }else if(target_ID === "list"){
+            this.setState({
+                listMode: true
+            })
+        }
+    }
+
+    render() {
         const { isLoading, allCourts, searhUserMode } = this.state;
+        console.log(allCourts)
         if(isLoading){
             return <Load />
         }
         return ( 
             <div className="find-place-container">
                 <NavBar history={ this.props.history }/>
-                <div className="search-bar-wrapper">
-                    <Autocomplete
-                        //fix: invalid props
-                        onChange={ (e) => this.handleClick(e) }
-                        options={ allCourts }
-                        getOptionLabel={ option => option.name }
-                        id="disable-clearable"
-                        className="search-bar"
-                        renderInput={params => (
-                        <TextField {...params} onKeyDown={ (e) => this.handleInput(e) } label="請輸入場地名稱" margin="normal" fullWidth />
-                        )}
-                    />
-                    <Button className="current-position-btn" onClick={ this.searchUser }>以我位置搜尋</Button>
+                <div className="navi-wrapper">
+                    <div className="search-bar-wrapper">
+                        <Autocomplete
+                            //fix: invalid props
+                            onChange={ (e) => this.handleClick(e) }
+                            options={ allCourts }
+                            getOptionLabel={ option => option.name }
+                            id="disable-clearable"
+                            className="search-bar"
+                            renderInput={params => (
+                            <TextField {...params} onKeyDown={ (e) => this.handleInput(e) } label="請輸入場地名稱" margin="normal" fullWidth />
+                            )}
+                        />
+                        <Button className="current-position-btn" onClick={ this.searchUser }>以我位置搜尋</Button>
+                    </div>
+                    <div className="mark-explain">
+                        <Typography className="user-explain" variant="subtitle1">
+                            <img src="https://image.flaticon.com/icons/svg/140/140378.svg"/>
+                            現在位置
+                        </Typography>
+                        <Typography className="user-explain" variant="subtitle1">
+                            <img src="https://image.flaticon.com/icons/svg/2467/2467984.svg"/>
+                            場地位置
+                        </Typography>
+                        <Typography className="user-explain" variant="subtitle1">
+                            <img src="https://image.flaticon.com/icons/svg/1692/1692975.svg"/>
+                            有團的場
+                        </Typography>
+                    </div>
                 </div>
+                <div className="change-map-view-btn-wrapper">
+                        <Button id="map" className="map-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>地圖</Button>
+                        <Button id="list" className="list-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>場地列表</Button>
+                </div>
+                <GroupList />
                 <Map initialLat={ this.state.userLat } initialLng={ this.state.userLng } history={ this.props.history } searhUserMode={ searhUserMode } />
             </div>
         );

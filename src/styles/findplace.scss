@@ -1,15 +1,50 @@
 
 .find-place-container{
-    .search-bar-wrapper{
+    .navi-wrapper{
         display: flex;
-        .search-bar{
-            margin-left: 2.5%;
-            width: 35vw;
-            max-width: 300px;
+        justify-content: space-between;
+        align-items: center;
+        .search-bar-wrapper{
+            display: flex;
+            .search-bar{
+                margin-left: 5%;
+                width: 30vw;
+                max-width: 300px;
+            }
+            .current-position-btn{
+                span{
+                    white-space:nowrap;
+                }
+                margin-left: 10px;
+                margin-top: 24px;
+            }
         }
-        .current-position-btn{
-            margin-left: 10px;
-            margin-top: 24px;
+        .mark-explain{
+            margin-top: 2%;
+            margin-right: 5%;
+            img{
+                width: 15px;
+                height: 15px;
+            }
+        }
+    }
+    .change-map-view-btn-wrapper{
+        position: absolute;
+        top: 23%;
+        left: 2.5%;
+        width: 95%;
+        border-bottom: 1px solid #ebebf0;
+        // fix:hover issue
+        .display-btn{
+            border-top: 1px solid transparent;
+            border-right: 1px solid transparent;
+            border-left: 1px solid transparent;
+            z-index: 1000;
+            // &:hover{
+            //     border-top: 1px solid #ebebf0;
+            //     border-right: 1px solid #ebebf0;
+            //     border-left: 1px solid #ebebf0;
+            // }
         }
     }
     .place-container{

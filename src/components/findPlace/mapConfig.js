@@ -34,7 +34,7 @@ export class MapContainer extends Component {
     getPlaces = async () => {
         const db = firebase.firestore();
         const { initialLat, initialLng } = this.props;
-        const radius = 2; //km
+        const radius = 1; //km
         const targetPlaces = [];
         
         const locationsQuery = await db.collection("locations").get();

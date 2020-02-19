@@ -20,7 +20,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Rating from '@material-ui/lab/Rating';
 
 import Navbar from '../common/navbar';
-import Boards from './boards';
 import Rooms from './rooms';
 import Ball from '../common/basketballImg';
 import '../../styles/placeInfo.scss';
@@ -260,7 +259,6 @@ class PlaceInfo extends Component {
                         <Rooms place_ID={ place_ID } history={ this.props.history }/>   
                     </div>
                 </div>
-                <Boards />
             </div>
         );
     }
