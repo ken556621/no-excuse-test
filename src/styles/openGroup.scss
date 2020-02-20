@@ -1,15 +1,59 @@
+$small-font: 5px;
+$big-font: 18px;
+$gray: #faf5f3;
+$ball: #e8581c;
+
 
 .open-group-container{
-    .form{
-        width: 45%;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: flex;
-        flex-direction: column;
-        .submit-btn{
-            margin-top: 30px;
+    .form-wrapper{
+        background-image: url(../../img/open-group.jpg);
+        background-size: cover;
+        width: 100vw;
+        height: 100vh;
+        .form{
+            padding: 40px 80px 40px 80px;
+            background: $gray;
+            z-index: 10;
+            width: 20%;
+            height: 350px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            opacity: 0.85;
+            .form-title{
+                text-transform: uppercase;
+                font-size: $big-font;
+                color: darken( #4e3332, 10% );
+                letter-spacing: 0.061em;
+            }
+            input[type="date"]::before{
+                color: gray;
+                content: attr(placeholder) "";
+            }
+            input[type="date"]:focus::before {
+                content: "" !important;
+            }
+            label{
+                font-size: 5px;
+                letter-spacing: 0.02em;
+                line-height: 1.8em;
+            }
+            .standard-basic-date{
+                & > div{
+                    padding: 6px 0px 7px;
+                }
+                p{
+                    position: relative;
+                    top: 19px;
+                }
+            }
+            .submit-btn{
+                margin-top: 20px;
+                background-color: $ball;
+            }
         }
     }
 }

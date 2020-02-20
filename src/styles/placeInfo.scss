@@ -1,4 +1,6 @@
 $ball: #e8581c;
+$small-font: 10px;
+$big-font: 18px;
 
 .place-info-container{
     .card-board-wrapper{
@@ -7,10 +9,9 @@ $ball: #e8581c;
         justify-content: space-around;
         .card{
             width: 40%;
-            margin-top: 10px;
-            .MuiCardHeader-root{
-                padding: 0 0 0 16px;
-            }
+            height: 100vh;
+            position: fixed;
+            left: 2%;
             .image{
                 img{
                     width: 100%;
@@ -22,51 +23,63 @@ $ball: #e8581c;
                     }
                 }
             }
-            .card-header{
-                margin-top: 5px;
-                span{
-                    margin-bottom: 8px;
-                }
-                .setting-btn{
-    
-                }
-            }
-            .expand-btn{
-                display: block;
-            }
-            .card-content{
-                .info-wrapper{
-                    display: flex;
-                    justify-content: space-between;
-                    .edit-place-name{
-                        margin: 0;
+            .col-wrapper{
+                display: flex;
+                .col-left{
+                    .card-header{
+                        font-size: $big-font;
+                        margin: 5px 0;
                     }
-                    .static-info{
-                        margin: 10px 0;
+                    .card-address{
+                        font-size: $small-font;
+                        margin: 5px 0;
                     }
-                    .card-words{
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        .card-words-light{
-                            margin: 0;
-                            .MuiButtonBase-root{
-                                color: #e8581c;
+                    .rate{
+                        font-size: $big-font;
+                        margin: 5px 0;
+                    }
+                }
+                .col-right{
+                    margin-top: 19px;
+                    .card-content{
+                        .info-wrapper{
+                            display: flex;
+                            justify-content: space-between;
+                            .edit-place-name{
+                                margin: 0;
+                            }
+                            .static-info{
+                                margin: 10px 0;
+                                font-size: $small-font;
+                                & > svg{
+                                    font-size: $small-font;
+                                }
+                            }
+                            .card-words{
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                .card-words-light{
+                                    margin: 0;
+                                    .MuiButtonBase-root{
+                                        color: #e8581c;
+                                    }
+                                }
+                                .card-words-toilet{
+                                    margin: 0;
+                                    .MuiButtonBase-root{
+                                        color: #e8581c;
+                                    }
+                                }
                             }
                         }
-                        .card-words-toilet{
-                            margin: 0;
-                            .MuiButtonBase-root{
-                                color: #e8581c;
-                            }
+                        .rent-state{
+                            border-bottom: 1px solid #000000;
+                        }
+                        .open-group-btn{
+                            background-color: $ball;
                         }
                     }
-                }
-                .rent-state{
-                    border-bottom: 1px solid #000000;
-                }
-                .open-group-btn{
-                    background-color: $ball;
                 }
             }
         }

@@ -6,6 +6,7 @@ nav{
     align-items: center;
     background-color: $white;
     .logo{
+        margin-left: 10px;
         .MuiTypography-body1{
             font-size: 25px;
             font-family: 'Sriracha', cursive;
@@ -20,6 +21,7 @@ nav{
            }
         }
         .login{
+            margin-right: 10px;
             font-size: 15px;
             cursor: pointer;
             .login-wrapper, .logout-wrapper{

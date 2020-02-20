@@ -169,91 +169,88 @@ class PlaceInfo extends Component {
                                 <Ball />
                             } 
                         </div>
-                        <CardHeader
-                            className="card-header"
-                            title={ name }
-                            subheader={ address }
-                        />
-                        <Rating name="read-only" value={ 2 } readOnly />
-                        <IconButton
-                            className={ expandedCard ? "expand-btn end-rotating" : "expand-btn start-rotating" }
-                            onClick={ this.handleExpandClick }
-                            aria-expanded={ expandedCard }
-                            aria-label="show more"
-                        >
-                            <ExpandMoreIcon />
-                        </IconButton>
-                        <CardContent className="card-content">
-                            <Collapse in={ expandedCard } timeout="auto" unmountOnExit>
+                        <div className="col-wrapper">
+                            <div className="col-left">
+                                <Typography className="card-header">
+                                    { name }
+                                </Typography>
+                                <Typography className="card-address">
+                                    { address }
+                                </Typography>
+                                <Rating className="rate" name="read-only" value={ 2 } readOnly />
                                 <div className="info-wrapper">
-                                        <Typography className="static-info" variant="body2" color="textSecondary" component="span">
-                                        <PhoneIcon fontSize="small"/> { phone }
-                                        </Typography>
-                                </div>
-                                <div className="info-wrapper">
-                                        <Typography className="static-info" variant="body2" color="textSecondary" component="span">
-                                        <PlaceIcon fontSize="small"/> { placeStatus }
-                                        </Typography>
-                                </div>
-                                <div className="info-wrapper">
-                                        <Typography className="static-info" variant="body2" color="textSecondary" component="span">
-                                        <AttachMoneyIcon fontSize="small"/> { openState }
-                                        </Typography>
-                                </div>
-                                <div className="info-wrapper rent-state">
-                                        <Typography className="static-info" variant="body2" color="textSecondary" component="span">
-                                        <AttachMoneyIcon fontSize="small"/> { rentState }
-                                        </Typography>
-                                </div>  
-                                <div className="info-wrapper">
-                                    { 
-                                        editTarget === "place-status" && isEditing ? 
-                                        <TextField className="edit-place edit-place-name" value={ courtStatus } label="Place Status" margin="normal" size="small" onChange={ (e) => this.handleInput(e) } /> :
-                                        <Typography className="card-words" variant="body2" color="textSecondary" component="span">
-                                        場地狀況: { courtStatus }
-                                        </Typography>
-                                    }
-                                    <IconButton id="place-status" onClick={ (e) => this.editInfo(e) } className="setting-btn" aria-label="settings">
-                                        <CreateRoundedIcon />
-                                    </IconButton>
-                                </div>
-                                <div className="info-wrapper">
-                                        <Typography className="card-words" variant="body2" color="textSecondary" component="span">
-                                            <FormControlLabel
-                                                value="hasLight"
-                                                control={
-                                                    <Checkbox 
-                                                    checked={ light }
-                                                    onChange={ (e) => this.toggleCheckBox(e) }
-                                                    value="hasLight" />
-                                                }
-                                                label="夜間燈光照明: "
-                                                labelPlacement="start"
-                                                className="card-words-light"
-                                            />
-                                        </Typography>
-                                </div>
-                                <div className="info-wrapper"> 
-                                        <Typography className="card-words" variant="body2" color="textSecondary" component="span">
-                                            <FormControlLabel
-                                                value="hasToilet"
-                                                control={
-                                                    <Checkbox 
-                                                    checked={ toilet }
-                                                    onChange={ (e) => this.toggleCheckBox(e) }
-                                                    value="hasToilet" />
-                                                }
-                                                label="廁所: "
-                                                labelPlacement="start"
-                                                className="card-words-toilet"
-                                            />
-                                        </Typography>
-                                </div>
-                            </Collapse>
-                                <Button className="open-group-btn" variant="contained" color="primary" onClick={ this.openGroup }>
-                                    Open Group
-                                </Button>
-                        </CardContent>
+                                        { 
+                                            editTarget === "place-status" && isEditing ? 
+                                            <TextField className="edit-place edit-place-name" value={ courtStatus } label="Place Status" margin="normal" size="small" onChange={ (e) => this.handleInput(e) } /> :
+                                            <Typography className="card-words" variant="body2" color="textSecondary" component="span">
+                                            場地狀況: { courtStatus }
+                                            </Typography>
+                                        }
+                                        <IconButton id="place-status" onClick={ (e) => this.editInfo(e) } className="setting-btn" aria-label="settings">
+                                            <CreateRoundedIcon />
+                                        </IconButton>
+                                    </div>
+                                    <div className="info-wrapper">
+                                            <Typography className="card-words" variant="body2" color="textSecondary" component="span">
+                                                <FormControlLabel
+                                                    value="hasLight"
+                                                    control={
+                                                        <Checkbox 
+                                                        checked={ light }
+                                                        onChange={ (e) => this.toggleCheckBox(e) }
+                                                        value="hasLight" />
+                                                    }
+                                                    label="夜間燈光照明: "
+                                                    labelPlacement="start"
+                                                    className="card-words-light"
+                                                />
+                                            </Typography>
+                                    </div>
+                                    <div className="info-wrapper"> 
+                                            <Typography className="card-words" variant="body2" color="textSecondary" component="span">
+                                                <FormControlLabel
+                                                    value="hasToilet"
+                                                    control={
+                                                        <Checkbox 
+                                                        checked={ toilet }
+                                                        onChange={ (e) => this.toggleCheckBox(e) }
+                                                        value="hasToilet" />
+                                                    }
+                                                    label="廁所: "
+                                                    labelPlacement="start"
+                                                    className="card-words-toilet"
+                                                />
+                                            </Typography>
+                                    </div>
+                            </div>
+                            <div className="col-right">
+                                <CardContent className="card-content">
+                                    <div className="info-wrapper">
+                                            <Typography className="static-info" color="textSecondary" component="span">
+                                                <PhoneIcon /> { phone }
+                                            </Typography>
+                                    </div>
+                                    <div className="info-wrapper">
+                                            <Typography className="static-info" color="textSecondary" component="span">
+                                                <PlaceIcon /> { placeStatus }
+                                            </Typography>
+                                    </div>
+                                    <div className="info-wrapper">
+                                            <Typography className="static-info" color="textSecondary" component="span">
+                                                <AttachMoneyIcon /> { openState }
+                                            </Typography>
+                                    </div>
+                                    <div className="info-wrapper rent-state">
+                                            <Typography className="static-info" color="textSecondary" component="span">
+                                                <AttachMoneyIcon /> { rentState }
+                                            </Typography>
+                                    </div>  
+                                    <Button className="open-group-btn" variant="contained" color="primary" onClick={ this.openGroup }>
+                                        Open Group
+                                    </Button>
+                                </CardContent>
+                            </div>
+                        </div>
                     </Card> 
                     <div className="groups">
                         <Rooms place_ID={ place_ID } history={ this.props.history }/>   

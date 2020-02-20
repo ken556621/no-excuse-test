@@ -17,7 +17,11 @@ class OpenGroup extends Component {
             people: '',
             date: '',
             time: '',
-            intensity: ''
+            intensity: '',
+            nameIsValid: false,
+            peopleIsValid: false,
+            dateIsValid: false,
+            timeIsValid: false
         }
     }
 
@@ -25,11 +29,13 @@ class OpenGroup extends Component {
         const targetElement = e.target.parentElement.parentElement;
         if(targetElement.matches('.standard-basic-name')){
             this.setState({
-                name: e.target.value
+                name: e.target.value,
+                nameIsValid: false
             })
         }else if(targetElement.matches('.standard-basic-people')){
             this.setState({
-                people: e.target.value
+                people: e.target.value,
+                peopleIsValid: false
             })
         }else if(targetElement.matches('.standard-basic-date')){
             this.setState({
@@ -37,7 +43,8 @@ class OpenGroup extends Component {
             })    
         }else if(targetElement.matches('.standard-basic-time')){
             this.setState({
-                time: e.target.value
+                time: e.target.value,
+                timeIsValid: false
             })    
         }else if(targetElement.matches('.standard-basic-intensity')){
             this.setState({
@@ -51,6 +58,31 @@ class OpenGroup extends Component {
         const place_ID = this.props.location.search.slice(1);
         const uid = this.props.uid;
         const { name, people, date, time, intensity } = this.state;
+
+        if(!name){
+            this.setState({
+                nameIsValid: true
+            })
+            return
+        }
+        if(!people){
+            this.setState({
+                peopleIsValid: true
+            })
+            return
+        }
+        if(!date){
+            this.setState({
+                dateIsValid: true
+            })
+            return
+        }
+        if(!time){
+            this.setState({
+                timeIsValid: true
+            })
+            return
+        }
 
         db.collection("rooms").doc().set(
            {
@@ -77,21 +109,24 @@ class OpenGroup extends Component {
     }
 
     render() { 
+        const { nameIsValid, peopleIsValid, timeIsValid } = this.state;
         return ( 
             <div className="open-group-container">
                 <NavBar history={ this.props.history }/>
-                <div className="form">
-                    <Typography variant="h3" gutterBottom>
-                        Open Group
-                    </Typography>
-                    <TextField className="standard-basic-name" label="Name (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
-                    <TextField className="standard-basic-people" type="number" label="People Needed (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
-                    <TextField className="standard-basic-date" type="date" margin="normal" onChange={ (e) => this.handleInput(e) } />
-                    <TextField className="standard-basic-time" type="string" label="Time (Required)" margin="normal" onChange={ (e) => this.handleInput(e) } />
-                    <TextField className="standard-basic-intensity" label="Intensity" margin="normal" onChange={ (e) => this.handleInput(e) } />
-                    <Button className="submit-btn" variant="contained" color="primary" onClick={ this.handleSubmit }>
-                        Submit
-                    </Button>
+                <div className="form-wrapper">
+                    <div className="form">
+                        <Typography className="form-title" gutterBottom>
+                            Open Group
+                        </Typography>
+                        <TextField className="standard-basic-name" label="Name" helperText={ nameIsValid ? "Incorrect" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="standard-basic-people" type="number" label="People Needed" helperText={ peopleIsValid ? "Incorrect" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="standard-basic-date" type="date" helperText="Time" margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="standard-basic-time" type="time" margin="dense" helperText={ timeIsValid ? "Incorrect" : null } onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="standard-basic-intensity" label="Intensity" margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <Button className="submit-btn" variant="contained" color="primary" onClick={ this.handleSubmit }>
+                            Submit
+                        </Button>
+                    </div>
                 </div>
             </div>
         );

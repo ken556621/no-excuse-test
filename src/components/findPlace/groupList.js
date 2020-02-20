@@ -39,6 +39,7 @@ class GroupList extends Component {
                 groupData.hostData = hostData.data();
 
                 const placeData = await db.collection("locations").doc(place_ID).get();
+                console.log(hostData.data());
                 let distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, placeData.data().location.latitude, placeData.data().location.longitude);
                 groupData.placeData = placeData.data();
                 groupData.distance = Math.round(distance * 100) / 100;
@@ -69,7 +70,6 @@ class GroupList extends Component {
 
     render() { 
         const { groupLists } = this.state;
-        console.log(groupLists)
         return ( 
             <div className="groups-lists-container">
                 <TableContainer component={Paper}>

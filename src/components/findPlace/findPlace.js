@@ -137,6 +137,7 @@ class FindPlace extends Component {
 
     render() {
         const { userLat, userLng, isLoading, allCourts, searhUserMode, searchPlaceMode, searchPlaceData, mapMode, listMode } = this.state;
+        console.log(searhUserMode)
         if(isLoading || allCourts === 0){
             return <Load />
         }
