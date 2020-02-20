@@ -36,12 +36,11 @@ class Detail extends Component {
 
     componentDidMount(){
         const db = firebase.firestore();
-        const place_ID = this.props.location.search.slice(1);
+        const { place_ID } = this.props;
         db.collection("locations").where("id", "==", place_ID)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                console.log(doc.data())
                 this.setState({
                     isLoading: false,
                     name: doc.data().name,
@@ -69,7 +68,7 @@ class Detail extends Component {
     componentWillUnmount(){
         //store user update detail before close the page
         const db = firebase.firestore();
-        const place_ID = this.props.location.search.slice(1);
+        const { place_ID } = this.props;
         const { courtStatus, light, toilet } = this.state;
         db.collection("locations").doc(place_ID).update({
             courtStatus,
@@ -86,7 +85,7 @@ class Detail extends Component {
 
     openGroup = async () => { 
         const db = firebase.firestore();
-        const place_ID = this.props.location.search.slice(1);
+        const { place_ID } = this.props;
         const { uid, history } = this.props;
         let isHost = false;
         
@@ -143,7 +142,6 @@ class Detail extends Component {
     }
 
     render() { 
-        const place_ID = this.props.location.search.slice(1);
         const { name, address, photo, phone, placeStatus, openState, rentState } = this.state;
         return ( 
             <div className="detail-container">
@@ -203,8 +201,7 @@ function mapStateToProps(store){
     return {
         authenticated: store.user.authenticated,
         authenticating: store.user.authenticating,
-        uid: store.user.uid,
-        place_ID: store.location.id
+        uid: store.user.uid
     }
 }
 
