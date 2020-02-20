@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import firebase from '../common/firebase';
 
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -15,13 +14,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import PhoneIcon from '@material-ui/icons/Phone';
 import PlaceIcon from '@material-ui/icons/Place';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Rating from '@material-ui/lab/Rating';
 
 import Navbar from '../common/navbar';
 import Rooms from './rooms';
 import Ball from '../common/basketballImg';
+import ReactCardFlip from 'react-card-flip';
 import '../../styles/placeInfo.scss';
 
 class PlaceInfo extends Component {
@@ -41,7 +39,7 @@ class PlaceInfo extends Component {
             courtStatus: '下雨天容易滑',
             light: true,
             toilet: false,
-            expandedCard: false
+            isFlipped: false
         }
     }
 
@@ -148,15 +146,14 @@ class PlaceInfo extends Component {
         }
     }
 
-    handleExpandClick = () =>{
-        this.setState({
-            expandedCard: !this.state.expandedCard
-        })
+    handleClick = (e) => {
+        e.preventDefault();
+        this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
     }
 
     render() { 
         const place_ID = this.props.location.search.slice(1);
-        const { name, address, photo, phone, placeStatus, openState, rentState, isEditing, editTarget, courtStatus, light, toilet, expandedCard } = this.state;
+        const { name, address, photo, phone, placeStatus, openState, rentState, isEditing, editTarget, courtStatus, light, toilet } = this.state;
         return ( 
             <div className="place-info-container">
                 <Navbar history={ this.props.history } />
@@ -222,6 +219,7 @@ class PlaceInfo extends Component {
                                                 />
                                             </Typography>
                                     </div>
+                                    <button onClick={this.handleClick}>Click to flip</button>
                             </div>
                             <div className="col-right">
                                 <CardContent className="card-content">
