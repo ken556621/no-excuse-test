@@ -137,13 +137,13 @@ class FindPlace extends Component {
 
     render() {
         const { userLat, userLng, isLoading, allCourts, searhUserMode, searchPlaceMode, searchPlaceData, mapMode, listMode } = this.state;
-        console.log(searhUserMode)
+        const { history } = this.props;
         if(isLoading || allCourts === 0){
             return <Load />
         }
         return ( 
             <div className="find-place-container">
-                <NavBar history={ this.props.history }/>
+                <NavBar history={ history }/>
                 <div className="navi-wrapper">
                     { listMode ? 
                         <div></div> :
@@ -181,8 +181,8 @@ class FindPlace extends Component {
                         <Button id="map" className="map-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>地圖</Button>
                         <Button id="list" className="list-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>場地列表</Button>
                 </div>
-                { mapMode ? <Map initialLat={ userLat } initialLng={ userLng } history={ this.props.history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } /> : null }
-                { listMode ?  <GroupList initialLat={ userLat } initialLng={ userLng } /> : null }
+                { mapMode ? <Map initialLat={ userLat } initialLng={ userLng } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } /> : null }
+                { listMode ?  <GroupList initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
             </div>
         );
     }

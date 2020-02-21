@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import firebase from '../common/firebase';
-import { connect } from 'react-redux';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -39,7 +38,6 @@ class GroupList extends Component {
                 groupData.hostData = hostData.data();
 
                 const placeData = await db.collection("locations").doc(place_ID).get();
-                console.log(hostData.data());
                 let distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, placeData.data().location.latitude, placeData.data().location.longitude);
                 groupData.placeData = placeData.data();
                 groupData.distance = Math.round(distance * 100) / 100;
@@ -68,6 +66,11 @@ class GroupList extends Component {
         return deg * (Math.PI/180)
     }
 
+    clickRow = (place_ID) => {
+        const { history } = this.props;
+        history.push(`/placeInfo?${place_ID}`);
+    } 
+
     render() { 
         const { groupLists } = this.state;
         return ( 
@@ -88,7 +91,7 @@ class GroupList extends Component {
                         <TableBody>
                         {
                             groupLists.length !== 0 ? groupLists.map(group => (
-                                <TableRow key={ group.room_ID } id={ group.place_ID }>
+                                <TableRow key={ group.room_ID } id={ group.place_ID } onClick={ () => this.clickRow(group.place_ID) } hover>
                                 <TableCell component="th" scope="row">
                                     {group.placeName}
                                 </TableCell>

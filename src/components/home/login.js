@@ -4,11 +4,15 @@ import { Link } from 'react-router-dom';
 
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
 
 
 import firebase from '../common/firebase';
-import BasketballImg from '../common/basketballImg';
 import ThirdAuth from '../common/thirdAuth';
+import Register from './register';
 import { updateUser } from '../../actions/user.action';
 import Load from '../common/load'; 
 
@@ -24,7 +28,8 @@ class Login extends Component {
             emailValid: false,
             passwordValid: false,
             errorMessage: '',
-            submitted: false
+            submitted: false,
+            moveForm: false
         }
     } 
 
@@ -72,8 +77,15 @@ class Login extends Component {
         });
     }
 
+    moveForm = () => {
+        this.setState({
+            moveForm: !this.state.moveForm
+        })
+    }
+
 
     render() { 
+        const { moveForm } = this.state;
         const { authenticated, authenticating } = this.props;
         if(authenticating){
             if(!authenticated){
@@ -82,47 +94,61 @@ class Login extends Component {
         }
         return ( 
             <div className="login-container">
-                <div className = "login-form">
-                    <BasketballImg />
-                    <div className="form-wrapper">
-                        <div className="form-control">
-                            <EmailIcon style={{ fontSize: 30 }} className="email-icon" />
-                            <div className="email input-wrapper">
-                                <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
-                                <div className={ this.state.emailValid ? "warning" : "hide" }>
-                                    { this.state.errorMessage }
+                <div className="over-lay">
+                    { moveForm ? 
+                        <Register /> : 
+                        <div className = "login-form login-form-bounce-right">
+                            <div className="form-wrapper">
+                                <div className="form-control">
+                                    <EmailIcon className="email-icon" />
+                                    <TextField className="email" label="Email" color="primary" onChange={ (event) => { this.handleChange(event, 'email') }} />
+                                </div>
+                                <div className="form-control">
+                                    <LockIcon className="password-icon"/>
+                                    <TextField className="password" type="password" label="Password" color="primary" onChange={ (event) => { this.handleChange(event, 'password') }} />
+                                </div>
+                                <ThirdAuth history={ this.props.history }/>
+                                <div className="btn-wrapper">
+                                    <Button className="login-btn" onClick={ this.handleSubmit } >
+                                        Login
+                                    </Button>
                                 </div>
                             </div>
                         </div>
-                        <div className="form-control">
-                            <LockIcon style={{ fontSize: 30 }} className="password-icon"/>
-                            <div className="password input-wrapper">
-                                <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'password') }} />
-                                <div className={ this.state.passwordValid ? "warning" : "hide" }>
-                                    { this.state.errorMessage }
-                                </div>
-                            </div>
-                        </div>
-                        <ThirdAuth history={ this.props.history }/>
-                        <div className="btn-wrapper">
-                            <button type="submit" onClick={ this.handleSubmit } className="login">
-                                Login
-                            </button>
-                            <Link to='/register'>
-                                <button type="button" className="registration">
-                                    Register
-                                </button>
-                            </Link>
+                    }
+                    <div className="login-option">
+                        <div className="col-left">
+                            <Typography className="header">
+                                沒有帳戶嗎?
+                            </Typography>
+                            <Typography className="content">
+                                左手只是輔助。
+                            </Typography>
+                            <Button className="signup-btn" onClick={ this.moveForm } variant="outlined">註冊</Button>
                             <Link to='/'>
-                                <button type="button" className="home">
-                                    Home
-                                </button>
+                                <Button className="home-btn" variant="outlined">
+                                    首頁
+                                </Button>
+                            </Link>
+                        </div>
+                        <div className="col-right">
+                            <Typography className="header">
+                               有帳戶嗎?
+                            </Typography>
+                            <Typography className="content">
+                                控制了籃板，就控制了比賽。
+                            </Typography>
+                            <Button className="login-btn" onClick={ this.moveForm } variant="outlined">登入</Button>
+                            <Link to='/'>
+                                <Button className="home-btn" variant="outlined">
+                                    首頁
+                                </Button>
                             </Link>
                         </div>
                     </div>
                 </div>
             </div>
-        );
+        ); 
     }
 }
 

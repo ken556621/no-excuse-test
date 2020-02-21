@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 import firebase from '../common/firebase';
 import { updateUser } from '../../actions/user.action';
 
-import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import PersonIcon from '@material-ui/icons/Person';
 
-import Basketball from '../common/basketballImg';
 import Load from '../common/load';
-import '../../styles/register.scss';
+// import '../../styles/register.scss';
 
 
 
@@ -22,19 +24,12 @@ class Register extends Component {
             userEmail: '',
             userPhoto: 'https://image.flaticon.com/icons/svg/23/23072.svg',
             password: '',
+            comfirm: '',
             nameValid: false,
             emailValid: false,
             passwordValid: false,
+            comfirmValid: false,
             errorMessage: ''
-        }
-    }
-
-    componentDidUpdate(){
-        const { history, authenticated, authenticating } = this.props;
-        if(!authenticating){
-            if(authenticated){
-                history.push('/')
-            }
         }
     }
 
@@ -51,9 +46,19 @@ class Register extends Component {
             this.setState({
                 password: event.target.value
             })
+        }else if(type === 'confirm'){
+            this.setState({
+                password: event.target.value
+            })
         }
     }
 
+    isValid = () => {
+        const { password, comfirm } = this.state;
+        if(password !== comfirm ){
+            return true
+        }
+    }
 
     handleSubmit = () => {
         const { userName, userEmail, userPhoto } = this.state;
@@ -61,6 +66,12 @@ class Register extends Component {
         const db = firebase.firestore();
         const email = this.state.userEmail;
         const password = this.state.password;
+        if(isValid){
+            this.setState({
+                comfirmValid: true
+            })
+            return 
+        }
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .catch((error) => {
             const errorCode = error.code;
@@ -98,7 +109,7 @@ class Register extends Component {
                 ID: res.user.uid,
                 email: this.state.userEmail,
                 name: this.state.userName,
-                photo: "https://image.flaticon.com/icons/svg/23/23072.svg"
+                photo: "https://i.pinimg.com/564x/c9/47/dc/c947dca3a0ec0639d5f1edebb459b774.jpg"
             })
             .then(() => {
                 const uid = res.user.uid;
@@ -114,55 +125,36 @@ class Register extends Component {
     }
 
     render() { 
-        const { authenticated, authenticating } = this.props;
+        const { comfirm } = this.state;
+        const { moveForm, authenticated, authenticating } = this.props;
         if(authenticating){
             if(!authenticated){
                 <Load />
             }
         }
         return ( 
-            <div className="register-container">
-                <div className="register-form">
-                    <Basketball />
-                    <div className="name-field form-control">
-                        <PersonIcon style={{ fontSize: 30 }} className="name-icon" />
-                        <div className="name input-wrapper">
-                            <input type="text" placeholder="your name" name="name" onChange={ (event) => { this.handleChange(event, 'name') }}></input>
-                            <div className={ this.state.nameValid ? "warning" : "hide" }>
-                                { this.state.errorMessage }
-                            </div>
-                        </div>
+            <div className = "login-form login-form-bounce-left">
+                <div className="form-wrapper">
+                    <div className="form-control">
+                        <PersonIcon className="name-icon" />
+                        <TextField className="name" label="name" color="primary" onChange={ (event) => { this.handleChange(event, 'name') }} />
                     </div>
-                    <div className="email-field form-control">
-                        <EmailIcon style={{ fontSize: 30 }} className="email-icon" />
-                        <div className="email input-wrapper">
-                            <input type="email" name='userEmail' placeholder="user-email" onChange={ (event) => { this.handleChange(event, 'email') }}  />
-                            <div className={ this.state.emailValid ? "warning" : "hide" }>
-                                { this.state.errorMessage }
-                            </div>
-                        </div>
+                    <div className="form-control">
+                        <EmailIcon className="email-icon" />
+                        <TextField className="email" label="Email" color="primary" onChange={ (event) => { this.handleChange(event, 'email') }} />
                     </div>
-                    <div className="password-field form-control">
-                        <LockIcon style={{ fontSize: 30 }} className="password-icon" />
-                        <div className="password input-wrapper">
-                            <input type="password" name='password' placeholder="password" onChange={ (event) => { this.handleChange(event, 'password') }} />
-                            <div className={ this.state.passwordValid ? "warning" : "hide" }>
-                                { this.state.errorMessage }
-                            </div>
-                        </div>
+                    <div className="form-control">
+                        <LockIcon className="password-icon"/>
+                        <TextField className="password" type="password" label="Password" color="primary" onChange={ (event) => { this.handleChange(event, 'password') }} />
+                    </div>
+                    <div className="form-control">
+                        <LockIcon className="password-icon"/>
+                        <TextField className="password" label="Confirm Password" helperText={ comfirm ? "Comfirm password is not correct!" : null } color="primary" onChange={ (event) => { this.handleChange(event, 'confirm') }} />
                     </div>
                     <div className="btn-wrapper">
-                        <button onClick={ this.handleSubmit }>Submit</button>
-                        <Link to='/login'>
-                            <button>
-                                Login
-                            </button>
-                        </Link>
-                        <Link to='/'>
-                            <button>
-                                Home
-                            </button>
-                        </Link>
+                        <Button type="submit" onClick={ this.handleSubmit } className="signup-btn">
+                            SIGN UP
+                        </Button>
                     </div>
                 </div>
             </div>

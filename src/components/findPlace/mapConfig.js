@@ -187,7 +187,7 @@ export class MapContainer extends Component {
                 >
                     <div className="place-container">
                         <div className="col-left">
-                            
+                            <img src={ photo } />
                         </div>
                         <div className="col-right">
                             <div className="place-name">

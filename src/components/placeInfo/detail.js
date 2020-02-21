@@ -143,6 +143,7 @@ class Detail extends Component {
 
     render() { 
         const { name, address, photo, phone, placeStatus, openState, rentState } = this.state;
+        const { handleClick } = this.props;
         return ( 
             <div className="detail-container">
                 <Card className="card">
@@ -162,8 +163,6 @@ class Detail extends Component {
                                 { address }
                             </Typography>
                             <Rating className="rate" name="read-only" value={ 2 } readOnly />
-                        </div>
-                        <div className="col-right">
                             <CardContent className="card-content">
                                 <div className="info-wrapper">
                                         <Typography className="static-info" color="textSecondary" component="span">
@@ -185,12 +184,15 @@ class Detail extends Component {
                                             <AttachMoneyIcon /> { rentState }
                                         </Typography>
                                 </div>  
-                                <Button className="open-group-btn" variant="contained" color="primary" onClick={ this.openGroup }>
-                                    Open Group
-                                </Button>
                             </CardContent>
                         </div>
+                        <div className="col-right">
+        
+                        </div>
                     </div>
+                    <Button className="open-group-btn" variant="contained" color="primary" onClick={ this.openGroup }>
+                        Open Group
+                    </Button>
                 </Card> 
             </div>
         );

@@ -29,19 +29,24 @@ $ball: #e8581c;
                 color: darken( #4e3332, 10% );
                 letter-spacing: 0.061em;
             }
-            input[type="date"]::before{
-                color: gray;
-                content: attr(placeholder) "";
-            }
-            input[type="date"]:focus::before {
-                content: "" !important;
-            }
             label{
                 font-size: 5px;
                 letter-spacing: 0.02em;
                 line-height: 1.8em;
             }
-            .standard-basic-date{
+            .name{
+                p{
+                    font-size: $small-font;
+                    color: #dd2c00;
+                }
+            }
+            .people{
+                p{
+                    font-size: $small-font;
+                    color: #dd2c00;
+                }
+            }
+            .date{
                 & > div{
                     padding: 6px 0px 7px;
                 }
@@ -49,6 +54,15 @@ $ball: #e8581c;
                     position: relative;
                     top: 19px;
                 }
+            }
+            .time{
+                p{
+                    font-size: $small-font;
+                    color: #dd2c00;
+                }
+            }
+            .intensity{
+
             }
             .submit-btn{
                 margin-top: 20px;

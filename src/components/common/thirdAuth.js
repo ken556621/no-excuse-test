@@ -40,7 +40,7 @@ class ThirdAuth extends Component {
                     console.log("Document successfully written!");
                     dispatch(updateUser(uid, displayName, email, photoURL)); 
                     dispatch({ type: "LOGIN_SUCCESS" });
-                    history.push('/member');
+                    history.push('/');
                 })
                 .catch(function(error) {
                     console.error("Error writing document: ", error);

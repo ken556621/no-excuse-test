@@ -1,4 +1,7 @@
 $white: #ebebf0;
+$small-font: 10px;
+$big-font: 18px;
+$icon-font: 12px;
 
 nav{
     display: flex;
@@ -8,27 +11,49 @@ nav{
     .logo{
         margin-left: 10px;
         .MuiTypography-body1{
-            font-size: 25px;
+            font-size: $big-font;
             font-family: 'Sriracha', cursive;
             font-weight: 800;
         }
     }
     .btn-wrapper{
         padding: 7px 0;
-        .member{
+        .find-location{
+            .find-location-words{
+                font-size: $small-font;
+            }
+        }
+        .member-wrapper{
+           .member{
+               .member-icon{
+                    font-size: $icon-font;
+               }
+           } 
            span{
                line-height: .1;
            }
         }
-        .login{
+        .login-logout-wrapper{
             margin-right: 10px;
-            font-size: 15px;
             cursor: pointer;
-            .login-wrapper, .logout-wrapper{
+            .login-btn{
                 display: flex;
                 align-items: center;
-                div{
-                    margin-left: 5px;
+                .login-icon{
+                    font-size: $icon-font;
+                }
+                .login{
+                    font-size: $small-font;
+                }
+            }
+            .logout-btn{
+                display: flex;
+                align-items: center;
+                .logout-icon{
+                    font-size: $icon-font;
+                }
+                .logout{
+                    font-size: $small-font;
                 }
             }
         }

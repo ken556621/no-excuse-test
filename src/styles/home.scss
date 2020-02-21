@@ -1,10 +1,8 @@
 // font size
-$big: 50px;
-$normal: 25px;
-$small: 20px;
+$small-font: 10px;
+$big-font: 18px;
+$icon-font: 25px;
 //color
-$facebook: #4267b2;
-$google: #ea4336;
 $white: #ebebf0;
 $ball: #e8581c;
 
@@ -20,14 +18,18 @@ $ball: #e8581c;
             right: 6%;
             top: 25%;
             color: $white;
+            .about-words{
+                font-size: 25px;
+            }
             .author{
                 margin: 25px 0px 0px 55px;
             }
         }
         .btn-wrapper{
             .find-group{
-                margin-top: 10px;
-                padding: 10px 20px;
+                font-size: $small-font;
+                margin-top: 15px;
+                padding: 10px 25px;
                 color: $white;
                 background-color: $ball;
                 border-radius: 8px;

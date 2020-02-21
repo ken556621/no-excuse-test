@@ -1,77 +1,178 @@
-// font size
-$big: 50px;
-$normal: 25px;
-$small: 15px;
-//color
+$small-font: 10px;
+$big-font: 18px;
+$icon-font: 25px;
+
+$gray: #faf5f3;
+$ball: #e8581c;
 $facebook: #4267b2;
 $google: #ea4336;
 $white: #ebebf0;
+$smoky-black: rgba(#222222, .85);
 
 
 .login-container{
-  background-image: url(../../img/background.jpg);
+  background-image: url(https://i.imgur.com/Ko89ycE.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   width: 100vw;
   height: 100vh;
-  .login-form {
-    padding: 0px 20px 20px 20px;
-    position: fixed;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 8px;
-    -webkit-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
-    -moz-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
-    box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
-    .form-wrapper{
-      .form-control{
-        margin: 15px 0px;
-        display: flex;
-        .email-icon, .password-icon{
-          color: #ebebf0;
-        }
-        .input-wrapper{
-          margin-left: 5px;
-        }
-      }
-      span{
-        margin: 10px;
-        font-size: $normal;
-      }
-      input{
-        padding: 5px;
-        font-size: $small;
-        border-radius: 8px;
-      }
-      .btn-wrapper{
-        display: flex;
-        justify-content: space-between;
-        button{
-          padding: 10px;
-          font-size: $small;
-          border-radius: 8px;
-        }
-        .login, .registration, .home{
-          color: #ebebf0;
-          background-color: #000000;
-          transition: all .3s ease-in;
-          &:hover{
-            color: #000000;
-            letter-spacing: 5px;
-            background-color: #ebebf0;
+  .over-lay{
+    position: absolute;
+    left:0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,0.4);
+    .login-form-bounce-right{
+      animation: bounceRight 1s forwards;
+    }
+    .login-form-bounce-left{
+      animation: bounceLeft 1s forwards;
+    }
+    .login-form {
+      padding: 20px 20px 20px 20px;
+      position: fixed;
+      top: 50%;
+      left: 68%;
+      min-width: 245px;
+      transform: translate(-50%, -50%);
+      background-color: $white;
+      border-radius: 8px;
+      -webkit-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
+      -moz-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
+      box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
+      z-index: 300;
+      .form-wrapper{
+        .form-control{
+          margin: 0px;
+          .name-icon, .email-icon, .password-icon{
+            font-size: $icon-font;
+            margin-top: 22px;
+            margin-right: 12px;
           }
-          a{
-            text-decoration: none;
-            color: #ebebf0;
-            &:hover{
-              color: #000000;
+          .name{
+            label{
+              font-size: $small-font;
             }
+            input{
+              font-size: $small-font;
+            }
+          }
+          .email{
+            label{
+              font-size: $small-font;
+            }
+            input{
+              font-size: $small-font;
+            }
+          }
+          .password{
+            label{
+              font-size: $small-font;
+            }
+            input{
+              font-size: $small-font;
+            }
+          }
+          .comfirm{
+            label{
+              font-size: $small-font;
+            }
+            input{
+              font-size: $small-font;
+            }
+          }
+        }
+        .btn-wrapper{
+          .login-btn{
+            padding: 8px 25px;
+            font-size: $small-font;
+            background-color: $ball;
+          }
+          .signup-btn{
+            margin-top: 15px;
+            padding: 8px 25px;
+            font-size: $small-font;
+            background-color: $ball;
           }
         }
       }
     }
-    
+    .login-option{
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 85%;
+      height: 40%;
+      background-color: rgba(34, 34, 34, 0.85);
+      border-radius: 8px;
+      .col-left{
+        padding: 50px 45px;
+        width: 50%;
+        .header{
+          margin-bottom: 15px;
+          color: $white;
+          font-size: $big-font;
+        }
+        .content{
+          margin-bottom: 40px;
+          color: $white;
+          font-size: $small-font;
+        }
+        .signup-btn{
+          margin-right: 10px;
+          color: $white;
+          border-color: $white;
+        }
+        .home-btn{
+          color: $white;
+          border-color: $white;
+        }
+      }
+      .col-right{
+        padding: 50px 45px;
+        width: 50%;
+        .header{
+          margin-bottom: 15px;
+          color: $white;
+          font-size: $big-font;
+        }
+        .content{
+          margin-bottom: 40px;
+          color: $white;
+          font-size: $small-font;
+        }
+        .login-btn{
+          margin-right: 10px;
+          color: $white;
+          border-color: $white;
+        }
+        .home-btn{
+          color: $white;
+          border-color: $white;
+        }
+      }
+    }
   }
 }
+
+@keyframes bounceLeft{
+  0% {transform: translate3d(-50%, -50%, 0);}
+
+  50% {transform: translate3d(-145%, -50%, 0)}
+
+  100% {transform: translate3d(-145%, -50%, 0)}
+}
+
+@keyframes bounceRight{
+  0%{transform: translate3d(-140%, -50%, 0)}
+
+  50%{transform: translate3d(-50%, -50%, 0)}
+
+  100%{transform: translate3d(-50%, -50%, 0)}
+}
+

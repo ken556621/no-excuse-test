@@ -13,6 +13,9 @@ class OpenGroup extends Component {
     constructor(props){
         super(props)
         this.state = { 
+            isLoading: true,
+            place_ID: '',
+            room_ID: '',
             name: '',
             people: '',
             date: '',
@@ -25,28 +28,58 @@ class OpenGroup extends Component {
         }
     }
 
+    componentDidMount(){
+        const urlParameter = this.props.location.search.slice(1);
+        if(urlParameter.indexOf('local') !== -1){
+            this.setState({
+                place_ID: urlParameter
+            })
+        }else{
+            this.setState({
+                room_ID: urlParameter
+            })
+            this.getRoom(urlParameter)
+        }
+    }
+
+    getRoom = async (room_ID) => {
+        const db = firebase.firestore();
+        if(room_ID){
+            const roomData = await db.collection("rooms").doc(room_ID).get();
+            this.setState({
+                isLoading: false,
+                place_ID: roomData.data().place_ID,
+                name: roomData.data().placeName,
+                people: roomData.data().peopleNeed,
+                date: roomData.data().date,
+                time: roomData.data().time,
+                intensity: roomData.data().intensity
+            })
+        }
+    }
+
     handleInput = (e) => {
         const targetElement = e.target.parentElement.parentElement;
-        if(targetElement.matches('.standard-basic-name')){
+        if(targetElement.matches('.name')){
             this.setState({
                 name: e.target.value,
                 nameIsValid: false
             })
-        }else if(targetElement.matches('.standard-basic-people')){
+        }else if(targetElement.matches('.people')){
             this.setState({
                 people: e.target.value,
                 peopleIsValid: false
             })
-        }else if(targetElement.matches('.standard-basic-date')){
+        }else if(targetElement.matches('.date')){
             this.setState({
                 date: e.target.value
             })    
-        }else if(targetElement.matches('.standard-basic-time')){
+        }else if(targetElement.matches('.time')){
             this.setState({
                 time: e.target.value,
                 timeIsValid: false
             })    
-        }else if(targetElement.matches('.standard-basic-intensity')){
+        }else if(targetElement.matches('.intensity')){
             this.setState({
                 intensity: e.target.value
             })
@@ -55,10 +88,9 @@ class OpenGroup extends Component {
 
     handleSubmit = () => {
         const db = firebase.firestore();
-        const place_ID = this.props.location.search.slice(1);
         const uid = this.props.uid;
-        const { name, people, date, time, intensity } = this.state;
-
+        const { place_ID, room_ID, name, people, date, time, intensity } = this.state;
+        //Valid check
         if(!name){
             this.setState({
                 nameIsValid: true
@@ -83,33 +115,58 @@ class OpenGroup extends Component {
             })
             return
         }
-
-        db.collection("rooms").doc().set(
-           {
-            host: uid,
-            place_ID: place_ID,
-            placeName: name,
-            peopleNeed: people,
-            date: date,
-            time: time,
-            intensity: intensity,
-            participants: [],
-            store_time: firebase.firestore.FieldValue.serverTimestamp()
-           }
-        )
-        .then(() => {
-            const { history } = this.props;
-            console.log("Document successfully written!");
-            history.push(`/placeInfo?${place_ID}`);
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
-        });
-        
+        //Edit
+        if(room_ID){
+            db.collection("rooms").doc(room_ID).update(
+                {
+                 host: uid,
+                 place_ID: place_ID,
+                 placeName: name,
+                 peopleNeed: people,
+                 date: date,
+                 time: time,
+                 intensity: intensity,
+                 participants: [],
+                 store_time: firebase.firestore.FieldValue.serverTimestamp()
+                }
+             )
+             .then(() => {
+                 const { history } = this.props;
+                 console.log("Document successfully written!");
+                 history.push(`/placeInfo?${place_ID}`);
+             })
+             .catch((error) => {
+                 console.error("Error writing document: ", error);
+             });
+        }else{
+            console.log('edit mode')
+            //Not edit
+            db.collection("rooms").doc().set(
+                {
+                 host: uid,
+                 place_ID: place_ID,
+                 placeName: name,
+                 peopleNeed: people,
+                 date: date,
+                 time: time,
+                 intensity: intensity,
+                 participants: [],
+                 store_time: firebase.firestore.FieldValue.serverTimestamp()
+                }
+             )
+             .then(() => {
+                 const { history } = this.props;
+                 console.log("Document successfully written!");
+                 history.push(`/placeInfo?${place_ID}`);
+             })
+             .catch((error) => {
+                 console.error("Error writing document: ", error);
+             });
+        }
     }
 
     render() { 
-        const { nameIsValid, peopleIsValid, timeIsValid } = this.state;
+        const { name, people, date, time, intensity, nameIsValid, peopleIsValid, timeIsValid } = this.state;
         return ( 
             <div className="open-group-container">
                 <NavBar history={ this.props.history }/>
@@ -118,11 +175,11 @@ class OpenGroup extends Component {
                         <Typography className="form-title" gutterBottom>
                             Open Group
                         </Typography>
-                        <TextField className="standard-basic-name" label="Name" helperText={ nameIsValid ? "Incorrect" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
-                        <TextField className="standard-basic-people" type="number" label="People Needed" helperText={ peopleIsValid ? "Incorrect" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
-                        <TextField className="standard-basic-date" type="date" helperText="Time" margin="dense" onChange={ (e) => this.handleInput(e) } />
-                        <TextField className="standard-basic-time" type="time" margin="dense" helperText={ timeIsValid ? "Incorrect" : null } onChange={ (e) => this.handleInput(e) } />
-                        <TextField className="standard-basic-intensity" label="Intensity" margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="name" value={ name } label="Name" helperText={ nameIsValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="people" value={ people } type="number" label="People Needed" helperText={ peopleIsValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="date" value={ date } type="date" helperText="Time" margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="time" value={ time } type="time" margin="dense" helperText={ timeIsValid ? "Required" : null } onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="intensity" value={ intensity } label="Intensity" margin="dense" onChange={ (e) => this.handleInput(e) } />
                         <Button className="submit-btn" variant="contained" color="primary" onClick={ this.handleSubmit }>
                             Submit
                         </Button>

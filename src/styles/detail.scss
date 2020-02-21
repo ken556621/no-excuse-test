@@ -2,83 +2,92 @@ $ball: #e8581c;
 $small-font: 10px;
 $big-font: 18px;
 
-.detail-container{
-            .card{
-                width: 40%;
-                height: 100vh;
-                position: fixed;
-                left: 2%;
-                .image{
-                    img{
-                        width: 100%;
-                        transform:scale(1,1);
-                        transition: all 1s ease-out;
-                        &:hover{
-                            opacity: .8;
-                            transform:scale(1.1,1.1);
-                        }
+.place-info-container{
+    .card-board-wrapper{
+        perspective: 1000px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-around;
+        .card{
+            &:hover{
+                transform: rotateY(180deg);
+            }
+            width: 40%;
+            height: 100vh;
+            position: fixed;
+            left: 2%;
+            .image{
+                img{
+                    width: 100%;
+                    transform:scale(1,1);
+                    transition: all 1s ease-out;
+                    &:hover{
+                        opacity: .8;
+                        transform:scale(1.1,1.1);
                     }
                 }
-                .col-wrapper{
-                    display: flex;
-                    .col-left{
-                        .card-header{
-                            font-size: $big-font;
-                            margin: 5px 0;
-                        }
-                        .card-address{
-                            font-size: $small-font;
-                            margin: 5px 0;
-                        }
-                        .rate{
-                            font-size: $big-font;
-                            margin: 5px 0;
-                        }
+            }
+            .col-wrapper{
+                display: flex;
+                .col-left{
+                    .card-header{
+                        font-size: $big-font;
+                        margin: 5px 0;
                     }
-                    .col-right{
-                        margin-top: 19px;
-                        .card-content{
-                            .info-wrapper{
+                    .card-address{
+                        font-size: $small-font;
+                        margin: 5px 0;
+                    }
+                    .rate{
+                        font-size: $big-font;
+                        margin: 5px 0;
+                    }
+                }
+                .col-right{
+                    margin-top: 19px;
+                    .card-content{
+                        .info-wrapper{
+                            display: flex;
+                            justify-content: space-between;
+                            .edit-place-name{
+                                margin: 0;
+                            }
+                            .static-info{
+                                margin: 10px 0;
+                                font-size: $small-font;
+                                & > svg{
+                                    font-size: $small-font;
+                                }
+                            }
+                            .card-words{
                                 display: flex;
                                 justify-content: space-between;
-                                .edit-place-name{
+                                align-items: center;
+                                .card-words-light{
                                     margin: 0;
-                                }
-                                .static-info{
-                                    margin: 10px 0;
-                                    font-size: $small-font;
-                                    & > svg{
-                                        font-size: $small-font;
+                                    .MuiButtonBase-root{
+                                        color: #e8581c;
                                     }
                                 }
-                                .card-words{
-                                    display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                    .card-words-light{
-                                        margin: 0;
-                                        .MuiButtonBase-root{
-                                            color: #e8581c;
-                                        }
-                                    }
-                                    .card-words-toilet{
-                                        margin: 0;
-                                        .MuiButtonBase-root{
-                                            color: #e8581c;
-                                        }
+                                .card-words-toilet{
+                                    margin: 0;
+                                    .MuiButtonBase-root{
+                                        color: #e8581c;
                                     }
                                 }
                             }
-                            .rent-state{
-                                border-bottom: 1px solid #000000;
-                            }
-                            .open-group-btn{
-                                background-color: $ball;
-                            }
+                        }
+                        .rent-state{
+                            border-bottom: 1px solid #000000;
+                        }
+                        .open-group-btn{
+                            background-color: $ball;
                         }
                     }
                 }
             }
+        }
+    }
     .groups{
         margin-top: 10px;
         .group-container{

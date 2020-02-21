@@ -1,3 +1,7 @@
+$small-font: 10px;
+$big-font: 18px;
+$icon-font: 25px;
+
 $ball: #e8581c;
 
 .find-place-container{
@@ -18,7 +22,7 @@ $ball: #e8581c;
                 span{
                     white-space:nowrap;
                 }
-            }
+            } 
         }
         .mark-explain{
             margin-top: 2%;
@@ -50,35 +54,46 @@ $ball: #e8581c;
         & > div{
             height: 70%!important;
         }
+        .gm-style-iw-c{
+            width: 300px;
+        }
     }
     .place-container{
+        display: flex;
         cursor: pointer;
-        .place-name{
-            font-size: 20px;
-            margin-bottom: 10px;
-            transition: all .3s ease-in;
-            &:hover{
-                letter-spacing: 2px;
+        .col-left{
+            width: 40%;
+            img{
+                width: 100%;
+                background-size: cover;
             }
         }
-        .place-address{
-            padding: 2px;
-            margin-bottom: 10px;
-        }
-        .place-rooms{
-            .groups{
-                display: flex;
-                flex-wrap: wrap;
-                .group{
-                    margin-right: 10px;
-                    margin-bottom: 10px;
-                    padding: 3px;
-                    border: 1px solid #000000;
-                    border-radius: 8px;
-                    transition: all .3s ease-in;
-                    &:hover{
-                        color: #ffffff;
-                        background-color: #000000;
+        .col-right{
+            margin-left: 10px;
+            .place-name{
+                font-size: $small-font;
+                margin-bottom: 10px;
+                transition: all .3s ease-in;
+                &:hover{
+                    letter-spacing: 2px;
+                }
+            }
+            .place-rooms{
+                .groups{
+                    display: flex;
+                    flex-wrap: wrap;
+                    .group{
+                        font-size: $small-font;
+                        margin-right: 10px;
+                        margin-bottom: 10px;
+                        padding: 3px;
+                        border: 1px solid #000000;
+                        border-radius: 8px;
+                        transition: all .3s ease-in;
+                        &:hover{
+                            color: #ffffff;
+                            background-color: #000000;
+                        }
                     }
                 }
             }

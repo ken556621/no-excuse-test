@@ -13,8 +13,6 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Badge from '@material-ui/core/Badge';
-import PersonIcon from '@material-ui/icons/Person';
 
 import EditRoom from './editRoom';
 
@@ -23,6 +21,7 @@ class Groups extends Component {
     constructor(props){ 
         super(props)
         this.state = {
+            place_ID: this.props.history.location.search.slice(1),
             hostersPhoto: '',
             userPhoto: '',
             rooms: '',
@@ -37,7 +36,7 @@ class Groups extends Component {
 
     fetchRooms = async () => {
         const db = firebase.firestore();
-        const { place_ID } = this.props;
+        const { place_ID } = this.state;
         const rooms = [];
         //get rooms data & get participants data
         const querySnapshot = await db.collection("rooms").where("place_ID", "==", place_ID).get();
@@ -47,13 +46,20 @@ class Groups extends Component {
             let roomsData = Object.assign({}, doc.data());
             roomsData.room_ID = doc.id;
             roomsData.participantsData = [];
+            roomsData.hostPhoto = '';
             this.dateExpired(roomsData);
+            const hostRef = await db.collection("users").doc(roomsData.host).get();
+            if (hostRef.exists) {
+                roomsData.hostPhoto = hostRef.data().photo;
+            } else {
+                console.log("No such document!");
+            }
 
             for (let index = 0; index < roomsData.participants.length; index++) {
                 let participant = roomsData.participants[index];
-                const docRef = await db.collection("users").doc(participant).get();
-                if (docRef.exists) {
-                    roomsData.participantsData.push(docRef.data());
+                const participantRef = await db.collection("users").doc(participant).get();
+                if (participantRef.exists) {
+                    roomsData.participantsData.push(participantRef.data());
                 } else {
                     console.log("No such document!");
                 }
@@ -65,10 +71,9 @@ class Groups extends Component {
         }
     }
 
-    joinGroup = async (e) => {
+    joinGroup = async (room_ID) => {
         const db = firebase.firestore();
         const { authenticated, uid } = this.props;
-        const roomID = e.target.parentElement.id;
         let isHost = false;
         let isParticipant = false;
         if (!authenticated) {
@@ -77,7 +82,7 @@ class Groups extends Component {
         } 
         
         //不能參加自己開的房間 + 已經參加過的不能重複點選
-        const docRef = await db.collection("rooms").doc(roomID).get();
+        const docRef = await db.collection("rooms").doc(room_ID).get();
         if (docRef.exists) {
             if(docRef.data().host === uid){
                 isHost = true
@@ -98,7 +103,7 @@ class Groups extends Component {
             window.alert('You already join this group!');
             return
         }
-        this.storeUsersToRoom(roomID);
+        this.storeUsersToRoom(room_ID);
     }
 
     storeUsersToRoom = (room_ID) => {
@@ -112,10 +117,9 @@ class Groups extends Component {
         this.fetchRooms();
     }
 
-    delete = (e) => {
+    delete = (room_ID) => {
         const db = firebase.firestore();
-        const targetID = e.target.parentElement.parentElement.parentElement.id;
-        db.collection("rooms").doc(targetID).delete().then(() => {
+        db.collection("rooms").doc(room_ID).delete().then(() => {
             console.log("Document successfully deleted!");
         }).catch((error) => {
             console.error("Error removing document: ", error);
@@ -135,26 +139,15 @@ class Groups extends Component {
         }
     }
 
-    editRoom = (e) => {
-        if(e){
-            const targetID = e.target.parentElement.parentElement.id;
-            this.setState({
-                editRoom: targetID,
-                isEditing: !this.state.isEditing
-            })
-        }else{
-            this.fetchRooms();
-            this.setState({
-                isEditing: !this.state.isEditing
-            })
-        }
+    editRoom = (room_ID) => {
+        const { history } = this.props;
+        history.push(`/openGroup?${room_ID}`);
     }
 
-    quitGroup = (e) => {
+    quitGroup = (room_ID) => {
         const db = firebase.firestore();
         const { uid } = this.props;
-        const targetID = e.target.parentElement.id;
-        const docRef = db.collection("rooms").doc(targetID);
+        const docRef = db.collection("rooms").doc(room_ID);
         if (window.confirm("Do you really want to quit?")) { 
             docRef.update({
                 participants: firebase.firestore.FieldValue.arrayRemove(uid)
@@ -179,33 +172,41 @@ class Groups extends Component {
                             { 
                                 this.state.editRoom === room.room_ID && this.state.isEditing ? <EditRoom room={ room } editRoom={ this.editRoom } /> : 
                                 <div className="col-left">
-                                    <CardContent>
-                                        <Badge className="people-need-qty" color="error" badgeContent={ room.peopleNeed - room.participantsData.length } showZero>
-                                            <PersonIcon />
-                                        </Badge>
-                                        <Typography variant="h5" component="h2">
-                                            { room.placeName }
+                                    <CardContent className="card-content">
+                                        <div className="host-img-name-wrapper">
+                                            <Typography className="place-name" component="p">
+                                                { room.placeName }
+                                            </Typography>
+                                            <div className="host-img">
+                                                <Avatar alt="Remy Sharp" src={ room.hostPhoto } />
+                                            </div>
+                                        </div>
+                                        <Typography className="people-need" color="textSecondary" component="p">
+                                        缺: 
+                                            <Typography className="people-need-qty"component="span">
+                                             { room.peopleNeed - room.participantsData.length }
+                                            </Typography>
                                         </Typography>
-                                        <Typography color="textSecondary">
-                                            Intensity: { room.intensity }
+                                        <Typography className="place-intensity place-detail" color="textSecondary">
+                                            強度: { room.intensity }
                                         </Typography>
-                                        <Typography variant="body2" component="p">
-                                            Date: { room.date } 
+                                        <Typography className="place-date place-detail" color="textSecondary" component="p">
+                                            日期: { room.date } 
                                         </Typography>
-                                        <Typography variant="body2" component="p">
-                                            Time: { room.time } 
+                                        <Typography className="place-time place-detail" color="textSecondary" component="p">
+                                            時間: { room.time } 
                                         </Typography>
                                     </CardContent>
-                                    <CardActions>
+                                    <CardActions className="card-action">
                                         { 
                                             room.participants.length >= room.peopleNeed ? 
-                                            <Button size="small" color="primary" disabled>Join Now!</Button> : 
-                                            <Button id={ room.room_ID } onClick={ (e) => this.joinGroup(e) } size="small" color="primary">Join Now!
+                                            <Button className="join-btn" size="small" color="primary" disabled>Join Now!</Button> : 
+                                            <Button className="join-btn" onClick={ () => this.joinGroup(room.room_ID) } size="small" color="primary">Join Now!
                                             </Button>
                                         }
                                         { 
                                             room.participants.find(participant => participant === uid) ? 
-                                            <Button id={ room.room_ID } onClick={ (e) => this.quitGroup(e) } size="small" color="primary">Quit!</Button> :
+                                            <Button className="quite-btn" onClick={ () => this.quitGroup(room.room_ID) } size="small" color="primary">Quit!</Button> :
                                             null 
                                         }
                                     </CardActions>
@@ -214,11 +215,11 @@ class Groups extends Component {
                             <div className="col-right">
                                 { 
                                     room.host === uid ?
-                                    <div className="modify-btn">
-                                        <IconButton id={ room.room_ID } size="small" onClick={ (e) => this.editRoom(e) }>
+                                    <div className="modify-btn-wrapper">
+                                        <IconButton className="modify-btn" size="small" onClick={ () => this.editRoom(room.room_ID) }>
                                             <CreateRoundedIcon fontSize="small" />
                                         </IconButton>
-                                        <IconButton id={ room.room_ID } size="small" onClick={ (e) => this.delete(e) }>
+                                        <IconButton className="delete-btn" size="small" onClick={ () => this.delete(room.room_ID) }>
                                             <DeleteIcon fontSize="small" />
                                         </IconButton>
                                     </div> : 

@@ -23,13 +23,13 @@ class HomePage extends Component {
                 <main>
                     <div className="banner">
                         <div className="about">
-                            <Typography variant="h5">
+                            <Typography className="about-words">
                                 Winning takes precedence over all.
                             </Typography>
-                            <Typography variant="h5">
+                            <Typography className="about-words">
                                 There's no gray area.
                             </Typography>
-                            <Typography variant="h5">
+                            <Typography className="about-words">
                                 No almosts.
                             </Typography>
                             <Typography variant="subtitle1" className="author">
@@ -38,8 +38,8 @@ class HomePage extends Component {
                             <div className="btn-wrapper">
                                 <Link to='/place'>
                                     <Button>
-                                        <Typography className="find-group" variant="subtitle2">
-                                            Join Group
+                                        <Typography className="find-group">
+                                            找團！
                                         </Typography>
                                     </Button>
                                 </Link>

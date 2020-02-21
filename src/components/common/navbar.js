@@ -44,7 +44,7 @@ class NavBar extends Component {
                         <Link to={{
                             pathname: "/people"
                         }}>
-                            <Typography className="find-location-words" variant="subtitle2">
+                            <Typography className="find-location-words">
                                 我的團
                             </Typography>
                         </Link>
@@ -53,7 +53,7 @@ class NavBar extends Component {
                         <Link to={{
                             pathname: "/place"
                         }}>
-                            <Typography className="find-location-words" variant="subtitle2">
+                            <Typography className="find-location-words">
                                 找團
                             </Typography>
                         </Link>
@@ -62,33 +62,33 @@ class NavBar extends Component {
                         <Link to={{
                             pathname: "/place"
                         }}>
-                            <Typography className="find-location-words" variant="subtitle2">
+                            <Typography className="find-location-words">
                                 團友列表
                             </Typography>
                         </Link>
                     </Button>
-                    <Button className="member">
+                    <Button className="member-wrapper">
                         <Link to={{
                             pathname: "/member",
                             key: `123`
                         }}>
-                            <div className={ this.props.authenticated ? 'member-wrapper show' : 'hide' }>
-                                <AccountCircleIcon />
+                            <div className={ this.props.authenticated ? 'member show' : 'hide' }>
+                                <AccountCircleIcon className="member-icon"/>
                             </div>
                         </Link>
                     </Button>
-                    <Button className="login">
+                    <Button className="login-logout-wrapper">
                         <Link to='/login'>
-                            <div className={ this.props.authenticated ? 'hide' : 'login-wrapper show' }>
-                                <ExitToAppIcon />
-                                <Typography variant="subtitle2">
+                            <div className={ this.props.authenticated ? 'hide' : 'login-btn show' }>
+                                <ExitToAppIcon className="login-icon" />
+                                <Typography className="login">
                                     登入
                                 </Typography>
                             </div>
                         </Link>
-                            <div className={ this.props.authenticated ? 'logout-wrapper show' : 'hide' } onClick={ this.logout }>
-                                <ExitToAppIcon />
-                                <Typography variant="subtitle2">
+                            <div className={ this.props.authenticated ? 'logout-btn show' : 'hide' } onClick={ this.logout }>
+                                <ExitToAppIcon className="logout-icon" />
+                                <Typography className="logout">
                                     登出
                                 </Typography>
                             </div>
