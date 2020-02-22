@@ -19,9 +19,9 @@ class FindPeople extends Component {
         super(props)
         this.state = {
             isLoading: true,
-            allUsers: '',
+            allUsers: [],
             friends: '',
-            allUsersMode: false,
+            allUsersMode: true,
             friendsMode: false,
             targetUserName: '',
             targetUser: ''
@@ -153,30 +153,37 @@ class FindPeople extends Component {
             <div className="find-people-container">
                 <NavBar history={ history }/>
                 <div className="friends-list-wrapper">
-                <div className="btn-autocomplete-wrapper">
-                    <div className="btn-wrapper">
-                        <Button id="all-users" onClick={ (e) => this.changeMode(e) }>All</Button>
-                        <Button id="friends" onClick={ (e) => this.changeMode(e) }>Friends</Button>
-                    </div>  
-                    <div className="autocomplete">
-                        <Autocomplete
-                            onChange={ (e) => this.handleClick(e) }
-                            //fix: invalid props
-                            options={ allUsers }
-                            getOptionLabel={ option => option.name }
-                            id="disable-clearable"
-                            className="search-bar"
-                            renderInput={params => (
-                            <TextField {...params} onKeyDown={ (e) => this.handleInput(e) } label="Find Friends" margin="normal" fullWidth />
-                            )}
-                        />
+                    <div className="btn-autocomplete-wrapper">
+                        <div className="btn-wrapper">
+                            <Button className="all-user-btn" id="all-users" onClick={ (e) => this.changeMode(e) }>All</Button>
+                            <Button className="friends-btn" id="friends" onClick={ (e) => this.changeMode(e) }>Friends</Button>
+                        </div>  
+                        <div className="autocomplete">
+                            <Autocomplete
+                                onChange={ (e) => this.handleClick(e) }
+                                //fix: invalid props
+                                options={ allUsers }
+                                getOptionLabel={ option => option.name }
+                                id="disable-clearable"
+                                className="search-bar"
+                                renderInput={params => (
+                                <TextField {...params} onKeyDown={ (e) => this.handleInput(e) } label="Find Friends" margin="normal" fullWidth />
+                                )}
+                            />
+                        </div>
                     </div>
-                </div>
-                    <List className="friends-list" dense>
-                        { allUsersMode ? <AllUsers allUsers={ allUsers } history={ history }/> : null }
-                        { friendsMode ? <Friends friends={ friends } history={ history }/> : null }
-                        { targetUser ? <AllUsers allUsers={ targetUser } history={ history }/> : null }
-                    </List>
+                    <div className="list-picture-wrapper"> 
+                        <div className="col-left">
+                            <List className="friends-list" dense>
+                                { allUsersMode ? <AllUsers allUsers={ allUsers } history={ history }/> : null }
+                                { friendsMode ? <Friends friends={ friends } history={ history }/> : null }
+                                { targetUser ? <AllUsers allUsers={ targetUser } history={ history }/> : null }
+                            </List>
+                        </div>
+                        <div className="col-right">
+
+                        </div>             
+                    </div>
                 </div>
             </div>
         );

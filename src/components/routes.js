@@ -5,7 +5,7 @@ import Auth from './common/auth';
 import Home from './home/home';
 import Register from './home/register';
 import Login from './home/login';
-import Findpeople from './findPeople/findPeople';
+import Findpeople from './friends/findPeople';
 import FindPlace from './findPlace/findPlace';
 import PlaceInfo from './placeInfo/placeInfo';
 import openGroup from './placeInfo/openGroup';
@@ -16,7 +16,7 @@ export default (
         <Switch>
             <Route path="/login" component={ Login } />
             <Route path="/register" component={ Register } />
-            <Route path="/people" component={ Auth(Findpeople) } />
+            <Route path="/friends" component={ Auth(Findpeople) } />
             <Route path="/place" component={ FindPlace } />
             <Route path="/placeInfo" component={ PlaceInfo } />
             <Route path="/openGroup" component={ Auth(openGroup) } />

@@ -201,7 +201,7 @@ class Member extends Component {
             status: "pending"
         }).then(() => {
             window.alert('Waitting for comfirm')
-            history.push('/people');
+            history.push('/friends');
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
@@ -232,7 +232,7 @@ class Member extends Component {
                 status: "remove"
             });
         }
-        history.push('/people');
+        history.push('/friends');
     }
 
     render() { 

@@ -21,6 +21,8 @@ class FindPlace extends Component {
         this.state = {
             userLat: '',
             userLng: '',
+            mapCenterLat: '',
+            mapCenterLng: '',
             isLoading: true,
             allCourts: [],
             targetPlaceName: '',
@@ -102,6 +104,7 @@ class FindPlace extends Component {
         for (let i in locationSnapshot.docs) {
             const doc = locationSnapshot.docs[i]
             let locationData = Object.assign({}, doc.data());
+            console.log(locationData)
             locationData.rooms = [];
             const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
             roomsQuery.forEach((room) => {
@@ -109,6 +112,8 @@ class FindPlace extends Component {
             })
             searchPlaceData.push(locationData)
             this.setState({
+                mapCenterLat: locationData.location.latitude,
+                mapCenterLng: locationData.location.longitude,
                 searchPlaceData
             })
         }
@@ -136,7 +141,7 @@ class FindPlace extends Component {
     }
  
     render() {
-        const { userLat, userLng, allCourts, searhUserMode, searchPlaceMode, searchPlaceData, mapMode, listMode } = this.state;
+        const { userLat, userLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, searchPlaceData, mapMode, listMode } = this.state;
         const { history } = this.props;
         if(allCourts === 0){
             return <Load />
@@ -181,7 +186,7 @@ class FindPlace extends Component {
                         <Button id="map" className="map-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>地圖</Button>
                         <Button id="list" className="list-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>場地列表</Button>
                 </div>
-                { mapMode ? <Map initialLat={ userLat } initialLng={ userLng } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } /> : null }
+                { mapMode ? <Map mapCenterLat={ mapCenterLat } mapCenterLng = { mapCenterLng } initialLat={ userLat } initialLng={ userLng } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } /> : null }
                 { listMode ?  <GroupList initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
             </div>
         );

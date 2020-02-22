@@ -15,6 +15,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import Ball from '../common/basketballImg';
+
 
 class Groups extends Component {
     constructor(props){ 
@@ -23,7 +25,7 @@ class Groups extends Component {
             place_ID: this.props.history.location.search.slice(1),
             hostersPhoto: '',
             userPhoto: '',
-            rooms: '',
+            rooms: [],
             editRoom: '',
         }
     }
@@ -179,8 +181,8 @@ class Groups extends Component {
     render() { 
         const { rooms } = this.state;
         const { uid } = this.props;
-        if(!rooms){
-            return <div></div>
+        if(rooms.length === 0){
+            return <Ball />
         }
         return ( 
             <div className="group-container">
@@ -215,8 +217,8 @@ class Groups extends Component {
                                 </CardContent>
                                 <CardActions className="card-action">
                                     { 
-                                        room.participants.length >= room.peopleNeed ? 
-                                        <Button className="join-btn" size="small" color="primary" disabled>Join Now!</Button> : 
+                                        room.participants.length >= room.peopleNeed || room.participants.find(person => person === uid) ? 
+                                        <Button className="disable-btn" size="small" color="primary" disabled>Join Now!</Button> : 
                                         <Button className="join-btn" onClick={ () => this.joinGroup(room.room_ID) } size="small" color="primary">Join Now!
                                         </Button>
                                     }

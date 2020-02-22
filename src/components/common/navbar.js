@@ -42,7 +42,7 @@ class NavBar extends Component {
                 <div className="btn-wrapper">
                     <Button className="find-location">
                         <Link to={{
-                            pathname: "/people"
+                            pathname: "/friends"
                         }}>
                             <Typography className="find-location-words">
                                 我的團
@@ -60,7 +60,7 @@ class NavBar extends Component {
                     </Button>
                     <Button className="find-location">
                         <Link to={{
-                            pathname: "/place"
+                            pathname: "/friends"
                         }}>
                             <Typography className="find-location-words">
                                 團友列表

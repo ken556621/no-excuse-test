@@ -16,7 +16,7 @@
 
 @keyframes bounding{
     0%{
-        top: -110px;
+        top: -70px;
         transform: rotateZ(0deg);
     };
     50%{
@@ -25,7 +25,7 @@
     };
     100%{
         transform: rotateX(20deg);
-        top: -100px;
+        top: -50px;
         transform: rotateZ(360deg);
     };
 }

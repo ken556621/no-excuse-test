@@ -7,9 +7,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
-class FindUsers extends Component {
+
+import '../../styles/findpeople.scss';
+
+class Friends extends Component {
     constructor(props){
-        super(props);
+        super(props)
         this.state = {
             
         }
@@ -21,28 +24,31 @@ class FindUsers extends Component {
     }
 
     render() { 
-        const { allUsers } = this.props;
-        return (
-            allUsers.length !== 0 ? allUsers.map((user) => {
-                return (
-                    <ListItem key={ user.ID } button divider>
+        const { friends } = this.props;
+        return (  
+                friends.length !== 0 ?
+                friends.map(person => {
+                    console.log(person)
+                    const labelId = `checkbox-list-secondary-label-${person}`;
+                    return (
+                    <ListItem key={person.ID} button divider>
                         <ListItemAvatar>
                             <Link to={{
                                 pathname: "/member",
-                                search: `?${ user.ID }`,
-                                key: `${ user.ID }`
+                                search: `?${ person.ID }`,
+                                key: `${person.ID}`
                             }}>
                                 <Avatar
                                     className="friend-img"
-                                    alt={ `Avatar n°${user.name}` }
-                                    src={ user.photo }
+                                    alt={`Avatar n°${person.name}`}
+                                    src={ person.photo }
                                 />
                             </Link>
                         </ListItemAvatar>
-                        <ListItemText className="friend-name" primary={ user.name } secondary={ user.quate ? user.quate : "hi" } />
+                        <ListItemText id={labelId} className="friend-name" primary={ person.name } secondary={ person.quate ? person.quate : "hi" } />
                         { 
-                            user.hostRooms.length !== 0 ? 
-                            user.hostRooms.map((room) => {
+                            person.hostRooms.length !== 0 ? 
+                            person.hostRooms.map((room) => {
                                 return(
                                     <ListItemSecondaryAction key={ room.place_ID } id={ room.place_ID } className="friend-groups" onClick={ (e) => this.clickRoom(e) }>
                                         { room.placeName }
@@ -52,11 +58,12 @@ class FindUsers extends Component {
                             <div className="default-group">No room yet!</div>
                         }
                     </ListItem>
-                )
-            }) :
-            null
+                    );
+                }) :
+                null
         );
     }
 }
  
-export default FindUsers;
+
+export default Friends;

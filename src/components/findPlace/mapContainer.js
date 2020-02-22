@@ -13,8 +13,8 @@ export class MapContainer extends Component {
     constructor(props){
         super(props)
         this.state = {
-            userLat: 25.0424536,
-            userLng: 121.562731,
+            defaultLat: 25.0424536,
+            defaultLng: 121.562731,
             targetPlaces: '',
             showingInfoWindow: false,
             activeMarker: {},
@@ -39,7 +39,7 @@ export class MapContainer extends Component {
 
     getPlaces = async () => {
         const db = firebase.firestore();
-        const { userLat, userLng } = this.state;
+        const { defaultLat, defaultLng } = this.state;
         const radius = 5; //km
         const targetPlaces = [];
         
@@ -50,7 +50,7 @@ export class MapContainer extends Component {
             const locationsData = Object.assign({}, doc.data());
             const targetLat = locationsData.location.latitude;
             const targetLng = locationsData.location.longitude;
-            const distance = this.getDistanceFromLatLonInKm(userLat, userLng, targetLat, targetLng);
+            const distance = this.getDistanceFromLatLonInKm(defaultLat, defaultLng, targetLat, targetLng);
             locationsData.rooms = [];
             if(distance < radius){
                 const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
@@ -153,10 +153,11 @@ export class MapContainer extends Component {
     }
 
     render() {
-      const { userLat, userLng, targetPlaces } = this.state;
-      const { initialLat, initialLng, searhUserMode, searchPlaceMode, searchPlaceData } = this.props;
+      const { defaultLat, defaultLng, targetPlaces } = this.state;
+      const { initialLat, initialLng, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchPlaceData } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
+      console.log('=====', mapCenterLat)
       return (
         <div className="map-container">
             <Map 
@@ -167,18 +168,25 @@ export class MapContainer extends Component {
                 styles={ MapStyle }
                 style={ this.myStyle }
                 initialCenter={{
-                    lat: userLat,
-                    lng: userLng  
+                    lat: defaultLat,
+                    lng: defaultLng  
                 }}
-                center={{
-                    lat: initialLat || userLat,
-                    lng: initialLng || userLng
-                }}
-            >
+                center={
+                    mapCenterLat ? 
+                    {
+                        lat: mapCenterLat || defaultLat,
+                        lng: mapCenterLng || defaultLng
+                    } : 
+                    {
+                        lat: initialLat || defaultLat,
+                        lng: initialLng || defaultLng
+                    }
+                }
+                >
                 
                 <Marker 
                     name={ 'Your location' } 
-                    position={{ lat: initialLat || userLat, lng: initialLng || userLng }}
+                    position={{ lat: initialLat || defaultLat, lng: initialLng || defaultLng }}
                     icon={{
                         url: 'https://image.flaticon.com/icons/svg/140/140378.svg',
                         anchor: new google.maps.Point(32,32),
