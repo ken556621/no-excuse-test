@@ -30,39 +30,10 @@ export class MapContainer extends Component {
 
     componentDidMount(){
         const { targetPlaceName } = this.props;
-        //get user location
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
-        }else{
-            console.log('Not support in this browser.');
-        }
+
         //if user use autocompeleted
         if(targetPlaceName){
             this.getTargetPlace()
-        }
-    }
-
-    getCoordinates = (position) => {
-        this.setState({
-            userLat: position.coords.latitude,
-            userLng: position.coords.longitude
-        })
-    }
-
-    handleLocationError = (error) => {
-        switch(error.code) {
-          case error.PERMISSION_DENIED:
-            alert("User denied the request for Geolocation.")
-            break;
-          case error.POSITION_UNAVAILABLE:
-            alert("Location information is unavailable.")
-            break;
-          case error.TIMEOUT:
-            alert("The request to get user location timed out.")
-            break;
-          case error.UNKNOWN_ERROR:
-            alert("An unknown error occurred.")
-            break;
         }
     }
 
@@ -183,7 +154,7 @@ export class MapContainer extends Component {
 
     render() {
       const { userLat, userLng, targetPlaces } = this.state;
-      const { searhUserMode, searchPlaceMode, searchPlaceData } = this.props;
+      const { initialLat, initialLng, searhUserMode, searchPlaceMode, searchPlaceData } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
       return (
@@ -200,14 +171,14 @@ export class MapContainer extends Component {
                     lng: userLng  
                 }}
                 center={{
-                    lat: userLat,
-                    lng: userLng
+                    lat: initialLat || userLat,
+                    lng: initialLng || userLng
                 }}
             >
                 
                 <Marker 
                     name={ 'Your location' } 
-                    position={{ lat: userLat, lng: userLng }}
+                    position={{ lat: initialLat || userLat, lng: initialLng || userLng }}
                     icon={{
                         url: 'https://image.flaticon.com/icons/svg/140/140378.svg',
                         anchor: new google.maps.Point(32,32),

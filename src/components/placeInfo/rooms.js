@@ -10,11 +10,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import Avatar from '@material-ui/core/Avatar';
+import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
-
-import EditRoom from './editRoom';
 
 
 class Groups extends Component {
@@ -26,7 +25,6 @@ class Groups extends Component {
             userPhoto: '',
             rooms: '',
             editRoom: '',
-            isEditing: false
         }
     }
 
@@ -106,24 +104,37 @@ class Groups extends Component {
         this.storeUsersToRoom(room_ID);
     }
 
-    storeUsersToRoom = (room_ID) => {
+    quitGroup = (room_ID) => {
         const db = firebase.firestore();
         const { uid } = this.props;
         const docRef = db.collection("rooms").doc(room_ID);
-        docRef.update({
+        if (window.confirm("Do you really want to quit?")) { 
+            docRef.update({
+                participants: firebase.firestore.FieldValue.arrayRemove(uid)
+            }); 
+            this.fetchRooms();
+        }
+    }
+
+    storeUsersToRoom = async (room_ID) => {
+        const db = firebase.firestore();
+        const { uid } = this.props;
+        await db.collection("rooms").doc(room_ID).update({
             participants: firebase.firestore.FieldValue.arrayUnion(uid)
-        }); 
+        });
         window.alert('Join success!');
         this.fetchRooms();
     }
 
-    delete = (room_ID) => {
+    editRoom = (room_ID) => {
+        const { history } = this.props;
+        history.push(`/openGroup?${room_ID}`);
+    }
+
+    delete = async (room_ID) => {
         const db = firebase.firestore();
-        db.collection("rooms").doc(room_ID).delete().then(() => {
-            console.log("Document successfully deleted!");
-        }).catch((error) => {
-            console.error("Error removing document: ", error);
-        });
+        await db.collection("rooms").doc(room_ID).delete();
+        window.alert('Not in the group!');
         this.fetchRooms();
     }
 
@@ -139,23 +150,31 @@ class Groups extends Component {
         }
     }
 
-    editRoom = (room_ID) => {
-        const { history } = this.props;
-        history.push(`/openGroup?${room_ID}`);
+    displayParticipants = (participantsData) => {
+        let morePeople = 0;
+        return (
+            <AvatarGroup className="participants-icons">
+                { 
+                    participantsData.length !== 0 ? participantsData.map((person, i) => {
+                        if(i < 3){  
+                            return (
+                                <Avatar key={ person.ID } className="participater" alt="Participater" sizes="10px" src={ person.photo } />
+                            )
+                        }else{
+                            morePeople++
+                        }
+                    }) : console.log('no participater')
+                }
+                { 
+                    morePeople === 0 ? 
+                    null : 
+                    <Tooltip title="Foo • Bar • Baz">
+                        <Avatar className="participater" alt="Participater" sizes="10px">+ { morePeople }</Avatar>
+                    </Tooltip>
+                }
+            </AvatarGroup>
+        )
     }
-
-    quitGroup = (room_ID) => {
-        const db = firebase.firestore();
-        const { uid } = this.props;
-        const docRef = db.collection("rooms").doc(room_ID);
-        if (window.confirm("Do you really want to quit?")) { 
-            docRef.update({
-                participants: firebase.firestore.FieldValue.arrayRemove(uid)
-            }); 
-            this.fetchRooms();
-        }
-    }
-
 
     render() { 
         const { rooms } = this.state;
@@ -168,50 +187,46 @@ class Groups extends Component {
                 { rooms.map(room => {
                     return (
                         <Card key={ room.host } className="card-container">
-                            {/* edit or not */}
-                            { 
-                                this.state.editRoom === room.room_ID && this.state.isEditing ? <EditRoom room={ room } editRoom={ this.editRoom } /> : 
-                                <div className="col-left">
-                                    <CardContent className="card-content">
-                                        <div className="host-img-name-wrapper">
-                                            <Typography className="place-name" component="p">
-                                                { room.placeName }
-                                            </Typography>
-                                            <div className="host-img">
-                                                <Avatar alt="Remy Sharp" src={ room.hostPhoto } />
-                                            </div>
+                            <div className="col-left">
+                                <CardContent className="card-content">
+                                    <div className="host-img-name-wrapper">
+                                        <Typography className="place-name" component="p">
+                                            { room.placeName }
+                                        </Typography>
+                                        <div className="host-img">
+                                            <Avatar alt="Remy Sharp" src={ room.hostPhoto } />
                                         </div>
-                                        <Typography className="people-need" color="textSecondary" component="p">
-                                        缺: 
-                                            <Typography className="people-need-qty"component="span">
-                                             { room.peopleNeed - room.participantsData.length }
-                                            </Typography>
+                                    </div>
+                                    <Typography className="people-need" color="textSecondary" component="p">
+                                    缺: 
+                                        <Typography className="people-need-qty"component="span">
+                                            { room.peopleNeed - room.participantsData.length }
                                         </Typography>
-                                        <Typography className="place-intensity place-detail" color="textSecondary">
-                                            強度: { room.intensity }
-                                        </Typography>
-                                        <Typography className="place-date place-detail" color="textSecondary" component="p">
-                                            日期: { room.date } 
-                                        </Typography>
-                                        <Typography className="place-time place-detail" color="textSecondary" component="p">
-                                            時間: { room.time } 
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions className="card-action">
-                                        { 
-                                            room.participants.length >= room.peopleNeed ? 
-                                            <Button className="join-btn" size="small" color="primary" disabled>Join Now!</Button> : 
-                                            <Button className="join-btn" onClick={ () => this.joinGroup(room.room_ID) } size="small" color="primary">Join Now!
-                                            </Button>
-                                        }
-                                        { 
-                                            room.participants.find(participant => participant === uid) ? 
-                                            <Button className="quite-btn" onClick={ () => this.quitGroup(room.room_ID) } size="small" color="primary">Quit!</Button> :
-                                            null 
-                                        }
-                                    </CardActions>
-                                </div> 
-                            }
+                                    </Typography>
+                                    <Typography className="place-intensity place-detail" color="textSecondary">
+                                        強度: { room.intensity }
+                                    </Typography>
+                                    <Typography className="place-date place-detail" color="textSecondary" component="p">
+                                        日期: { room.date } 
+                                    </Typography>
+                                    <Typography className="place-time place-detail" color="textSecondary" component="p">
+                                        時間: { room.time } 
+                                    </Typography>
+                                </CardContent>
+                                <CardActions className="card-action">
+                                    { 
+                                        room.participants.length >= room.peopleNeed ? 
+                                        <Button className="join-btn" size="small" color="primary" disabled>Join Now!</Button> : 
+                                        <Button className="join-btn" onClick={ () => this.joinGroup(room.room_ID) } size="small" color="primary">Join Now!
+                                        </Button>
+                                    }
+                                    { 
+                                        room.participants.find(participant => participant === uid) ? 
+                                        <Button className="quite-btn" onClick={ () => this.quitGroup(room.room_ID) } size="small" color="primary">Quit!</Button> :
+                                        null 
+                                    }
+                                </CardActions>
+                            </div> 
                             <div className="col-right">
                                 { 
                                     room.host === uid ?
@@ -225,9 +240,7 @@ class Groups extends Component {
                                     </div> : 
                                     <div className="fake"></div>
                                 }
-                                <AvatarGroup className="participants-icons">
-                                 { room.participantsData.length !== 0 ? room.participantsData.map(person => <Avatar key={ person.ID } className="participater" alt="Participater" sizes="10px" src={ person.photo } />) : console.log('no participater') }
-                                </AvatarGroup>
+                                { this.displayParticipants(room.participantsData) }
                             </div>
                         </Card>
                     )

@@ -13,6 +13,8 @@ class GroupList extends Component {
     constructor(props){
         super(props)
         this.state = {
+            userLat: 25.0424536,
+            userLng: 121.562731,
             groupLists: ''
         }
     }
@@ -23,6 +25,7 @@ class GroupList extends Component {
 
     getRooms = async () => {
         const db = firebase.firestore();
+        const { userLat, userLng } = this.state;
         const { initialLat, initialLng } = this.props;
         const groupLists = [];
         
@@ -38,7 +41,7 @@ class GroupList extends Component {
                 groupData.hostData = hostData.data();
 
                 const placeData = await db.collection("locations").doc(place_ID).get();
-                let distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, placeData.data().location.latitude, placeData.data().location.longitude);
+                let distance = this.getDistanceFromLatLonInKm(initialLat || userLat, initialLng || userLng, placeData.data().location.latitude, placeData.data().location.longitude);
                 groupData.placeData = placeData.data();
                 groupData.distance = Math.round(distance * 100) / 100;
                 groupLists.push(groupData);
@@ -79,7 +82,7 @@ class GroupList extends Component {
                     <Table className="table" aria-label="simple table">
                         <TableHead>
                         <TableRow>
-                            <TableCell>場地名稱</TableCell>
+                            <TableCell>開團名稱</TableCell>
                             <TableCell align="left">地點</TableCell>
                             <TableCell align="left">距離</TableCell>
                             <TableCell align="left">時間</TableCell>
@@ -96,7 +99,7 @@ class GroupList extends Component {
                                     {group.placeName}
                                 </TableCell>
                                 <TableCell align="left">{group.placeData.name}</TableCell>
-                                <TableCell align="left">{group.distance}</TableCell>
+                                <TableCell align="left">{group.distance} km</TableCell>
                                 <TableCell align="left">{group.date}</TableCell>
                                 <TableCell align="left">{group.intensity}</TableCell>
                                 <TableCell align="left">{group.hostData.name}</TableCell>

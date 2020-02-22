@@ -28,7 +28,7 @@ class Register extends Component {
             nameValid: false,
             emailValid: false,
             passwordValid: false,
-            comfirmValid: false,
+            comfirmInValid: false,
             errorMessage: ''
         }
     }
@@ -48,16 +48,18 @@ class Register extends Component {
             })
         }else if(type === 'confirm'){
             this.setState({
-                password: event.target.value
+                comfirm: event.target.value
             })
         }
     }
 
-    isValid = () => {
+    isInValid = () => {
         const { password, comfirm } = this.state;
         if(password !== comfirm ){
+            console.log({password, comfirm})
             return true
         }
+        return false
     }
 
     handleSubmit = () => {
@@ -66,9 +68,9 @@ class Register extends Component {
         const db = firebase.firestore();
         const email = this.state.userEmail;
         const password = this.state.password;
-        if(isValid){
+        if(this.isInValid()){   
             this.setState({
-                comfirmValid: true
+                comfirmInValid: true
             })
             return 
         }
@@ -125,7 +127,7 @@ class Register extends Component {
     }
 
     render() { 
-        const { comfirm } = this.state;
+        const { comfirmInValid } = this.state;
         const { moveForm, authenticated, authenticating } = this.props;
         if(authenticating){
             if(!authenticated){
@@ -149,7 +151,7 @@ class Register extends Component {
                     </div>
                     <div className="form-control">
                         <LockIcon className="password-icon"/>
-                        <TextField className="password" label="Confirm Password" helperText={ comfirm ? "Comfirm password is not correct!" : null } color="primary" onChange={ (event) => { this.handleChange(event, 'confirm') }} />
+                        <TextField className="password" type="password" label="Confirm Password" helperText={ comfirmInValid ? "Comfirm password is not correct!" : null } color="primary" onChange={ (event) => { this.handleChange(event, 'confirm') }} />
                     </div>
                     <div className="btn-wrapper">
                         <Button type="submit" onClick={ this.handleSubmit } className="signup-btn">

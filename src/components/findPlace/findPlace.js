@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import Map from './mapConfig';
+import Map from './mapContainer';
 import GroupList from './groupList';
 import NavBar from '../common/navbar';
 import Load from '../common/load';
@@ -22,7 +22,7 @@ class FindPlace extends Component {
             userLat: '',
             userLng: '',
             isLoading: true,
-            allCourts: '',
+            allCourts: [],
             targetPlaceName: '',
             searhUserMode: false,
             searchPlaceMode: false,
@@ -36,6 +36,12 @@ class FindPlace extends Component {
     componentDidMount(){
         const db = firebase.firestore();
         const allCourts = [];
+        //get user location
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
+        }else{
+            console.log('Not support in this browser.');
+        }
 
         //get all the place
         // db.collection("locations").get().then((querySnapshot) => {
@@ -54,6 +60,30 @@ class FindPlace extends Component {
                 allCourts
             })
         });
+    }
+
+    getCoordinates = (position) => {
+        this.setState({
+            userLat: position.coords.latitude,
+            userLng: position.coords.longitude
+        })
+    }
+
+    handleLocationError = (error) => {
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.")
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.")
+            break;
+          case error.TIMEOUT:
+            alert("The request to get user location timed out.")
+            break;
+          case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.")
+            break;
+        }
     }
 
     handleClick = (e) => {

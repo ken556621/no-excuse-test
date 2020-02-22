@@ -15,11 +15,8 @@ class PlaceInfo extends Component {
         }
     }
 
-
-
     render() { 
         const place_ID = this.props.location.search.slice(1);
-        console.log("=======",place_ID)
         return ( 
             <div className="place-info-container">
                 <Navbar history={ this.props.history } />
