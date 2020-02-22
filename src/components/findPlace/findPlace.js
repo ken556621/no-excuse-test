@@ -65,6 +65,7 @@ class FindPlace extends Component {
     }
 
     getCoordinates = (position) => {
+        this.getPlaces(position) // => targetPlaces
         this.setState({
             userLat: position.coords.latitude,
             userLng: position.coords.longitude
@@ -85,6 +86,7 @@ class FindPlace extends Component {
           case error.UNKNOWN_ERROR:
             alert("An unknown error occurred.")
             break;
+            
         }
     }
 
@@ -104,7 +106,6 @@ class FindPlace extends Component {
         for (let i in locationSnapshot.docs) {
             const doc = locationSnapshot.docs[i]
             let locationData = Object.assign({}, doc.data());
-            console.log(locationData)
             locationData.rooms = [];
             const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
             roomsQuery.forEach((room) => {
@@ -120,7 +121,10 @@ class FindPlace extends Component {
     }
 
     searchUser = () => {
+        const { userLat, userLng } = this.state;
         this.setState({
+            mapCenterLat: userLat,
+            mapCenterLng: userLng,
             searhUserMode: !this.state.searhUserMode
         })
     }

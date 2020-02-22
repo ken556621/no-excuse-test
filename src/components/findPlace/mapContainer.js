@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { connect } from 'react-redux';
 import firebase from '../common/firebase';
+import * as geolib from 'geolib';
 
 import InfoWindow from './infoWindow';
 import MapStyle from './mapStyle';
@@ -15,7 +16,7 @@ export class MapContainer extends Component {
         this.state = {
             defaultLat: 25.0424536,
             defaultLng: 121.562731,
-            targetPlaces: '',
+            targetPlaces: [],
             showingInfoWindow: false,
             activeMarker: {},
             selectedPlace: {}
@@ -28,42 +29,42 @@ export class MapContainer extends Component {
         margin: "0 auto"
     }
 
-    componentDidMount(){
-        const { targetPlaceName } = this.props;
-
-        //if user use autocompeleted
-        if(targetPlaceName){
-            this.getTargetPlace()
-        }
-    }
-
-    getPlaces = async () => {
-        const db = firebase.firestore();
-        const { defaultLat, defaultLng } = this.state;
-        const radius = 5; //km
-        const targetPlaces = [];
+    // getPlaces = async () => {
+    //     const { defaultLat, defaultLng } = this.state;
+    //     const { initialLat, initialLng } = this.props;
+    //     const db = firebase.firestore();
+    //     const targetPlaces = [];
+    //     //從資料庫限制搜尋範圍
+    //     const bounds = geolib.getBoundsOfDistance(
+    //         { latitude: initialLat || defaultLat, longitude: initialLng || defaultLng },
+    //         1000
+    //     );
+    //     const southWest = new firebase.firestore.GeoPoint( bounds[0].latitude, bounds[0].longitude);
+    //     const northEast = new firebase.firestore.GeoPoint( bounds[1].latitude, bounds[1].longitude);
+    //     const locationsQuery = await db.collection("locations") .where(`location`, '>' , southWest)
+    //     .where(`location`, '<' , northEast).get();
         
-        const locationsQuery = await db.collection("locations").limit(30).get();
 
-        for (let i in locationsQuery.docs) {
-            const doc = locationsQuery.docs[i];
-            const locationsData = Object.assign({}, doc.data());
-            const targetLat = locationsData.location.latitude;
-            const targetLng = locationsData.location.longitude;
-            const distance = this.getDistanceFromLatLonInKm(defaultLat, defaultLng, targetLat, targetLng);
-            locationsData.rooms = [];
-            if(distance < radius){
-                const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
-                roomsQuery.forEach((room) => {
-                    locationsData.rooms.push(room.data())
-                })
-                targetPlaces.push(locationsData);
-            }
-        }
-        this.setState({
-            targetPlaces
-        })
-    }
+    //     for (let i in locationsQuery.docs) {
+    //         const doc = locationsQuery.docs[i];
+    //         const locationsData = Object.assign({}, doc.data());
+    //         const targetLat = locationsData.location.latitude;
+    //         const targetLng = locationsData.location.longitude;
+    //         const radius = 1; //km
+    //         const distance = this.getDistanceFromLatLonInKm(initialLat || defaultLat, initialLng || defaultLng, targetLat, targetLng);
+    //         locationsData.rooms = [];
+    //         if(distance < radius){
+    //             const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
+    //             roomsQuery.forEach((room) => {
+    //                 locationsData.rooms.push(room.data())
+    //             })
+    //             targetPlaces.push(locationsData);
+    //         }
+    //     }
+    //     this.setState({
+    //         targetPlaces
+    //     })
+    // }
 
 
     getDistanceFromLatLonInKm = (lat1,lon1,lat2,lon2) => {
@@ -157,7 +158,7 @@ export class MapContainer extends Component {
       const { initialLat, initialLng, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchPlaceData } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
-      console.log('=====', mapCenterLat)
+      console.log({ initialLat, initialLng })
       return (
         <div className="map-container">
             <Map 
