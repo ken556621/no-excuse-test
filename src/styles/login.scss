@@ -14,7 +14,7 @@ $smoky-black: rgba(#222222, .85);
   background-image: url(https://i.imgur.com/Ko89ycE.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: fixed;
+  background-attachment: relative;
   width: 100vw;
   height: 100vh;
   .over-lay{
@@ -32,10 +32,10 @@ $smoky-black: rgba(#222222, .85);
     }
     .login-form {
       padding: 20px 20px 20px 20px;
-      position: fixed;
+      position: absolute;
       top: 50%;
       left: 68%;
-      min-width: 245px;
+      width: 30vw;
       transform: translate(-50%, -50%);
       background-color: $white;
       border-radius: 8px;
@@ -43,7 +43,14 @@ $smoky-black: rgba(#222222, .85);
       -moz-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
       box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
       z-index: 300;
+      @media (max-width: 1200px){
+        width: 20vw;
+      }
       .form-wrapper{
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .4s ease-in-out, visibility .4s ease-in-out, transform .5s ease-in-out;  
+        animation: showSignUp 1s forwards;  
         .form-control{
           margin: 0px;
           .name-icon, .email-icon, .password-icon{
@@ -106,13 +113,16 @@ $smoky-black: rgba(#222222, .85);
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 85%;
+      width: 70vw;
       height: 40%;
       background-color: rgba(34, 34, 34, 0.85);
       border-radius: 8px;
       .col-left{
         padding: 50px 45px;
         width: 50%;
+        @media (max-width: 840px){
+          padding: 50px 30px 20px 30px;
+        }
         .header{
           margin-bottom: 15px;
           color: $white;
@@ -122,11 +132,17 @@ $smoky-black: rgba(#222222, .85);
           margin-bottom: 40px;
           color: $white;
           font-size: $small-font;
+          @media (max-width: 840px){
+            margin-bottom: 20px;
+          }
         }
         .signup-btn{
           margin-right: 10px;
           color: $white;
           border-color: $white;
+          @media (max-width: 840px){
+            margin-bottom: 10px;
+          }
         }
         .home-btn{
           color: $white;
@@ -136,6 +152,9 @@ $smoky-black: rgba(#222222, .85);
       .col-right{
         padding: 50px 45px;
         width: 50%;
+        @media (max-width: 840px){
+          padding: 45px 15px 20px 35px;
+        }
         .header{
           margin-bottom: 15px;
           color: $white;
@@ -145,11 +164,17 @@ $smoky-black: rgba(#222222, .85);
           margin-bottom: 40px;
           color: $white;
           font-size: $small-font;
+          @media (max-width: 840px){
+            margin-bottom: 20px;
+          }
         }
         .login-btn{
           margin-right: 10px;
           color: $white;
           border-color: $white;
+          @media (max-width: 840px){
+            margin-bottom: 10px;
+          }
         }
         .home-btn{
           color: $white;
@@ -161,18 +186,26 @@ $smoky-black: rgba(#222222, .85);
 }
 
 @keyframes bounceLeft{
-  0% {transform: translate3d(-50%, -50%, 0);}
+  0% {transform: translate3d(-20vw, -50%, 0);}
 
-  50% {transform: translate3d(-145%, -50%, 0)}
+  50% {transform: translate3d(-55vw, -50%, 0)}
 
-  100% {transform: translate3d(-145%, -50%, 0)}
+  100% {transform: translate3d(-50vw, -50%, 0)}
 }
 
 @keyframes bounceRight{
-  0%{transform: translate3d(-140%, -50%, 0)}
+  0%{transform: translate3d(-50vw, -50%, 0)}
 
-  50%{transform: translate3d(-50%, -50%, 0)}
+  50%{transform: translate3d(-15vw, -50%, 0)}
 
-  100%{transform: translate3d(-50%, -50%, 0)}
+  100%{transform: translate3d(-20vw, -50%, 0)}
+}
+
+@keyframes showSignUp{
+  100%{
+    opacity: 1;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+  } 
 }
 

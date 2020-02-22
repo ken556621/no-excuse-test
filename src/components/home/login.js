@@ -83,7 +83,6 @@ class Login extends Component {
         })
     }
 
-
     render() { 
         const { moveForm } = this.state;
         const { authenticated, authenticating } = this.props;

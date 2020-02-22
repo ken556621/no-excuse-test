@@ -163,9 +163,15 @@ export class MapContainer extends Component {
                 styles={ MapStyle }
                 style={ this.myStyle }
                 initialCenter={{
-                lat: initialLat,
-                lng: initialLng  
-            }}>
+                    lat: initialLat,
+                    lng: initialLng  
+                }}
+                // center={{
+                //     lat: 40.854885,
+                //     lng: -88.081807
+                // }}
+            >
+                
                 <Marker 
                     name={ 'Your location' } 
                     position={{ lat: initialLat, lng: initialLng }}
