@@ -36,12 +36,7 @@ class FindPlace extends Component {
     componentDidMount(){
         const db = firebase.firestore();
         const allCourts = [];
-        //get user location
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
-        }else{
-            console.log('Not support in this browser.');
-        }
+
         //get all the place
         // db.collection("locations").get().then((querySnapshot) => {
         //     querySnapshot.forEach((doc) => {
@@ -59,31 +54,6 @@ class FindPlace extends Component {
                 allCourts
             })
         });
-    }
-
-    getCoordinates = (position) => {
-        this.setState({
-            userLat: position.coords.latitude,
-            userLng: position.coords.longitude,
-            isLoading: false
-        })
-    }
-
-    handleLocationError = (error) => {
-        switch(error.code) {
-          case error.PERMISSION_DENIED:
-            alert("User denied the request for Geolocation.")
-            break;
-          case error.POSITION_UNAVAILABLE:
-            alert("Location information is unavailable.")
-            break;
-          case error.TIMEOUT:
-            alert("The request to get user location timed out.")
-            break;
-          case error.UNKNOWN_ERROR:
-            alert("An unknown error occurred.")
-            break;
-        }
     }
 
     handleClick = (e) => {
@@ -134,11 +104,11 @@ class FindPlace extends Component {
             })
         }
     }
-
+ 
     render() {
-        const { userLat, userLng, isLoading, allCourts, searhUserMode, searchPlaceMode, searchPlaceData, mapMode, listMode } = this.state;
+        const { userLat, userLng, allCourts, searhUserMode, searchPlaceMode, searchPlaceData, mapMode, listMode } = this.state;
         const { history } = this.props;
-        if(isLoading || allCourts === 0){
+        if(allCourts === 0){
             return <Load />
         }
         return ( 

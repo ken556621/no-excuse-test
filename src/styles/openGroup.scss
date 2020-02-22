@@ -1,5 +1,6 @@
 $small-font: 5px;
 $big-font: 18px;
+$icon-font: 25px;
 $gray: #faf5f3;
 $ball: #e8581c;
 
@@ -11,7 +12,7 @@ $ball: #e8581c;
         width: 100vw;
         height: 100vh;
         .form{
-            padding: 40px 80px 40px 80px;
+            padding: 30px 80px 60px 80px;
             background: $gray;
             z-index: 10;
             width: 20%;
@@ -52,7 +53,7 @@ $ball: #e8581c;
                 }
                 p{
                     position: relative;
-                    top: 19px;
+                    top: 16px;
                 }
             }
             .time{
@@ -62,7 +63,16 @@ $ball: #e8581c;
                 }
             }
             .intensity{
-
+                margin-top: 10px;
+                font-size: $small-font;
+            }
+            .checkbox-wrapper{
+                display: flex;
+                .radio-btn{
+                    .MuiSvgIcon-root{
+                        font-size: $big-font;
+                    }
+                }
             }
             .submit-btn{
                 margin-top: 20px;

@@ -13,6 +13,8 @@ export class MapContainer extends Component {
     constructor(props){
         super(props)
         this.state = {
+            userLat: 25.0424536,
+            userLng: 121.562731,
             targetPlaces: '',
             showingInfoWindow: false,
             activeMarker: {},
@@ -28,14 +30,45 @@ export class MapContainer extends Component {
 
     componentDidMount(){
         const { targetPlaceName } = this.props;
+        //get user location
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
+        }else{
+            console.log('Not support in this browser.');
+        }
+        //if user use autocompeleted
         if(targetPlaceName){
             this.getTargetPlace()
         }
     }
 
+    getCoordinates = (position) => {
+        this.setState({
+            userLat: position.coords.latitude,
+            userLng: position.coords.longitude
+        })
+    }
+
+    handleLocationError = (error) => {
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.")
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.")
+            break;
+          case error.TIMEOUT:
+            alert("The request to get user location timed out.")
+            break;
+          case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.")
+            break;
+        }
+    }
+
     getPlaces = async () => {
         const db = firebase.firestore();
-        const { initialLat, initialLng } = this.props;
+        const { userLat, userLng } = this.state;
         const radius = 5; //km
         const targetPlaces = [];
         
@@ -46,7 +79,7 @@ export class MapContainer extends Component {
             const locationsData = Object.assign({}, doc.data());
             const targetLat = locationsData.location.latitude;
             const targetLng = locationsData.location.longitude;
-            const distance = this.getDistanceFromLatLonInKm(initialLat, initialLng, targetLat, targetLng);
+            const distance = this.getDistanceFromLatLonInKm(userLat, userLng, targetLat, targetLng);
             locationsData.rooms = [];
             if(distance < radius){
                 const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
@@ -149,8 +182,8 @@ export class MapContainer extends Component {
     }
 
     render() {
-      const { targetPlaces } = this.state;
-      const { initialLat, initialLng, searhUserMode, searchPlaceMode, searchPlaceData } = this.props;
+      const { userLat, userLng, targetPlaces } = this.state;
+      const { searhUserMode, searchPlaceMode, searchPlaceData } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
       return (
@@ -163,18 +196,18 @@ export class MapContainer extends Component {
                 styles={ MapStyle }
                 style={ this.myStyle }
                 initialCenter={{
-                    lat: initialLat,
-                    lng: initialLng  
+                    lat: userLat,
+                    lng: userLng  
                 }}
-                // center={{
-                //     lat: 40.854885,
-                //     lng: -88.081807
-                // }}
+                center={{
+                    lat: userLat,
+                    lng: userLng
+                }}
             >
                 
                 <Marker 
                     name={ 'Your location' } 
-                    position={{ lat: initialLat, lng: initialLng }}
+                    position={{ lat: userLat, lng: userLng }}
                     icon={{
                         url: 'https://image.flaticon.com/icons/svg/140/140378.svg',
                         anchor: new google.maps.Point(32,32),

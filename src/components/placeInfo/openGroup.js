@@ -6,6 +6,8 @@ import NavBar from '../common/navbar';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
 
 import '../../styles/openGroup.scss';
 
@@ -165,6 +167,12 @@ class OpenGroup extends Component {
         }
     }
 
+    handleCheckBox = (e) => {
+        this.setState({
+            intensity: e.target.value
+        })
+    }
+
     render() { 
         const { name, people, date, time, intensity, nameIsValid, peopleIsValid, timeIsValid } = this.state;
         return ( 
@@ -173,13 +181,56 @@ class OpenGroup extends Component {
                 <div className="form-wrapper">
                     <div className="form">
                         <Typography className="form-title" gutterBottom>
-                            Open Group
+                            開團
                         </Typography>
-                        <TextField className="name" value={ name } label="Name" helperText={ nameIsValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
-                        <TextField className="people" value={ people } type="number" label="People Needed" helperText={ peopleIsValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
-                        <TextField className="date" value={ date } type="date" helperText="Time" margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="name" value={ name } label="名稱" helperText={ nameIsValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="people" value={ people } type="number" label="人數" helperText={ peopleIsValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="date" value={ date } type="date" helperText="時間" margin="dense" onChange={ (e) => this.handleInput(e) } />
                         <TextField className="time" value={ time } type="time" margin="dense" helperText={ timeIsValid ? "Required" : null } onChange={ (e) => this.handleInput(e) } />
-                        <TextField className="intensity" value={ intensity } label="Intensity" margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <Typography className="intensity" color="textSecondary">
+                            強度
+                        </Typography>
+                        <div className="checkbox-wrapper">
+                            <Typography className="intensity" color="textSecondary" component="span">
+                                低
+                            </Typography>
+                            <Radio
+                                className="radio-btn"
+                                checked={intensity === 'low'}
+                                onChange={this.handleCheckBox}
+                                value="low"
+                                color="default"
+                                name="intensity"
+                                inputProps={{ 'aria-label': 'Low' }}
+                                // size="small"
+                            />
+                            <Typography className="intensity" color="textSecondary" component="span">
+                                中
+                            </Typography>
+                            <Radio
+                                className="radio-btn"
+                                checked={intensity === 'medium'}
+                                onChange={this.handleCheckBox}
+                                value="medium"
+                                color="default"
+                                name="intensity"
+                                inputProps={{ 'aria-label': 'Medium' }}
+                                size="small"
+                            />
+                            <Typography className="intensity" color="textSecondary" component="span">
+                                高
+                            </Typography>
+                            <Radio
+                                className="radio-btn"
+                                checked={intensity === 'high'}
+                                onChange={this.handleCheckBox}
+                                value="high"
+                                color="default"
+                                name="intensity"
+                                inputProps={{ 'aria-label': 'High' }}
+                                size="small"
+                            />
+                        </div>
                         <Button className="submit-btn" variant="contained" color="primary" onClick={ this.handleSubmit }>
                             Submit
                         </Button>
@@ -189,6 +240,8 @@ class OpenGroup extends Component {
         );
     }
 }
+
+
  
 
 function mapStateToProps(store){

@@ -90,7 +90,7 @@ class Detail extends Component {
         let isHost = false;
         
         //can't open two group in same place
-        const querySnapshot = await db.collection("rooms").where("host", "==", uid).get();
+        const querySnapshot = await db.collection("rooms").where("host", "==", uid).where("place_ID", "==", place_ID).get();
         querySnapshot.forEach((doc) => {
             isHost = true;
         })
