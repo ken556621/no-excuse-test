@@ -15,6 +15,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+
+
 import Ball from '../common/basketballImg';
 
 
@@ -178,14 +180,31 @@ class Groups extends Component {
         )
     }
 
+
+    sortDate = () => {
+        const { rooms } = this.state;
+        const sortingRooms = rooms.sort((a, b) => {
+            return Number(moment(a.date).format("YYYYMMDD")) - Number(moment(b.date).format("YYYYMMDD"));
+        })
+        console.log(sortingRooms);
+        this.setState({
+            rooms: sortingRooms
+        })
+    }
+
+    sortIntensity = () => {
+
+    }
+
     render() { 
         const { rooms } = this.state;
         const { uid } = this.props;
-        if(rooms.length === 0){
-            return <Ball />
-        }
         return ( 
             <div className="group-container">
+                <div className="group-search-bar">
+                    <Button className="date-btn" onClick={ this.sortDate }>日期</Button>
+                    <Button className="intensity-btn" onClick={ this.sortIntensity }>強度</Button>
+                </div>
                 { rooms.map(room => {
                     return (
                         <Card key={ room.host } className="card-container">

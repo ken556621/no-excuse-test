@@ -92,7 +92,7 @@ export class MapContainer extends Component {
     }
 
     render() {
-      const { initialLat, initialLng, targetPlaces, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchPlaceData, defaultLat, defaultLng } = this.props;
+      const { userLat, userLng, targetPlaces, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchPlaceData, defaultLat, defaultLng } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
       return (
@@ -105,8 +105,8 @@ export class MapContainer extends Component {
                 styles={ MapStyle }
                 style={ this.myStyle }
                 initialCenter={{
-                    lat: defaultLat,
-                    lng: defaultLng  
+                    lat: userLat || defaultLat,
+                    lng: userLng || defaultLng  
                 }}
                 center={
                     mapCenterLat ? 
@@ -115,15 +115,15 @@ export class MapContainer extends Component {
                         lng: mapCenterLng || defaultLng
                     } : 
                     {
-                        lat: initialLat || defaultLat,
-                        lng: initialLng || defaultLng
+                        lat: userLat || defaultLat,
+                        lng: userLng || defaultLng
                     }
                 }
                 >
                 
                 <Marker 
                     name={ 'Your location' } 
-                    position={{ lat: initialLat || defaultLat, lng: initialLng || defaultLng }}
+                    position={{ lat: userLat || defaultLat, lng: userLng || defaultLng }}
                     icon={{
                         url: 'https://image.flaticon.com/icons/svg/140/140378.svg',
                         anchor: new google.maps.Point(32,32),

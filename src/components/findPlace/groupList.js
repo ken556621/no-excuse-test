@@ -20,36 +20,36 @@ class GroupList extends Component {
     }
 
     componentDidMount(){
-       this.getRooms();
+    //    this.getRooms();
     }
 
-    getRooms = async () => {
-        const db = firebase.firestore();
-        const { userLat, userLng } = this.state;
-        const { initialLat, initialLng } = this.props;
-        const groupLists = [];
+    // getRooms = async () => {
+    //     const db = firebase.firestore();
+    //     const { userLat, userLng } = this.state;
+    //     const { initialLat, initialLng } = this.props;
+    //     const groupLists = [];
         
-        const roomSnapshot = await db.collection("rooms").get();
-            for (let i in roomSnapshot.docs) {
-                const doc = roomSnapshot.docs[i]
-                let groupData = Object.assign({}, doc.data());
-                const host_ID = groupData.host;
-                const place_ID = groupData.place_ID;
-                groupData.room_ID = doc.id;
+    //     const roomSnapshot = await db.collection("rooms").get();
+    //         for (let i in roomSnapshot.docs) {
+    //             const doc = roomSnapshot.docs[i]
+    //             let groupData = Object.assign({}, doc.data());
+    //             const host_ID = groupData.host;
+    //             const place_ID = groupData.place_ID;
+    //             groupData.room_ID = doc.id;
 
-                const hostData = await db.collection("users").doc(host_ID).get();
-                groupData.hostData = hostData.data();
+    //             const hostData = await db.collection("users").doc(host_ID).get();
+    //             groupData.hostData = hostData.data();
 
-                const placeData = await db.collection("locations").doc(place_ID).get();
-                let distance = this.getDistanceFromLatLonInKm(initialLat || userLat, initialLng || userLng, placeData.data().location.latitude, placeData.data().location.longitude);
-                groupData.placeData = placeData.data();
-                groupData.distance = Math.round(distance * 100) / 100;
-                groupLists.push(groupData);
-            }
-            this.setState({
-                groupLists
-            });
-    }
+    //             const placeData = await db.collection("locations").doc(place_ID).get();
+    //             let distance = this.getDistanceFromLatLonInKm(initialLat || userLat, initialLng || userLng, placeData.data().location.latitude, placeData.data().location.longitude);
+    //             groupData.placeData = placeData.data();
+    //             groupData.distance = Math.round(distance * 100) / 100;
+    //             groupLists.push(groupData);
+    //         }
+    //         this.setState({
+    //             groupLists
+    //         });
+    // }
 
     getDistanceFromLatLonInKm = (lat1,lon1,lat2,lon2) => {
         const radius = 6371; // Radius of the earth in km
@@ -75,7 +75,7 @@ class GroupList extends Component {
     } 
 
     render() { 
-        const { groupLists } = this.state;
+        const { groupLists } = this.props;
         console.log(this.props)
         return ( 
             <div className="groups-lists-container">

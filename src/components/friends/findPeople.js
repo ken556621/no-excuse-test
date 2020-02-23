@@ -3,8 +3,8 @@ import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 
 import List from '@material-ui/core/List';
-import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import NavBar from '../common/navbar';
@@ -161,13 +161,12 @@ class FindPeople extends Component {
                         <div className="autocomplete">
                             <Autocomplete
                                 onChange={ (e) => this.handleClick(e) }
-                                //fix: invalid props
                                 options={ allUsers }
                                 getOptionLabel={ option => option.name }
                                 id="disable-clearable"
                                 className="search-bar"
                                 renderInput={params => (
-                                <TextField {...params} onKeyDown={ (e) => this.handleInput(e) } label="Find Friends" margin="normal" fullWidth />
+                                <TextField {...params} onChange={ (e) => this.handleInput(e) } label="找朋友" margin="normal" fullWidth />
                                 )}
                             />
                         </div>

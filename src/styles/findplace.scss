@@ -2,6 +2,9 @@ $small-font: 10px;
 $big-font: 18px;
 $icon-font: 25px;
 
+$gray: #faf5f3;
+$white: #ebebf0;
+$smoky-black: rgba(#222222, .85);
 $ball: #e8581c;
 
 .find-place-container{
@@ -15,6 +18,9 @@ $ball: #e8581c;
                 margin-left: 5%;
                 width: 30vw;
                 max-width: 300px;
+                label{
+                    font-size: $small-font;
+                }
             }
             .current-position-btn{
                 margin-left: 12px;
@@ -53,6 +59,20 @@ $ball: #e8581c;
     .map-container{
         & > div{
             height: 70%!important;
+        }
+        .gm-style-mtc > div{
+            padding: 5px 20px!important;
+            font-size: $small-font!important;
+            color: $smoky-black!important;
+            background-color: $white!important;
+        }
+        .gm-svpc > div > img{
+            width: 15px!important;
+            height: 15px!important;
+        }
+        .gm-control-active > img{
+            width: 10px!important;
+            height: 10px!important;
         }
         .gm-style-iw-c{
             width: 30vw;

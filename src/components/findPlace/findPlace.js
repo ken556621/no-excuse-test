@@ -28,12 +28,13 @@ class FindPlace extends Component {
             defaultLat: 25.0424536,
             defaultLng: 121.562731,
             targetPlaces: [],
+            groupLists: [],
             isLoading: true,
             allCourts: [],
             targetPlaceName: '',
             searhUserMode: false,
             searchPlaceMode: false,
-            searchPlaceData: '',
+            searchPlaceData: [],
             mapMode: true,
             listMode: false
         }
@@ -68,6 +69,45 @@ class FindPlace extends Component {
         });
     }
 
+    getCoordinates = (position) => {
+        this.getPlaces(position.coords.latitude, position.coords.longitude); 
+        this.getRooms(position.coords.latitude, position.coords.longitude);
+        this.setState({
+            userLat: position.coords.latitude,
+            userLng: position.coords.longitude
+        })
+    }
+
+    handleLocationError = (error) => {
+        const { defaultLat, defaultLng } = this.state;
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.")
+            this.getPlaces(defaultLat, defaultLng)
+            this.getRooms(defaultLat, defaultLng)
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.")
+            this.getPlaces(defaultLat, defaultLng)
+            this.getRooms(defaultLat, defaultLng)
+            break;
+          case error.TIMEOUT:
+            alert("The request to get user location timed out.")
+            this.getPlaces(defaultLat, defaultLng)
+            this.getRooms(defaultLat, defaultLng)
+            break;
+          case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.")
+            this.getPlaces(defaultLat, defaultLng)
+            this.getRooms(defaultLat, defaultLng)
+            break;
+          default :
+            this.getPlaces(defaultLat, defaultLng)
+            this.getRooms(defaultLat, defaultLng)
+        }
+    }
+
+
     getPlaces = async (lat, lng) => {
         //fix: firestore 搜尋問題
         const { defaultLat, defaultLng } = this.state;
@@ -100,6 +140,36 @@ class FindPlace extends Component {
         })
     }
 
+    getRooms = async (lat, lng) => {
+        const { defaultLat, defaultLng } = this.state;
+        const db = firebase.firestore();
+        const groupLists = [];
+        
+        const roomSnapshot = await db.collection("rooms").get();
+            for (let i in roomSnapshot.docs) {
+                const doc = roomSnapshot.docs[i]
+                let groupData = Object.assign({}, doc.data());
+                const host_ID = groupData.host;
+                const place_ID = groupData.place_ID;
+                groupData.room_ID = doc.id;
+                
+
+                const hostData = await db.collection("users").doc(host_ID).get();
+                groupData.hostData = hostData.data();
+
+                const placeData = await db.collection("locations").doc(place_ID).get();
+                console.log(placeData.data(), "placeData")
+
+                let distance = this.getDistanceFromLatLonInKm(lat || defaultLat, lng || defaultLng, placeData.data().location.latitude, placeData.data().location.longitude);
+                groupData.placeData = placeData.data();
+                groupData.distance = Math.round(distance * 100) / 100;
+                groupLists.push(groupData);
+            }
+            this.setState({
+                groupLists
+            });
+    }
+
     getDistanceFromLatLonInKm = (lat1,lon1,lat2,lon2) => {
         const radius = 6371; // Radius of the earth in km
         const distanceLat = this.deg2rad(lat2-lat1);  // deg2rad below
@@ -116,38 +186,6 @@ class FindPlace extends Component {
 
     deg2rad = (deg) => {
         return deg * (Math.PI/180)
-    }
-
-    getCoordinates = (position) => {
-        this.getPlaces(position.coords.latitude, position.coords.longitude) // => targetPlaces
-        this.setState({
-            userLat: position.coords.latitude,
-            userLng: position.coords.longitude
-        })
-    }
-
-    handleLocationError = (error) => {
-        const { defaultLat, defaultLng } = this.state;
-        switch(error.code) {
-          case error.PERMISSION_DENIED:
-            alert("User denied the request for Geolocation.")
-            this.getPlaces(defaultLat, defaultLng)
-            break;
-          case error.POSITION_UNAVAILABLE:
-            alert("Location information is unavailable.")
-            this.getPlaces(defaultLat, defaultLng)
-            break;
-          case error.TIMEOUT:
-            alert("The request to get user location timed out.")
-            this.getPlaces(defaultLat, defaultLng)
-            break;
-          case error.UNKNOWN_ERROR:
-            alert("An unknown error occurred.")
-            this.getPlaces(defaultLat, defaultLng)
-            break;
-          default :
-            this.getPlaces(defaultLat, defaultLng)
-        }
     }
 
     handleClick = (e) => {
@@ -205,7 +243,7 @@ class FindPlace extends Component {
     }
  
     render() {
-        const { userLat, userLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, searchPlaceData, mapMode, listMode, targetPlaces, defaultLat, defaultLng } = this.state;
+        const { userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, mapMode, listMode, targetPlaces, searchPlaceData, groupLists } = this.state;
         const { history } = this.props;
         if(allCourts === 0){
             return <Load />
@@ -249,9 +287,9 @@ class FindPlace extends Component {
                         <Button id="map" className="map-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>地圖</Button>
                         <Button id="list" className="list-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>場地列表</Button>
                 </div>
-                { mapMode ? <Map initialLat={ userLat } initialLng={ userLng } mapCenterLat={ mapCenterLat } mapCenterLng = { mapCenterLng } targetPlaces = { targetPlaces } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } defaultLat ={ defaultLat } defaultLng={ defaultLng }/> : null }
+                { mapMode ? <Map userLat={ userLat } userLng={ userLng } mapCenterLat={ mapCenterLat } mapCenterLng = { mapCenterLng } targetPlaces = { targetPlaces } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } defaultLat ={ defaultLat } defaultLng={ defaultLng }/> : null }
 
-                { listMode ?  <GroupList targetPlaces={ targetPlaces } initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
+                { listMode ?  <GroupList groupLists={ groupLists } initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
             </div>
         );
     }

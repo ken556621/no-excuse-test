@@ -11,9 +11,10 @@ $gray: #faf5f3;
         .detail-container{
             .card{
                 width: 40%;
-                height: 100vh;
+                max-width: 335px;
+                height : 100vh;
                 position: fixed;
-                left: 57%;
+                right: 0%;
                 .image{
                     img{
                         width: 100%;
@@ -55,7 +56,7 @@ $gray: #faf5f3;
                                         font-size: $small-font;
                                     }
                                 }
-                                .card-words{
+                                .card-words{ 
                                     display: flex;
                                     justify-content: space-between;
                                     align-items: center;
@@ -94,6 +95,15 @@ $gray: #faf5f3;
         margin-left: 2%;
         width: 40%;
         .group-container{
+            .group-search-bar{
+                display: flex;
+                .search-bar{
+                    width: 40%;
+                    label{
+                        font-size: $small-font;
+                    }
+                }
+            }
             .card-container{
                 display: flex;
                 margin-bottom: 20px;
