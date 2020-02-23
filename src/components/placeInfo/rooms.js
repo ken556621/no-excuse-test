@@ -14,6 +14,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 
 
 
@@ -29,6 +31,8 @@ class Groups extends Component {
             userPhoto: '',
             rooms: [],
             editRoom: '',
+            toggleSortDate: false,
+            toggleSortIntensity: false 
         }
     }
 
@@ -180,30 +184,67 @@ class Groups extends Component {
         )
     }
 
+    toggleSortDate = () => {
+        this.setState({
+            toggleSortDate: !this.state.toggleSortDate
+        }, this.sortDate)
+    }
+
 
     sortDate = () => {
-        const { rooms } = this.state;
-        const sortingRooms = rooms.sort((a, b) => {
-            return Number(moment(a.date).format("YYYYMMDD")) - Number(moment(b.date).format("YYYYMMDD"));
-        })
-        console.log(sortingRooms);
+        const { rooms, toggleSortDate } = this.state;
+        if(!toggleSortDate){
+            const sortingRooms = rooms.sort((a, b) => {
+                return Number(moment(b.date).format("YYYYMMDD") - Number(moment(a.date).format("YYYYMMDD")));
+            })
+            this.setState({
+                rooms: sortingRooms
+            })
+        }else{
+            const sortingRooms = rooms.sort((a, b) => {
+                return Number(moment(a.date).format("YYYYMMDD")) - Number(moment(b.date).format("YYYYMMDD"));
+            })
+            this.setState({
+                rooms: sortingRooms
+            })
+        }
+    }
+
+    toogleSortIntensity = () => {
         this.setState({
-            rooms: sortingRooms
-        })
+            toggleSortIntensity: !this.state.toggleSortIntensity
+        }, this.sortIntensity)
     }
 
     sortIntensity = () => {
-
+        const { rooms, toggleSortIntensity } = this.state;
+        if(!toggleSortIntensity){
+            const sortingRooms = rooms.sort((a, b) => {
+                return ((a.intensity).localeCompare(b.intensity));
+            })
+            this.setState({
+                rooms: sortingRooms
+            })
+        }else{
+            const sortingRooms = rooms.sort((a, b) => {
+                return ((b.intensity).localeCompare(a.intensity));
+            })
+            this.setState({
+                rooms: sortingRooms
+            })
+        }
     }
 
     render() { 
-        const { rooms } = this.state;
+        const { rooms, toggleSortDate, toggleSortIntensity } = this.state;
         const { uid } = this.props;
         return ( 
             <div className="group-container">
                 <div className="group-search-bar">
-                    <Button className="date-btn" onClick={ this.sortDate }>日期</Button>
-                    <Button className="intensity-btn" onClick={ this.sortIntensity }>強度</Button>
+                    <Button className="search-btn date-btn" onClick={ this.toggleSortDate }>日期</Button>
+                    { toggleSortDate ? <TrendingUpIcon className="sort-icon" /> :  <TrendingDownIcon className="sort-icon" /> }
+                    <Button className="search-btn intensity-btn" onClick={ this.toogleSortIntensity }>強度</Button>
+                    { toggleSortIntensity ? <TrendingUpIcon className="sort-icon" /> :  <TrendingDownIcon className="sort-icon" /> }
                 </div>
                 { rooms.map(room => {
                     return (

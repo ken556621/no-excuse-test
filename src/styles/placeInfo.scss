@@ -96,12 +96,15 @@ $gray: #faf5f3;
         width: 40%;
         .group-container{
             .group-search-bar{
+                width: 100%;
                 display: flex;
-                .search-bar{
-                    width: 40%;
-                    label{
-                        font-size: $small-font;
-                    }
+                align-items: center;
+                border-bottom: 1px solid #000000;
+                .search-btn{
+                    padding: 6px 0px 6px 0px; 
+                }
+                .sort-icon{
+                    font-size: $big-font;
                 }
             }
             .card-container{
