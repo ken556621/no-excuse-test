@@ -14,8 +14,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 
 
@@ -241,10 +241,18 @@ class Groups extends Component {
         return ( 
             <div className="group-container">
                 <div className="group-search-bar">
-                    <Button className="search-btn date-btn" onClick={ this.toggleSortDate }>日期</Button>
-                    { toggleSortDate ? <TrendingUpIcon className="sort-icon" /> :  <TrendingDownIcon className="sort-icon" /> }
-                    <Button className="search-btn intensity-btn" onClick={ this.toogleSortIntensity }>強度</Button>
-                    { toggleSortIntensity ? <TrendingUpIcon className="sort-icon" /> :  <TrendingDownIcon className="sort-icon" /> }
+                    <Button className="search-btn date-btn" onClick={ this.toggleSortDate }>
+                        <Typography className="date-word">
+                            日期
+                        </Typography>
+                        { toggleSortDate ? <ArrowUpwardIcon className="sort-icon" /> :  <ArrowDownwardIcon className="sort-icon" /> }
+                    </Button>
+                    <Button className="search-btn intensity-btn" onClick={ this.toogleSortIntensity }>
+                        <Typography className="intensity-word">
+                             強度
+                        </Typography>
+                        { toggleSortIntensity ? <ArrowDownwardIcon className="sort-icon" /> :  <ArrowUpwardIcon className="sort-icon" /> }
+                    </Button>
                 </div>
                 { rooms.map(room => {
                     return (
