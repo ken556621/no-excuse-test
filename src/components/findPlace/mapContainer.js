@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { connect } from 'react-redux';
-import firebase from '../common/firebase';
-import * as geolib from 'geolib';
 
 import InfoWindow from './infoWindow';
 import MapStyle from './mapStyle';

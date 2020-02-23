@@ -76,6 +76,7 @@ class GroupList extends Component {
 
     render() { 
         const { groupLists } = this.state;
+        console.log(this.props)
         return ( 
             <div className="groups-lists-container">
                 <TableContainer component={Paper}>

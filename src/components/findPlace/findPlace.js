@@ -49,7 +49,6 @@ class FindPlace extends Component {
         }else{
             console.log('Not support in this browser.');
         }
-
         //get all the place
         // db.collection("locations").get().then((querySnapshot) => {
         //     querySnapshot.forEach((doc) => {
@@ -79,8 +78,6 @@ class FindPlace extends Component {
             { latitude: lat || defaultLat, longitude: lng || defaultLng },
             1000
         );
-        // const southWest = new firebase.firestore.GeoPoint( bounds[0].latitude, bounds[0].longitude);
-        // const northEast = new firebase.firestore.GeoPoint( bounds[1].latitude, bounds[1].longitude);
         const lower = geohash.encode(bounds[0].latitude, bounds[0].longitude);
         const upper = geohash.encode(bounds[1].latitude, bounds[1].longitude);
         const locationsQuery = await db.collection("locations") .where(`geoHash`, '>' , lower)
@@ -91,11 +88,9 @@ class FindPlace extends Component {
         for (let i in locationsQuery.docs) {
             const doc = locationsQuery.docs[i];
             const locationsData = Object.assign({}, doc.data());
-            console.log(doc.data(), "=======")
             locationsData.rooms = [];
             const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
             roomsQuery.forEach((room) => {
-                // console.log(room.data(), "1111111")
                 locationsData.rooms.push(room.data())
             })
             targetPlaces.push(locationsData);
@@ -132,7 +127,6 @@ class FindPlace extends Component {
     }
 
     handleLocationError = (error) => {
-        console.log(error)
         const { defaultLat, defaultLng } = this.state;
         switch(error.code) {
           case error.PERMISSION_DENIED:
@@ -257,7 +251,7 @@ class FindPlace extends Component {
                 </div>
                 { mapMode ? <Map initialLat={ userLat } initialLng={ userLng } mapCenterLat={ mapCenterLat } mapCenterLng = { mapCenterLng } targetPlaces = { targetPlaces } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } defaultLat ={ defaultLat } defaultLng={ defaultLng }/> : null }
 
-                { listMode ?  <GroupList initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
+                { listMode ?  <GroupList targetPlaces={ targetPlaces } initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
             </div>
         );
     }
