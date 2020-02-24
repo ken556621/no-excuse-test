@@ -3,6 +3,8 @@ $small-font: 10px;
 $big-font: 18px;
 $icon-font: 12px;
 
+$alert: #dd2c00;
+
 nav{
     display: flex;
     justify-content: space-between;
@@ -18,8 +20,26 @@ nav{
     }
     .btn-wrapper{
         padding: 7px 0;
-        .find-location{
-            .find-location-words{
+        .groups-wrapper{
+            .group-notification{
+                .MuiBadge-badge{
+                    font-size: $small-font;
+                    height: 10px;
+                    width: 10px;
+                    min-width: 0px;
+                }
+                .words{
+                    font-size: $small-font;
+                }
+            }
+        }
+        .find-groups-wrapper{
+            .words{
+                font-size: $small-font;
+            }
+        }
+        .friends-wrapper{
+            .words{
                 font-size: $small-font;
             }
         }

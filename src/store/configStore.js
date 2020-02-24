@@ -1,4 +1,5 @@
 import { applyMiddleware, createStore, compose } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { offline } from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
 import ReduxThunk from 'redux-thunk'
@@ -11,10 +12,9 @@ const initiaState = {};
 const store = createStore(
     allReducers,
     initiaState,
-    compose(
+    composeWithDevTools(
       applyMiddleware(ReduxThunk),
-      offline(offlineConfig),
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      offline(offlineConfig)
     )
   );
 

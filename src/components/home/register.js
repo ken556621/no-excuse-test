@@ -12,7 +12,6 @@ import Button from '@material-ui/core/Button';
 import PersonIcon from '@material-ui/icons/Person';
 
 import Load from '../common/load';
-// import '../../styles/register.scss';
 
 
 

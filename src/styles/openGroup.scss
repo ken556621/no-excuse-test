@@ -3,6 +3,7 @@ $big-font: 18px;
 $icon-font: 25px;
 $gray: #faf5f3;
 $ball: #e8581c;
+$alert: #dd2c00;
 
 
 .open-group-container{
@@ -38,13 +39,13 @@ $ball: #e8581c;
             .name{
                 p{
                     font-size: $small-font;
-                    color: #dd2c00;
+                    color: $alert;
                 }
             }
             .people{
                 p{
                     font-size: $small-font;
-                    color: #dd2c00;
+                    color: $alert;
                 }
             }
             .date{
@@ -59,7 +60,7 @@ $ball: #e8581c;
             .time{
                 p{
                     font-size: $small-font;
-                    color: #dd2c00;
+                    color: $alert;
                 }
             }
             .intensity{

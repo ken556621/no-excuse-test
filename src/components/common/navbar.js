@@ -7,12 +7,46 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Badge from '@material-ui/core/Badge';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 
 import '../../styles/common/navbar.scss';
 
 class NavBar extends Component {
     constructor(props){
-        super(props)
+        super(props);
+        this.state = {
+            fullRoomQty: 0
+        }
+    }
+
+    async componentDidMount(){
+        const db = firebase.firestore();
+        const { uid } = this.props;
+        let fullRoomQty = 0;
+
+         //參加的房間
+        const participantsSnapshot = await db.collection("rooms").where("participants", "array-contains", uid).get();
+        for (let i in participantsSnapshot.docs) {
+            const doc = participantsSnapshot.docs[i]
+            const roomsData = Object.assign({}, doc.data());
+            if(roomsData.peopleNeed - roomsData.participants.length === 0){
+                fullRoomQty++
+            }
+        }
+
+        //開的房間
+        const hostSnapshot = await db.collection("rooms").where("host", "==", uid).get();
+        for (let i in hostSnapshot.docs) {
+            const doc = hostSnapshot.docs[i]
+            const roomsData = Object.assign({}, doc.data());
+            if(roomsData.peopleNeed - roomsData.participants.length === 0){
+                fullRoomQty++
+            }
+        }
+        this.setState({
+            fullRoomQty
+        })
     }
 
     logout = () => {
@@ -28,8 +62,14 @@ class NavBar extends Component {
         });
     }
 
+    displayAlert = () => {
+
+    }
+
 
     render() {
+        const { fullRoomQty } = this.state;
+        console.log(fullRoomQty)
         return ( 
             <nav>
                 <Button className="logo">
@@ -40,29 +80,25 @@ class NavBar extends Component {
                     </Link>
                 </Button>
                 <div className="btn-wrapper">
-                    <Button className="find-location">
-                        <Link to={{
-                            pathname: "/friends"
-                        }}>
-                            <Typography className="find-location-words">
-                                我的團
-                            </Typography>
+                    <Button className="groups-wrapper">
+                        <Link to="/myGroups">
+                            <Badge className="group-notification" color="error"  badgeContent={ fullRoomQty !== 0 ? fullRoomQty : null }>
+                                <Typography className="groups-words words">
+                                    我的團
+                                </Typography>
+                            </Badge>
                         </Link>
                     </Button>
-                    <Button className="find-location">
-                        <Link to={{
-                            pathname: "/place"
-                        }}>
-                            <Typography className="find-location-words">
+                    <Button className="find-groups-wrapper">
+                        <Link to="/place">
+                            <Typography className="find-groups-words words">
                                 找團
                             </Typography>
                         </Link>
                     </Button>
-                    <Button className="find-location">
-                        <Link to={{
-                            pathname: "/friends"
-                        }}>
-                            <Typography className="find-location-words">
+                    <Button className="friends-wrapper">
+                        <Link to="/friends">
+                            <Typography className="friends-words words">
                                 團友列表
                             </Typography>
                         </Link>
@@ -103,7 +139,8 @@ class NavBar extends Component {
 function mapStateToProps(store) {
     return {
         authenticated: store.user.authenticated,
-        authenticating: store.user.authenticating
+        authenticating: store.user.authenticating,
+        uid: store.user.uid
     };
 }
 

@@ -1,0 +1,99 @@
+$small-font: 10px;
+$big-font: 15px;
+$icon-font: 25px;
+
+$gray: #faf5f3;
+$ball: #e8581c;
+$facebook: #4267b2;
+$google: #ea4336;
+$white: #ebebf0;
+$smoky-black: rgba(#222222, .85);
+$alert: #dd2c00;
+
+.mygroups-container{
+    .navigation-bar{
+        margin-bottom: 30px;
+    }
+    .mygroups-list-comtainer{
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        width: 100%;
+        .each-group{
+            margin-bottom: 15px;
+            width: 31%;
+            .group-content{
+                .group-name{
+                    display: flex;
+                    align-items: center;
+                    font-size: $big-font;
+                }
+                .group-date{
+                    display: flex;
+                    align-items: center;
+                    font-size: $small-font;
+                }
+                .group-location{
+                    display: flex;
+                    align-items: center;
+                    font-size: $small-font;
+                }
+                .group-intensity{
+                    display: flex;
+                    align-items: center;
+                    font-size: $small-font;
+                }   
+                .group-needed{
+                    display: flex;
+                    align-items: center;
+                    font-size: $small-font;
+                }
+                .group-participants{
+                    margin-top: 5px;
+                    display: flex;
+                    align-items: center;
+                    font-size: $small-font;
+                }
+                .group-icon-name{
+                    margin-right: 5px;
+                    font-size: 17px;
+                }
+                .group-icon{
+                    margin-right: 5px;
+                    font-size: $small-font;
+                }
+            }
+            .col-wrapper{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .col-left{
+                    .check-group-btn-wrapper{
+                        .check-group-btn{
+                            background-color: $ball;
+                            .check-group-btn-word{
+                                font-size: $small-font;
+                            }
+                        }
+                    }
+                }
+                .col-right{
+                    margin-right: 20%;
+                    .full-people-notification-wrapper{
+                        display: flex;
+                        align-items: center;
+                        #basketball-img-small{
+                            margin-right: 5px;
+                        }
+                        .full-people-notification-word{
+                            font-size: $small-font;
+                            background-color: $alert;
+                            border-radius: 5px;
+                            padding: 4px 6px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
