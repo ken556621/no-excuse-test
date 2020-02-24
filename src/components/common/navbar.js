@@ -69,7 +69,6 @@ class NavBar extends Component {
 
     render() {
         const { fullRoomQty } = this.state;
-        console.log(fullRoomQty)
         return ( 
             <nav>
                 <Button className="logo">

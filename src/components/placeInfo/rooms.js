@@ -16,16 +16,14 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
-
-
-import Ball from '../common/basketballImg';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 
 class Groups extends Component {
     constructor(props){ 
         super(props)
         this.state = {
+            isLoading: true,
             place_ID: this.props.history.location.search.slice(1),
             hostersPhoto: '',
             userPhoto: '',
@@ -75,6 +73,9 @@ class Groups extends Component {
                 rooms
             })
         }
+        this.setState({
+            isLoading: false
+        })
     }
 
     joinGroup = async (room_ID) => {
@@ -236,8 +237,17 @@ class Groups extends Component {
     }
 
     render() { 
-        const { rooms, toggleSortDate, toggleSortIntensity } = this.state;
+        const { isLoading, rooms, toggleSortDate, toggleSortIntensity, place_ID } = this.state;
         const { uid } = this.props;
+        if(isLoading){
+            return (
+                <div>
+                    <Skeleton variant="text" />
+                    <Skeleton variant="circle" width={40} height={40} />
+                    <Skeleton variant="rect" width={210} height={118} />
+                </div>
+            )
+        }
         return ( 
             <div className="group-container">
                 <div className="group-search-bar">
@@ -254,7 +264,7 @@ class Groups extends Component {
                         { toggleSortIntensity ? <ArrowDownwardIcon className="sort-icon" /> :  <ArrowUpwardIcon className="sort-icon" /> }
                     </Button>
                 </div>
-                { rooms.map(room => {
+                { rooms.length !== 0 ? rooms.map(room => {
                     return (
                         <Card key={ room.host } className="card-container">
                             <div className="col-left">
@@ -314,7 +324,13 @@ class Groups extends Component {
                             </div>
                         </Card>
                     )
-                }) }
+                    }) :
+                    <div className="default-display">
+                        <Typography className="default-display-words">
+                        There is no group yet. Try to open one?
+                        </Typography>
+                    </div>
+                }
             </div>
         );
     }

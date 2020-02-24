@@ -85,7 +85,7 @@ class Login extends Component {
 
     render() { 
         const { moveForm } = this.state;
-        const { authenticated, authenticating } = this.props;
+        const { authenticated, authenticating, history } = this.props;
         if(authenticating){
             if(!authenticated){
                 <Load />
@@ -95,7 +95,7 @@ class Login extends Component {
             <div className="login-container">
                 <div className="over-lay">
                     { moveForm ? 
-                        <Register /> : 
+                        <Register history={ history }/> : 
                         <div className = "login-form login-form-bounce-right">
                             <div className="form-wrapper">
                                 <div className="form-control">

@@ -67,6 +67,7 @@ class Register extends Component {
         const db = firebase.firestore();
         const email = this.state.userEmail;
         const password = this.state.password;
+        console.log(history)
         if(this.isInValid()){   
             this.setState({
                 comfirmInValid: true

@@ -166,6 +166,7 @@ class FindPlace extends Component {
                 groupLists.push(groupData);
             }
             this.setState({
+                isLoading: false,
                 groupLists
             });
     }
@@ -243,7 +244,7 @@ class FindPlace extends Component {
     }
  
     render() {
-        const { userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, mapMode, listMode, targetPlaces, searchPlaceData, groupLists } = this.state;
+        const { isLoading, userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, mapMode, listMode, targetPlaces, searchPlaceData, groupLists } = this.state;
         const { history } = this.props;
         if(allCourts === 0){
             return <Load />
@@ -289,7 +290,7 @@ class FindPlace extends Component {
                 </div>
                 { mapMode ? <Map userLat={ userLat } userLng={ userLng } mapCenterLat={ mapCenterLat } mapCenterLng = { mapCenterLng } targetPlaces = { targetPlaces } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } defaultLat ={ defaultLat } defaultLng={ defaultLng }/> : null }
 
-                { listMode ?  <GroupList groupLists={ groupLists } initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
+                { listMode ?  <GroupList isLoading={ isLoading } groupLists={ groupLists } initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
             </div>
         );
     }

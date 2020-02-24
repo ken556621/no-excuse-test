@@ -9,6 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import Load from '../common/load';
+
 class GroupList extends Component {
     constructor(props){
         super(props)
@@ -75,8 +77,10 @@ class GroupList extends Component {
     } 
 
     render() { 
-        const { groupLists } = this.props;
-        console.log(this.props)
+        const { isLoading, groupLists } = this.props;
+        if(isLoading){
+            return <Load />
+        }
         return ( 
             <div className="groups-lists-container">
                 <TableContainer component={Paper}>

@@ -20,7 +20,7 @@ class FindUsers extends Component {
         const { history } = this.props;
         history.push(`/placeInfo?${room_ID}`);
     }
-
+ 
     render() { 
         const { allUsers } = this.props;
         return (

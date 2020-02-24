@@ -4,20 +4,13 @@ const express = require('express');
 const fetch = require('node-fetch');
 const app = express();
 const geohash = require('ngeohash');
+const cors = require('cors')({origin: true});
 
 const serviceAccount = require("./no-excuse-1579439547243-firebase-adminsdk-5kbyo-351635ddfa");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://no-excuse-1579439547243.firebaseio.com"
-});
-
-app.get('/test', (req, res) => {
-    res.send('test success!')
-});
-
-exports.createUser = functions.https.onRequest((req, res) => {
-    res.send('test');
 });
 
 exports.getMapData = functions.https.onRequest((req, res) => {
@@ -57,7 +50,9 @@ exports.getMapData = functions.https.onRequest((req, res) => {
                 console.log("Error getting document:", error);
             });
         })
-        res.send(data);
+        return cors(request, response, () => {
+            return response.status(200).send(data);
+        })
     });
 });
 
@@ -106,12 +101,11 @@ exports.getGymDataFromLocal = functions.https.onRequest((req, res) => {
             });
         
         })
-        res.send(data)
+        return cors(request, response, () => {
+            return response.status(200).send(data);
+        })
     }).catch(err => console.log(err));
 });
 
-
-
-exports.api = functions.https.onRequest(app);
 
 

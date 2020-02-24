@@ -53,10 +53,13 @@ $smoky-black: rgba(#222222, .85);
             background-size: cover;
             width: 100vw;
             height: 100vh;
+            position: absolute;
             .col-left{
+                height: 400px;
+                overflow-y: scroll;
                 padding: 15px 30px;
-                position: absolute;
-                top: 58%;
+                position: relative;
+                top: 42%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 width: 55vw;
