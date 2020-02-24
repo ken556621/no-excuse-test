@@ -7,6 +7,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Skeleton from '@material-ui/lab/Skeleton';
+
+
 
 class FindUsers extends Component {
     constructor(props){
@@ -22,7 +25,17 @@ class FindUsers extends Component {
     }
  
     render() { 
-        const { allUsers } = this.props;
+        const { isLoading, allUsers } = this.props;
+        if(isLoading){
+            return (
+                <div>
+                    <Skeleton />
+                    <Skeleton variant="text" />
+                    <Skeleton animation="wave" />
+                    <Skeleton animation="wave" />
+                </div>
+            )
+        }
         return (
             allUsers.length !== 0 ? allUsers.map((user) => {
                 return (
@@ -52,7 +65,9 @@ class FindUsers extends Component {
                                     </Button>
                                 )
                             }) :
-                            null
+                            <Typography className="norooms-default">
+                                No any room yet!
+                            </Typography>
                         }
                     </ListItem>
                 )

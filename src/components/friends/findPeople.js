@@ -10,7 +10,6 @@ import Button from '@material-ui/core/Button';
 import NavBar from '../common/navbar';
 import AllUsers from './allUsers';
 import Friends from './friends';
-import Load from '../common/load';
 
 import '../../styles/findpeople.scss';
 
@@ -88,7 +87,6 @@ class FindPeople extends Component {
             friends.push(friendsData);
         }
         this.setState({
-            isLoading: false,
             friends
         })
     }
@@ -147,9 +145,6 @@ class FindPeople extends Component {
     render() { 
         const { isLoading, allUsers, friends, targetUser, allUsersMode, friendsMode } = this.state;
         const { history } = this.props;
-        if(isLoading){
-            return <Load />
-        }
         return ( 
             <div className="find-people-container">
                 <NavBar history={ history }/>
@@ -175,7 +170,7 @@ class FindPeople extends Component {
                     <div className="list-picture-wrapper"> 
                         <div className="col-left"> 
                             <List className="friends-list" dense>
-                                { allUsersMode ? <AllUsers allUsers={ allUsers } history={ history }/> : null }
+                                { allUsersMode ? <AllUsers isLoading={ isLoading } allUsers={ allUsers } history={ history }/> : null }
                                 { friendsMode ? <Friends friends={ friends } history={ history }/> : null }
                                 { targetUser ? <AllUsers allUsers={ targetUser } history={ history }/> : null }
                             </List>

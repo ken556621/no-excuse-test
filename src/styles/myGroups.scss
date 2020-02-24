@@ -13,17 +13,17 @@ $alert: #dd2c00;
 
 .mygroups-container{
     .navigation-bar{
-        margin-bottom: 30px;
+        margin-bottom: 15px;
     }
     .mygroups-list-comtainer{
         display: flex;
-        justify-content: space-around;
         flex-wrap: wrap;
         width: 100%;
         .each-group{
-            padding: 15px 15px 15px 15px;
+            padding: 15px 0px 15px 15px;
             margin-bottom: 15px;
-            width: 31%;
+            margin-left: 15px;
+            width: 30%;
             .col-upper-wrapper{
                 display: flex;
                 align-items: baseline;
@@ -92,6 +92,7 @@ $alert: #dd2c00;
                     .check-group-btn-wrapper{
                         .check-group-btn{
                             padding: 10px 20px;
+                            color: $white;
                             background-color: $ball;
                             .check-group-btn-word{
                                 font-size: $small-font;

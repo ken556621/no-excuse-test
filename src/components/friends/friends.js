@@ -27,6 +27,7 @@ class Friends extends Component {
 
     render() { 
         const { friends } = this.props;
+        console.log(friends)
         return (  
                 friends.length !== 0 ?
                 friends.map(person => {
@@ -57,14 +58,19 @@ class Friends extends Component {
                                     </Button>
                                 )
                             }) :
-                            <Typography className="nofriends-default">
-                                You don't have any friends yet...
+                            <Typography className="norooms-default">
+                                No any room yet!
                             </Typography>
                         }
                     </ListItem>
                     );
                 }) :
-                null
+                <div className="nofriends-default">
+                    <Typography className="nofriends-default-words" component="p">
+                        No any friend yet!
+                    </Typography>
+                    <img src="https://img.icons8.com/ios/100/000000/crying.png"></img>
+                </div>
         );
     }
 }

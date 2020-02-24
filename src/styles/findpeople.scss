@@ -90,6 +90,9 @@ $smoky-black: rgba(#222222, .85);
                             letter-spacing: $letter-spacing;
                         }
                     }
+                    .norooms-default{
+                        font-size: $small-font;
+                    }
                 }
                 //friends
                 .friends-list-container{
@@ -114,7 +117,8 @@ $smoky-black: rgba(#222222, .85);
                         padding: 5px;
                         font-size: $small-font;
                         letter-spacing: $letter-spacing;
-                        background-color: $gray;
+                        color: $white;
+                        background-color: $smoky-black;
                         cursor: pointer;
                         &:hover{
                             color: $white;
@@ -124,6 +128,18 @@ $smoky-black: rgba(#222222, .85);
                             font-size: $small-font;
                             letter-spacing: $letter-spacing;
                         }
+                    }
+                    .norooms-default{
+                        font-size: $small-font;
+                    }
+                }
+                .nofriends-default{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                    .nofriends-default-words{
+                        font-size: $big-font;
                     }
                 }
             }

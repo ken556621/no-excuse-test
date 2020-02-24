@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { connect } from 'react-redux';
 
+import Typography from '@material-ui/core/Typography';
+
 import InfoWindow from './infoWindow';
 import MapStyle from './mapStyle';
 import Load from '../common/load';
@@ -92,9 +94,12 @@ export class MapContainer extends Component {
     }
 
     render() {
-      const { userLat, userLng, targetPlaces, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchPlaceData, defaultLat, defaultLng } = this.props;
+      const { isLoading, userLat, userLng, targetPlaces, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchPlaceData, defaultLat, defaultLng } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
+      if(isLoading){
+          return <Load />
+      }
       return (
         <div className="map-container">
             <Map 
@@ -145,12 +150,12 @@ export class MapContainer extends Component {
                             <img src={ photo } />
                         </div>
                         <div className="col-right">
-                            <div className="place-name">
+                            <Typography className="place-name">
                                 { name }
-                            </div>
+                            </Typography>
                             <div className="place-rooms">
                                 <div className="groups">
-                                    { rooms.length !== 0 ? rooms.map(room => <div className="group" key={ id }>{ room.placeName }</div>) : null }
+                                    { rooms.length !== 0 ? rooms.map(room => <Typography className="group" key={ id }>{ room.placeName }</Typography>) : <Typography className="default-group-words">目前沒有團</Typography> }
                                 </div>
                             </div>
                         </div>

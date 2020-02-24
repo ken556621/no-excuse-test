@@ -24,7 +24,10 @@ class NavBar extends Component {
         const db = firebase.firestore();
         const { uid } = this.props;
         let fullRoomQty = 0;
-
+        console.log(this.props)
+        if(!uid){
+            return
+        }
          //參加的房間
         const participantsSnapshot = await db.collection("rooms").where("participants", "array-contains", uid).get();
         for (let i in participantsSnapshot.docs) {
