@@ -1,10 +1,13 @@
 $small-font: 10px;
 $big-font: 18px;
 $icon-font: 25px;
+$letter-spacing: 3px;
 
 $white: #ebebf0;
 $ball: #e8581c;
 $gray: #faf5f3;
+$alert: #dd2c00;
+$smoky-black: rgba(#222222, .85);
 
 .find-people-container{
     .friends-list-wrapper{
@@ -17,9 +20,11 @@ $gray: #faf5f3;
                 margin-right: 10px;
                 .all-user-btn{
                     font-size: $small-font;
+                    letter-spacing: $letter-spacing;
                 }
                 .friends-btn{
                     font-size: $small-font;
+                    letter-spacing: $letter-spacing;
                 }
             }
             .autocomplete{
@@ -28,6 +33,7 @@ $gray: #faf5f3;
                     width: 20vw;
                     label{
                         font-size: $small-font;
+                        letter-spacing: $letter-spacing;
                     }
                     .Mui-focused{
                         color: $ball;
@@ -43,28 +49,42 @@ $gray: #faf5f3;
         }
         // all user
         .list-picture-wrapper{
+            background-image: url(../../img/member2.jpg);
+            background-size: cover;
+            width: 100vw;
+            height: 100vh;
             .col-left{
+                padding: 15px 30px;
+                position: absolute;
+                top: 58%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 55vw;
+                border-radius: 8px;
+                background-color: $white;
                 .all-users-container{
-                    border-radius: 8px;
-                    background-color: rgba($color: $white, $alpha: .5);
                     .user-img-wrapper{
                         .user-img{
         
                         }
                     }
                     .user-name{
-                        span, p{
+                        span, p{ 
                             font-size: $small-font;
+                            letter-spacing: $letter-spacing;
                         }
                     }
                     .user-groups{
-                        background-color: $gray;
+                        margin-right: 10px;
+                        color: $white;
+                        background-color: $smoky-black;
                         &:hover{
                             color: $white;
                             background-color: $ball;
                         }
                         .user-group-name{
                             font-size: $small-font;
+                            letter-spacing: $letter-spacing;
                         }
                     }
                 }
@@ -84,11 +104,13 @@ $gray: #faf5f3;
                     .friend-name{
                         span, p{
                             font-size: $small-font;
+                            letter-spacing: $letter-spacing;
                         }
                     }
                     .friend-groups{
                         padding: 5px;
                         font-size: $small-font;
+                        letter-spacing: $letter-spacing;
                         background-color: $gray;
                         cursor: pointer;
                         &:hover{
@@ -97,6 +119,7 @@ $gray: #faf5f3;
                         }
                         .friend-groups-name{
                             font-size: $small-font;
+                            letter-spacing: $letter-spacing;
                         }
                     }
                 }

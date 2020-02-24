@@ -1,6 +1,7 @@
 $small-font: 10px;
 $big-font: 15px;
 $icon-font: 25px;
+$letter-spacing: 3px;
 
 $gray: #faf5f3;
 $ball: #e8581c;
@@ -20,47 +21,67 @@ $alert: #dd2c00;
         flex-wrap: wrap;
         width: 100%;
         .each-group{
+            padding: 15px 15px 15px 15px;
             margin-bottom: 15px;
             width: 31%;
-            .group-content{
-                .group-name{
-                    display: flex;
-                    align-items: center;
-                    font-size: $big-font;
+            .col-upper-wrapper{
+                display: flex;
+                align-items: baseline;
+                .col-left{
+                    .group-content{
+                        .group-name{
+                            margin-bottom: 25px;
+                            display: flex;
+                            align-items: center;
+                            font-size: $big-font;
+                            letter-spacing: $letter-spacing;
+                        }
+                        .group-date{
+                            margin-bottom: 10px;
+                            display: flex;
+                            align-items: center;
+                            font-size: $small-font;
+                            letter-spacing: $letter-spacing;
+                        }
+                        .group-location{
+                            margin-bottom: 10px;
+                            display: flex;
+                            align-items: center;
+                            font-size: $small-font;
+                            letter-spacing: $letter-spacing;
+                        }
+                        .group-intensity{
+                            margin-bottom: 10px;
+                            display: flex;
+                            align-items: center;
+                            font-size: $small-font;
+                            letter-spacing: $letter-spacing;
+                        }   
+                        .group-needed{
+                            margin-bottom: 10px;
+                            display: flex;
+                            align-items: center;
+                            font-size: $small-font;
+                            letter-spacing: $letter-spacing;
+                        }
+                        .group-participants{
+                            margin-top: 5px;
+                            display: flex;
+                            align-items: center;
+                            font-size: $small-font;
+                        }
+                        .group-icon-name{
+                            margin-right: 15px;
+                            font-size: 17px;
+                        }
+                        .group-icon{
+                            margin-right: 15px;
+                            font-size: $small-font;
+                        }
+                    }
                 }
-                .group-date{
-                    display: flex;
-                    align-items: center;
-                    font-size: $small-font;
-                }
-                .group-location{
-                    display: flex;
-                    align-items: center;
-                    font-size: $small-font;
-                }
-                .group-intensity{
-                    display: flex;
-                    align-items: center;
-                    font-size: $small-font;
-                }   
-                .group-needed{
-                    display: flex;
-                    align-items: center;
-                    font-size: $small-font;
-                }
-                .group-participants{
-                    margin-top: 5px;
-                    display: flex;
-                    align-items: center;
-                    font-size: $small-font;
-                }
-                .group-icon-name{
-                    margin-right: 5px;
-                    font-size: 17px;
-                }
-                .group-icon{
-                    margin-right: 5px;
-                    font-size: $small-font;
+                .col-right{
+
                 }
             }
             .col-wrapper{
@@ -70,9 +91,11 @@ $alert: #dd2c00;
                 .col-left{
                     .check-group-btn-wrapper{
                         .check-group-btn{
+                            padding: 10px 20px;
                             background-color: $ball;
                             .check-group-btn-word{
                                 font-size: $small-font;
+                                letter-spacing: $letter-spacing;
                             }
                         }
                     }
@@ -87,10 +110,13 @@ $alert: #dd2c00;
                         }
                         .full-people-notification-word{
                             font-size: $small-font;
-                            background-color: $alert;
-                            border-radius: 5px;
-                            padding: 4px 6px;
+                            color: $alert;
+                            letter-spacing: $letter-spacing;
                         }
+                    }
+                    .notfull-people-notification-word{
+                        font-size: $small-font;
+                        letter-spacing: $letter-spacing;
                     }
                 }
             }

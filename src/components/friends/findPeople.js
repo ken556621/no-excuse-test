@@ -49,6 +49,7 @@ class FindPeople extends Component {
             allUsers.push(allUsersData);
         }
         this.setState({
+            isLoading: false,
             allUsers
         })
     }
@@ -146,7 +147,7 @@ class FindPeople extends Component {
     render() { 
         const { isLoading, allUsers, friends, targetUser, allUsersMode, friendsMode } = this.state;
         const { history } = this.props;
-        if(isLoading && allUsers.length === 0){
+        if(isLoading){
             return <Load />
         }
         return ( 
@@ -172,7 +173,7 @@ class FindPeople extends Component {
                         </div>
                     </div>
                     <div className="list-picture-wrapper"> 
-                        <div className="col-left">
+                        <div className="col-left"> 
                             <List className="friends-list" dense>
                                 { allUsersMode ? <AllUsers allUsers={ allUsers } history={ history }/> : null }
                                 { friendsMode ? <Friends friends={ friends } history={ history }/> : null }

@@ -30,8 +30,6 @@ class Friends extends Component {
         return (  
                 friends.length !== 0 ?
                 friends.map(person => {
-                    console.log(person)
-                    const labelId = `checkbox-list-secondary-label-${person}`;
                     return (
                     <ListItem className="friends-list-container" key={ person.ID } button divider>
                         <ListItemAvatar className="friends-img-wrapper">
@@ -59,7 +57,9 @@ class Friends extends Component {
                                     </Button>
                                 )
                             }) :
-                            null
+                            <Typography className="nofriends-default">
+                                You don't have any friends yet...
+                            </Typography>
                         }
                     </ListItem>
                     );

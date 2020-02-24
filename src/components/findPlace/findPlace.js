@@ -269,15 +269,15 @@ class FindPlace extends Component {
                         </div>
                     }
                     <div className="mark-explain">
-                        <Typography className="user-explain" variant="subtitle1">
+                        <Typography className="user-explain">
                             <img src="https://image.flaticon.com/icons/svg/140/140378.svg"/>
                             現在位置
                         </Typography>
-                        <Typography className="user-explain" variant="subtitle1">
+                        <Typography className="user-explain">
                             <img src="https://image.flaticon.com/icons/svg/2467/2467984.svg"/>
                             場地位置
                         </Typography>
-                        <Typography className="user-explain" variant="subtitle1">
+                        <Typography className="user-explain">
                             <img src="https://image.flaticon.com/icons/svg/1692/1692975.svg"/>
                             有團的場
                         </Typography>

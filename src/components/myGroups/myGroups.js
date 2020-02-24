@@ -46,11 +46,15 @@ class MyGroups extends Component {
             roomsData.hoster = null;
             roomsData.participantsData = [];
             roomsData.placesData = [];
+            roomsData.hostData = [];
             //新增參與者資料
             for (let i = 0; i < roomsData.participants.length; i++) {
                 const participantsData = await db.collection("users").doc(roomsData.participants[i]).get();
                 roomsData.participantsData.push(participantsData.data());
             }
+            //新增開團者資訊
+            const hostData = await db.collection("users").doc(roomsData.host).get();
+            roomsData.hostData.push(hostData.data());
             //新增場地資訊
             const placesData = await db.collection("locations").doc(roomsData.place_ID).get();
             roomsData.placesData.push(placesData.data());
@@ -66,11 +70,15 @@ class MyGroups extends Component {
             roomsData.hoster = "hoster";
             roomsData.participantsData = [];
             roomsData.placesData = [];
+            roomsData.hostData = [];
             //新增參與者資料
             for (let i = 0; i < roomsData.participants.length; i++) {
                 const participantsData = await db.collection("users").doc(roomsData.participants[i]).get();
                 roomsData.participantsData.push(participantsData.data());
             }
+            //新增開團者資訊
+            const hostData = await db.collection("users").doc(roomsData.host).get();
+            roomsData.hostData.push(hostData.data());
              //新增場地資訊
              const placesData = await db.collection("locations").doc(roomsData.place_ID).get();
              roomsData.placesData.push(placesData.data());
@@ -114,8 +122,14 @@ class MyGroups extends Component {
         }
     }
 
+    handleClick = (place_ID) => {
+        const { history } = this.props;
+        history.push(`/placeInfo?${place_ID}`)
+    }
+
     render() { 
         const { isLoading, rooms } = this.state;
+        console.log(rooms)
         if(isLoading){
             return <Load />
         }
@@ -128,35 +142,42 @@ class MyGroups extends Component {
                     { rooms.map(room => {
                         return(
                             <Card className="each-group" key={ room.room_ID } id={ room.room_ID }>
-                                <CardContent className="group-content">
-                                    <Typography className="group-name" gutterBottom>
-                                        <GroupIcon className="group-icon-name"/>
-                                        名稱: { room.placeName }
-                                    </Typography>
-                                    <Typography className="group-date"  component="p">
-                                        <EventIcon className="group-icon"/>
-                                        日期: { room.date }
-                                    </Typography>
-                                    <Typography className="group-location">
-                                        <PlaceIcon className="group-icon"/>
-                                        地點: { room.placesData[0].name }
-                                    </Typography>
-                                    <Typography className="group-intensity">
-                                        <WhatshotIcon className="group-icon"/>
-                                        強度: { room.intensity }
-                                    </Typography>
-                                    <Typography className="group-needed">
-                                        <NaturePeopleIcon className="group-icon"/>
-                                        尚缺: { room.peopleNeed - room.participants.length }
-                                    </Typography>
-                                    <Typography className="group-participants"  component="span">
-                                        { this.displayParticipants(room.participantsData) }
-                                    </Typography>
-                                </CardContent>
+                                <div className="col-upper-wrapper">
+                                    <div className="col-left">
+                                        <CardContent className="group-content">
+                                            <Typography className="group-name" gutterBottom>
+                                                <GroupIcon className="group-icon-name"/>
+                                                名稱: { room.placeName }
+                                            </Typography>
+                                            <Typography className="group-date"  component="p">
+                                                <EventIcon className="group-icon"/>
+                                                日期: { room.date }
+                                            </Typography>
+                                            <Typography className="group-location">
+                                                <PlaceIcon className="group-icon"/>
+                                                地點: { room.placesData[0].name }
+                                            </Typography>
+                                            <Typography className="group-intensity">
+                                                <WhatshotIcon className="group-icon"/>
+                                                強度: { room.intensity }
+                                            </Typography>
+                                            <Typography className="group-needed">
+                                                <NaturePeopleIcon className="group-icon"/>
+                                                尚缺: { room.peopleNeed - room.participants.length }
+                                            </Typography>
+                                            <Typography className="group-participants"  component="span">
+                                                { this.displayParticipants(room.participantsData) }
+                                            </Typography>
+                                        </CardContent>
+                                    </div>
+                                    <div className="col-right">
+                                        <Avatar src={ room.hostData[0].photo }/>
+                                    </div>
+                                </div>
                                 <div className="col-wrapper">
                                     <div className="col-left">
                                         <CardActions className="check-group-btn-wrapper">
-                                            <Button className="check-group-btn">
+                                            <Button className="check-group-btn" onClick={ () => this.handleClick(room.place_ID) }>
                                                 <Typography className="check-group-btn-word">
                                                     查看該團
                                                 </Typography>
@@ -172,7 +193,9 @@ class MyGroups extends Component {
                                                 </Typography>
                                             </div>
                                              : 
-                                            null
+                                             <Typography className="notfull-people-notification-word" component="span">
+                                                未滿團
+                                             </Typography>
                                         }
                                     </div>
                                 </div>
