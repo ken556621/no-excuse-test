@@ -43,8 +43,8 @@ $smoky-black: rgba(#222222, .85);
       -moz-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
       box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
       z-index: 300;
-      @media (max-width: 1200px){
-        width: 20vw;
+      @media (max-width: 1000px){
+        width: 30vw;
       }
       .form-wrapper{
         opacity: 0;
@@ -140,7 +140,7 @@ $smoky-black: rgba(#222222, .85);
           margin-right: 10px;
           color: $white;
           border-color: $white;
-          @media (max-width: 840px){
+          @media (max-width: 688px){
             margin-bottom: 10px;
           }
         }
@@ -172,7 +172,7 @@ $smoky-black: rgba(#222222, .85);
           margin-right: 10px;
           color: $white;
           border-color: $white;
-          @media (max-width: 840px){
+          @media (max-width: 688px){
             margin-bottom: 10px;
           }
         }

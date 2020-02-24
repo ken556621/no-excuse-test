@@ -6,6 +6,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 
 import '../../styles/findpeople.scss';
@@ -31,8 +33,8 @@ class Friends extends Component {
                     console.log(person)
                     const labelId = `checkbox-list-secondary-label-${person}`;
                     return (
-                    <ListItem key={person.ID} button divider>
-                        <ListItemAvatar>
+                    <ListItem className="friends-list-container" key={ person.ID } button divider>
+                        <ListItemAvatar className="friends-img-wrapper">
                             <Link to={{
                                 pathname: "/member",
                                 search: `?${ person.ID }`,
@@ -45,17 +47,19 @@ class Friends extends Component {
                                 />
                             </Link>
                         </ListItemAvatar>
-                        <ListItemText id={labelId} className="friend-name" primary={ person.name } secondary={ person.quate ? person.quate : "hi" } />
+                        <ListItemText className="friend-name" id={person.ID} primary={ person.name } secondary={ person.quate ? person.quate : "hi" } />
                         { 
                             person.hostRooms.length !== 0 ? 
                             person.hostRooms.map((room) => {
                                 return(
-                                    <ListItemSecondaryAction key={ room.place_ID } id={ room.place_ID } className="friend-groups" onClick={ (e) => this.clickRoom(e) }>
-                                        { room.placeName }
-                                    </ListItemSecondaryAction>
+                                    <Button className="friend-groups" key={ room.place_ID } id={ room.place_ID } onClick={ (e) => this.clickRoom(e) }>
+                                        <Typography className="friend-groups-name">
+                                            { room.placeName }
+                                        </Typography>
+                                    </Button>
                                 )
                             }) :
-                            <div className="default-group">No room yet!</div>
+                            null
                         }
                     </ListItem>
                     );

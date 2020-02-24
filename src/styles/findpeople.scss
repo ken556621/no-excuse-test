@@ -38,12 +38,11 @@ $gray: #faf5f3;
                     span{
                         
                     }
-                }
+                } 
             }
         }
         // all user
         .list-picture-wrapper{
-            display: flex;
             .col-left{
                 .all-users-container{
                     border-radius: 8px;
@@ -65,42 +64,40 @@ $gray: #faf5f3;
                             background-color: $ball;
                         }
                         .user-group-name{
-                            font-size: 10px;
+                            font-size: $small-font;
                         }
                     }
                 }
                 //friends
-                .friends-list{
-                    width: 75vw;
-                    padding: 10px;
-                    .friend-img{
-                        margin-right: 10px;
-                        width: 70px;
-                        height: 70px;
-                        color: $white;
-                        border-radius: 50%;
-                        background-color: $white;
-                        img{
-                            padding: 10px;
+                .friends-list-container{
+                    border-radius: 8px;
+                    background-color: rgba($color: $white, $alpha: .5);
+                    .friends-img-wrapper{
+                        .friend-img{
+                            margin-right: 10px;
+                            background-color: $white;
+                            img{
+                                padding: 10px;
+                            }
                         }
                     }
                     .friend-name{
-                        color: $white;
-                        span{
-                            font-size: 30px;
-                        }
-                        p{
-                            font-size: 15px;
-                            color: $white;
+                        span, p{
+                            font-size: $small-font;
                         }
                     }
                     .friend-groups{
                         padding: 5px;
-                        font-size: 20px;
-                        color: $ball;
-                        background-color: #000000;
-                        border-radius: 8px;
+                        font-size: $small-font;
+                        background-color: $gray;
                         cursor: pointer;
+                        &:hover{
+                            color: $white;
+                            background-color: $ball;
+                        }
+                        .friend-groups-name{
+                            font-size: $small-font;
+                        }
                     }
                 }
             }
