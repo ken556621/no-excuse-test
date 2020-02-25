@@ -2,6 +2,8 @@ $ball: #e8581c;
 $small-font: 10px;
 $big-font: 18px;
 $gray: #faf5f3;
+$white: #ebebf0;
+$smoky-black: rgba(#222222, .85);
 
 .place-info-container{
     .card-board-wrapper{
@@ -90,7 +92,7 @@ $gray: #faf5f3;
             }
         }
     }
-    .groups{
+    .groups{ 
         margin-top: 10px;
         margin-left: 2%;
         width: 50%;

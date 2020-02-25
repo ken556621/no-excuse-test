@@ -38,7 +38,7 @@ function mapStateToProps(store){
         uid: store.user.uid
     }
 }
-
+ 
 
  
 export default connect(mapStateToProps)(PlaceInfo);
