@@ -7,8 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import InfoWindow from './infoWindow';
 import MapStyle from './mapStyle';
 import Load from '../common/load';
-
-
+import County from './county';
 
 export class MapContainer extends Component {
     constructor(props){
@@ -97,6 +96,13 @@ export class MapContainer extends Component {
       const { isLoading, userLat, userLng, targetPlaces, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchPlaceData, defaultLat, defaultLng } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
+      County.features.forEach(each => {
+          if(each.geometry){
+              each.geometry.coordinates[0].forEach(cordi => {
+                  console.log(cordi)
+              })
+          }
+      })
       if(isLoading){
           return <Load />
       }

@@ -44,9 +44,14 @@ nav{
             }
         }
         .member-wrapper{
-           .member{
+           .member-btn{
+               display: flex;
+               align-items: center;
                .member-icon{
                     font-size: $icon-font;
+               }
+               .member-words{
+                    font-size: $small-font;
                }
            } 
            span{

@@ -1,7 +1,7 @@
 $small-font: 10px;
 $big-font: 15px;
 $icon-font: 25px;
-$letter-spacing: 3px;
+$letter-spacing: 2px;
 
 $gray: #faf5f3;
 $white: #ebebf0;
@@ -33,10 +33,12 @@ $ball: #e8581c;
             } 
         }
         .mark-explain{
+            display: flex;
             margin-top: 2%;
             margin-right: 5%;
             .user-explain{
-                font-size: $big-font;
+                margin-left: 10px;
+                font-size: $small-font;
                 letter-spacing: $letter-spacing;
             }
             img{

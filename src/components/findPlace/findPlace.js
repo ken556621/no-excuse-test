@@ -109,14 +109,13 @@ class FindPlace extends Component {
 
 
     getPlaces = async (lat, lng) => {
-        //fix: firestore 搜尋問題
         const { defaultLat, defaultLng } = this.state;
         const db = firebase.firestore();
         const targetPlaces = [];
         //從資料庫限制搜尋範圍
         const bounds = geolib.getBoundsOfDistance(
             { latitude: lat || defaultLat, longitude: lng || defaultLng },
-            1000
+            500
         );
         const lower = geohash.encode(bounds[0].latitude, bounds[0].longitude);
         const upper = geohash.encode(bounds[1].latitude, bounds[1].longitude);
@@ -128,6 +127,7 @@ class FindPlace extends Component {
         for (let i in locationsQuery.docs) {
             const doc = locationsQuery.docs[i];
             const locationsData = Object.assign({}, doc.data());
+            console.log(locationsData)
             locationsData.rooms = [];
             const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
             roomsQuery.forEach((room) => {
@@ -158,7 +158,6 @@ class FindPlace extends Component {
                 groupData.hostData = hostData.data();
 
                 const placeData = await db.collection("locations").doc(place_ID).get();
-                console.log(placeData.data(), "placeData")
 
                 let distance = this.getDistanceFromLatLonInKm(lat || defaultLat, lng || defaultLng, placeData.data().location.latitude, placeData.data().location.longitude);
                 groupData.placeData = placeData.data();
@@ -248,7 +247,7 @@ class FindPlace extends Component {
         const { history } = this.props;
         if(allCourts === 0){
             return <Load />
-        }
+        } 
         return ( 
             <div className="find-place-container">
                 <NavBar history={ history }/>

@@ -24,7 +24,6 @@ class NavBar extends Component {
         const db = firebase.firestore();
         const { uid } = this.props;
         let fullRoomQty = 0;
-        console.log(this.props)
         if(!uid){
             return
         }
@@ -110,8 +109,11 @@ class NavBar extends Component {
                             pathname: "/member",
                             key: `123`
                         }}>
-                            <div className={ this.props.authenticated ? 'member show' : 'hide' }>
+                            <div className={ this.props.authenticated ? 'member-btn show' : 'hide' }>
                                 <AccountCircleIcon className="member-icon"/>
+                                <Typography className="member-words">
+                                    會員
+                                </Typography>
                             </div>
                         </Link>
                     </Button>

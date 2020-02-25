@@ -168,6 +168,7 @@ class OpenGroup extends Component {
     }
 
     handleCheckBox = (e) => {
+        console.log(e.target)
         this.setState({
             intensity: e.target.value
         })
@@ -192,7 +193,7 @@ class OpenGroup extends Component {
                         </Typography>
                         <div className="checkbox-wrapper">
                             <Typography className="intensity" color="textSecondary" component="span">
-                                低
+                                輕鬆
                             </Typography>
                             <Radio
                                 className="radio-btn"
@@ -205,7 +206,7 @@ class OpenGroup extends Component {
                                 // size="small"
                             />
                             <Typography className="intensity" color="textSecondary" component="span">
-                                中
+                                中等
                             </Typography>
                             <Radio
                                 className="radio-btn"
@@ -218,7 +219,7 @@ class OpenGroup extends Component {
                                 size="small"
                             />
                             <Typography className="intensity" color="textSecondary" component="span">
-                                高
+                                激烈
                             </Typography>
                             <Radio
                                 className="radio-btn"
