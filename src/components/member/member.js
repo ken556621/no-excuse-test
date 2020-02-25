@@ -17,6 +17,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
+import CreateIcon from '@material-ui/icons/Create';
 
 import NavBar from '../common/navbar';
 import Friends from './friends';
@@ -251,7 +252,7 @@ class Member extends Component {
                         { 
                             isUser ? 
                             <IconButton onClick={ this.modify } onKeyDown={ (e) => this.keypressModify(e) }>
-                                <SportsBasketballIcon className="modify-btn"/>
+                                <CreateIcon className="modify-btn"/>
                             </IconButton> : 
                             null
                         }
