@@ -57,18 +57,29 @@ exports.getMapData = functions.https.onRequest((req, res) => {
 });
 
 exports.getGymDataFromLocal = functions.https.onRequest((req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Method', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+
+    console.log(req.body)
+
     const db = admin.firestore();
-    const origin_URL = "https://iplay.sa.gov.tw/api/GymSearchAllList?$format=application/json;odata.metadata=none&Keyword=信義區&City=臺北市&GymType=籃球場&Latitude=22.6239746&Longitude=120.305267"; 
+    const origin_URL = `https://iplay.sa.gov.tw/api/GymSearchAllList?$format=application/json;odata.metadata=none&Keyword=${req.body}&GymType=籃球場&Latitude=22.6239746&Longitude=120.305267`; 
     process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
     const encoded_URL = encodeURI(origin_URL); 
+
     fetch(encoded_URL)
     .then(res => res.json())
     .then(data => {
+        console.log(data)
+        console.log("==========", "ready to fetch data")
         data.forEach(place => {
+            console.log("==========", "start to fetch data")
             let lat = place.LatLng.split(',')[0];
             let lng = place.LatLng.split(',')[1];
 
-            const docRef = db.collection("locations").doc("local" + place.GymID);
+            const docRef = db.collection("districts").doc(req.body).collection("locations").doc("local" + place.GymID);
 
             //prevent duplicated
             docRef.get().then((doc) => {
@@ -76,7 +87,7 @@ exports.getGymDataFromLocal = functions.https.onRequest((req, res) => {
                     console.log("Document data:", doc.data());
                 } else {
                     console.log("No such document!");
-                    db.collection("locations").doc("local" + place.GymID).set({
+                    db.collection("districts").doc(req.body).collection("locations").doc("local" + place.GymID).set({
                         id: "local" + place.GymID,
                         name: place.Name,
                         address: place.Address,
@@ -101,9 +112,7 @@ exports.getGymDataFromLocal = functions.https.onRequest((req, res) => {
             });
         
         })
-        return cors(request, response, () => {
-            return response.status(200).send(data);
-        })
+        res.status(200).send(data)
     }).catch(err => console.log(err));
 });
 

@@ -33,7 +33,7 @@ export default function(ComposedClass){
                 } else {
                     return <div></div>
                 }
-
+ 
             }
   
         }

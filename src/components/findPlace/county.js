@@ -44923,11 +44923,4 @@ const County = {
 }
 
 
-const FilterCounty = County.features.map(each => {
-    if(each.geometry){
-        each.geometry
-    }
-})
-
-
 export default County

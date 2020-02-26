@@ -14,6 +14,7 @@ import NavBar from '../common/navbar';
 import Load from '../common/load';
 import * as geolib from 'geolib';
 import TaipeiDistrict from './taipeiDistrict';
+import County from './county';
 
 import '../../styles/findplace.scss';
 
@@ -21,6 +22,8 @@ class FindPlace extends Component {
     constructor(props){
         super(props)
         this.state = {
+            zoom: null,
+            polyData: [],
             userLat: '',
             userLng: '',
             mapCenterLat: '',
@@ -28,13 +31,16 @@ class FindPlace extends Component {
             defaultLat: 25.0424536,
             defaultLng: 121.562731,
             targetPlaces: [],
+            targetArea: [],
             groupLists: [],
-            isLoading: true,
+            isLoading: false,
             allCourts: [],
             targetPlaceName: '',
             searhUserMode: false,
             searchPlaceMode: false,
+            searchAreaMode: false,
             searchPlaceData: [],
+            searchAreaData: [],
             mapMode: true,
             listMode: false
         }
@@ -51,14 +57,6 @@ class FindPlace extends Component {
             console.log('Not support in this browser.');
         }
         //get all the place
-        // db.collection("locations").get().then((querySnapshot) => {
-        //     querySnapshot.forEach((doc) => {
-        //         allCourts.push(doc.data().name);
-        //     });
-        //     this.setState({
-        //         allCourts
-        //     })
-        // });
         db.collection("locations").orderBy("name", "desc").limit(20).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 allCourts.push(doc.data().name);
@@ -107,6 +105,33 @@ class FindPlace extends Component {
         }
     }
 
+    getDistrictPolyData = (district) => {
+
+        // const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o`);
+        // const result = await res.json();
+        // const city = result.results[0].address_components[3].long_name;
+        // const district = result.results[0].address_components[2].long_name;
+
+
+
+        //format district polygon data
+        const targetCounty = [];
+        County.features.forEach(eachCounty => {
+            const eachCountyArray = [];
+            if(eachCounty.geometry && eachCounty.properties.TOWNNAME === district){
+                eachCounty.geometry.coordinates[0].forEach(cordi => {
+                    let formatCordi = {};
+                    formatCordi.lng = cordi[0];
+                    formatCordi.lat = cordi[1];
+                    eachCountyArray.push(formatCordi);
+                })
+            }
+            targetCounty.push(eachCountyArray);
+        })
+        this.setState({
+            polyData: targetCounty
+        })
+    }
 
     getPlaces = async (lat, lng) => {
         const { defaultLat, defaultLng } = this.state;
@@ -127,7 +152,6 @@ class FindPlace extends Component {
         for (let i in locationsQuery.docs) {
             const doc = locationsQuery.docs[i];
             const locationsData = Object.assign({}, doc.data());
-            console.log(locationsData)
             locationsData.rooms = [];
             const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
             roomsQuery.forEach((room) => {
@@ -188,12 +212,20 @@ class FindPlace extends Component {
         return deg * (Math.PI/180)
     }
 
-    handleClick = (e) => {
+    clickSearchName = (e) => {
         const targetPlaceName = e.target.innerText
         this.setState({
             targetPlaceName,
             searchPlaceMode: true
         }, this.getTargetPlace)
+    }
+
+    clickSearchArea = (e) => {
+        const targetArea = e.target.innerText;
+        this.setState({
+            targetArea,
+            searchAreaMode: true
+        }, this.getAreaPlace)
     }
 
     getTargetPlace = async () => {
@@ -216,6 +248,45 @@ class FindPlace extends Component {
                 searchPlaceData
             })
         }
+    }
+
+    getAreaPlace = async () => {
+        const { targetArea } = this.state;
+        const db = firebase.firestore();
+        const searchAreaData = [];
+
+        const districtShapshot = await db.collection("districts").doc(targetArea).collection("locations").limit(10).get();
+        for (let i in districtShapshot.docs) {
+            const doc = districtShapshot.docs[i];
+            let areaData = Object.assign({}, doc.data());
+            areaData.rooms = [];
+            const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
+            roomsQuery.forEach((room) => {
+                areaData.rooms.push(room.data())
+            })
+            searchAreaData.push(areaData)
+            this.setState({
+                zoom: 13,
+                searchAreaData
+            })
+        }
+        this.getDistrictPolyData(targetArea);
+
+
+        //if no data, post api to store data to db
+        // const res = await fetch(`http://localhost:5001/no-excuse-1579439547243/us-central1/getGymDataFromLocal`, {
+        //     body: targetArea, // must match 'Content-Type' header
+        //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //     credentials: 'same-origin', // include, same-origin, *omit
+        //     headers: {
+        //       'user-agent': 'Mozilla/4.0 MDN Example',
+        //       'content-type': 'application/json'
+        //     },
+        //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        //     mode: 'no-cors', // no-cors, cors, *same-origin
+        //     redirect: 'follow', // manual, *follow, error
+        //     referrer: 'no-referrer', // *client, no-referrer
+        // });
     }
 
     searchUser = () => {
@@ -243,7 +314,7 @@ class FindPlace extends Component {
     }
  
     render() {
-        const { isLoading, userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, mapMode, listMode, targetPlaces, searchPlaceData, groupLists } = this.state;
+        const { zoom, polyData, isLoading, userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, searchAreaMode, mapMode, listMode, targetPlaces, searchPlaceData, searchAreaData, groupLists } = this.state;
         const { history } = this.props;
         if(allCourts === 0){
             return <Load />
@@ -256,13 +327,21 @@ class FindPlace extends Component {
                         <div></div> :
                         <div className="search-bar-wrapper">
                             <Autocomplete
-                                onChange={ (e) => this.handleClick(e) }
+                                onChange={ (e) => this.clickSearchName(e) }
                                 options={ (allCourts) }
                                 getOptionLabel={ option => option }
-                                id="disable-clearable"
                                 className="search-bar"
                                 renderInput={params => (
                                 <TextField {...params} label="請輸入場地名稱" margin="normal" fullWidth />
+                                )}
+                            />
+                            <Autocomplete
+                                onChange={ (e) => this.clickSearchArea(e) }
+                                options={ (TaipeiDistrict) }
+                                getOptionLabel={ option => option }
+                                className="search-bar"
+                                renderInput={params => (
+                                <TextField {...params} label="以地區搜尋" margin="normal" fullWidth />
                                 )}
                             />
                             <Button className="current-position-btn" onClick={ this.searchUser }>以目前位置搜尋</Button>
@@ -287,7 +366,7 @@ class FindPlace extends Component {
                         <Button id="map" className="map-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>地圖</Button>
                         <Button id="list" className="list-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>開團列表</Button>
                 </div>
-                { mapMode ? <Map isLoading={ isLoading } userLat={ userLat } userLng={ userLng } mapCenterLat={ mapCenterLat } mapCenterLng = { mapCenterLng } targetPlaces = { targetPlaces } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchPlaceData={ searchPlaceData } defaultLat ={ defaultLat } defaultLng={ defaultLng }/> : null }
+                { mapMode ? <Map zoom={ zoom } polyData={ polyData } isLoading={ isLoading } userLat={ userLat } userLng={ userLng } mapCenterLat={ mapCenterLat } mapCenterLng = { mapCenterLng } targetPlaces = { targetPlaces } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchAreaMode={ searchAreaMode } searchPlaceData={ searchPlaceData } searchAreaData={ searchAreaData } defaultLat ={ defaultLat } defaultLng={ defaultLng }/> : null }
 
                 { listMode ?  <GroupList isLoading={ isLoading } groupLists={ groupLists } initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
             </div>

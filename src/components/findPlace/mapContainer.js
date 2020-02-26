@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper, Polygon } from 'google-maps-react';
 import { connect } from 'react-redux';
 
 import Typography from '@material-ui/core/Typography';
@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import InfoWindow from './infoWindow';
 import MapStyle from './mapStyle';
 import Load from '../common/load';
-import County from './county';
 
 export class MapContainer extends Component {
     constructor(props){
@@ -24,7 +23,6 @@ export class MapContainer extends Component {
         height: "100%",
         margin: "0 auto"
     }
-
 
     displayMarker = (places) => {
         return (
@@ -93,16 +91,10 @@ export class MapContainer extends Component {
     }
 
     render() {
-      const { isLoading, userLat, userLng, targetPlaces, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchPlaceData, defaultLat, defaultLng } = this.props;
+      const { zoom, polyData, isLoading, userLat, userLng, targetPlaces, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchAreaMode, searchPlaceData, searchAreaData, defaultLat, defaultLng } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
-      County.features.forEach(each => {
-          if(each.geometry){
-              each.geometry.coordinates[0].forEach(cordi => {
-                  console.log(cordi)
-              })
-          }
-      })
+    //   console.log(searchAreaData)
       if(isLoading){
           return <Load />
       }
@@ -112,7 +104,7 @@ export class MapContainer extends Component {
                 google={ this.props.google } 
                 onReady={ this.getPlaces }
                 onClick={ this.onMapClicked }
-                zoom={15} 
+                zoom={ zoom || 15 } 
                 styles={ MapStyle }
                 style={ this.myStyle }
                 initialCenter={{
@@ -131,7 +123,18 @@ export class MapContainer extends Component {
                     }
                 }
                 >
-                
+                { polyData.length !== 0 ?
+                    <Polygon
+                        paths={ polyData }
+                        strokeColor="#e8581c"
+                        strokeOpacity={1}
+                        strokeWeight={2}
+                        fillColor="#757575"
+                        fillOpacity={0.1}
+                    /> : 
+                    null
+                 }
+
                 <Marker 
                     name={ 'Your location' } 
                     position={{ lat: userLat || defaultLat, lng: userLng || defaultLng }}
@@ -144,6 +147,7 @@ export class MapContainer extends Component {
 
             { targetPlaces.length === 0 || !searhUserMode ? null : this.displayMarker(targetPlaces) }
             { !searchPlaceData || !searchPlaceMode ? null : this.displayMarker(searchPlaceData) }
+            { searchAreaData.length === 0 || !searchAreaMode ? null : this.displayMarker(searchAreaData) } 
 
                 <InfoWindow 
                     marker={ this.state.activeMarker }
