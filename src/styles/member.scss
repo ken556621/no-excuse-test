@@ -1,3 +1,6 @@
+$small-font: 10px;
+$big-font: 18px;
+
 $white: #ebebf0;
 $ball: #e8581c;
 
@@ -28,6 +31,17 @@ $ball: #e8581c;
             height: 150px;
             background-color: $white;
         }
+        .upload-img-btn-wrapper{
+            display: flex;
+            justify-content: space-between;
+            .upload-img-input{
+                display: none;
+            }
+            .upload-img-btn{
+                color: $white;
+                background-color: $ball;
+            }
+        }
         .list-container{
             .subheader-wrapper{
                 margin-top: 15px;
@@ -37,7 +51,8 @@ $ball: #e8581c;
                     display: inline;
                 }
                 .add-friend-btn{
-                    color: $ball;
+                    color: $white;
+                    background-color: $ball;
                 }
             }
             .MuiTypography-body1, .MuiListSubheader-sticky, .MuiDivider-inset {
@@ -65,15 +80,23 @@ $ball: #e8581c;
             .friends, .groups{
                 margin-left: 30px;
                 .accept-btn{
+                    color: $white;
+                    background-color: $ball;
                     margin-right: 5px;
+                }
+                .decline-btn{
+                    color: $white;
+                    background-color: $ball;
                 }
                 .friends-icon, .groups-icon{
                     color: $white;
                 }
             }
             .remove-friend-btn{
+                color: $white;
+                background-color: $ball;
                 margin-left: 25vw;
-                margin-top: 10px;
+                margin-top: 15px;
             }
         }
     }

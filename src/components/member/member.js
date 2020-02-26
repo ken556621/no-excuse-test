@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import firebase from '../common/firebase';
 
@@ -16,8 +16,8 @@ import EmailIcon from '@material-ui/icons/Email';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
 import CreateIcon from '@material-ui/icons/Create';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 import NavBar from '../common/navbar';
 import Friends from './friends';
@@ -100,7 +100,7 @@ class Member extends Component {
         const { userName, userQuate } = this.state;
         const { uid } = this.props;
         if(!uid){
-            return 
+            return  
         }
         //fix: when should store this?
         // db.collection("users").doc(uid).update({
@@ -149,23 +149,6 @@ class Member extends Component {
     }
 
     modify = () => {
-        const db = firebase.firestore();
-        const { userName, userQuate } = this.state;
-        const { uid } = this.props;
-        if(!uid){
-            return 
-        }
-        //fix: over write other user's name & quate
-        // db.collection("users").doc(uid).update({
-        //     name: userName,
-        //     quate: userQuate
-        // })
-        // .then(() => {
-        //     console.log("Document successfully written!");
-        // })
-        // .catch((error) => {
-        //     console.error("Error writing document: ", error);
-        // });
         this.setState({
             isModify: !this.state.isModify
         })
@@ -176,15 +159,25 @@ class Member extends Component {
 
     handleInput = (e) => {
         const targetElement = e.target.parentElement.parentElement;
-        if(targetElement.matches('.edit-quate')){
-            this.setState({
-                userQuate: e.target.value
-            })
-        }else if(targetElement.matches('.edit-name')){
+        if(targetElement.matches('.edit-name')){
             this.setState({
                 userName: e.target.value
-            })
+            }, this.storeModifiedData)
+        }else if(targetElement.matches('.edit-quate')){
+            this.setState({
+                userQuate: e.target.value
+            }, this.storeModifiedData)
         }
+    }
+
+    storeModifiedData = async () => {
+        const db = firebase.firestore();
+        const { userName, userQuate } = this.state;
+        const { uid } = this.props;
+        await db.collection("users").doc(uid).update({
+            name: userName,
+            quate: userQuate
+        });
     }
 
     addFriend = () => {
@@ -236,6 +229,25 @@ class Member extends Component {
         history.push('/friends');
     }
 
+    uploadImg = async (e) => { 
+        const db = firebase.firestore();
+        const { uid } = this.props;
+        const file = e.target.files[0];
+        // Create a root reference
+        const storageRef = firebase.storage().ref().child(uid + file.name);
+        await storageRef.put(file);
+
+        // Get image url
+        const url = await storageRef.getDownloadURL();
+
+        await db.collection("users").doc(uid).update({
+            photo: url
+        })
+        this.setState({
+            userPhoto: url
+        })
+    }
+
     render() { 
         const { isLoading, isUser, isFriend, isModify, userPhoto, userName, userEmail, userQuate, pendingFriendQty } = this.state;
         const { history } = this.props;
@@ -257,7 +269,37 @@ class Member extends Component {
                             null
                         }
                     </div>
+                    {  }
                     <Avatar className="user-img" alt="Oh no!" src={ userPhoto } />
+                    <div className="upload-img-btn-wrapper">
+                        <div className="fake">
+
+                        </div>
+                        { isModify ?
+                            <Fragment>
+                                <input
+                                    accept="image/*"
+                                    className="upload-img-input"
+                                    id="text-button-file"
+                                    multiple
+                                    type="file"
+                                    onChange={ this.uploadImg }
+                                />
+                                <label htmlFor="text-button-file">
+                                    <Button
+                                        component="span"
+                                        color="default"
+                                        className="upload-img-btn"
+                                        size="small"
+                                        startIcon={<CloudUploadIcon />}
+                                    >
+                                        Upload
+                                    </Button>
+                                </label>
+                            </Fragment> : 
+                            null
+                        }
+                    </div>
                     <List className="list-container"
                         aria-labelledby="nested-list-subheader" subheader={
                         <ListSubheader className="subheader-wrapper" component="div" id="nested-list-subheader">
@@ -266,7 +308,7 @@ class Member extends Component {
                             </Typography>
                             { 
                                 !isFriend && !isUser ?  
-                                <Button className="add-friend-btn" variant="contained" size="small" onClick={ this.addFriend }>
+                                <Button className="add-friend-btn" size="small" onClick={ this.addFriend }>
                                     Add Friend
                                 </Button> : 
                                 null
