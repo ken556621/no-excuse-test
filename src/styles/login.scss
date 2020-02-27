@@ -43,9 +43,6 @@ $smoky-black: rgba(#222222, .85);
       -moz-box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
       box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
       z-index: 300;
-      @media (max-width: 1000px){
-        width: 30vw;
-      }
       .form-wrapper{
         opacity: 0;
         visibility: hidden;
@@ -120,9 +117,6 @@ $smoky-black: rgba(#222222, .85);
       .col-left{
         padding: 50px 45px;
         width: 50%;
-        @media (max-width: 840px){
-          padding: 50px 30px 20px 30px;
-        }
         .header{
           margin-bottom: 15px;
           color: $white;
@@ -132,17 +126,11 @@ $smoky-black: rgba(#222222, .85);
           margin-bottom: 40px;
           color: $white;
           font-size: $small-font;
-          @media (max-width: 840px){
-            margin-bottom: 20px;
-          }
         }
         .signup-btn{
           margin-right: 10px;
           color: $white;
           border-color: $white;
-          @media (max-width: 688px){
-            margin-bottom: 10px;
-          }
         }
         .home-btn{
           color: $white;
@@ -152,9 +140,6 @@ $smoky-black: rgba(#222222, .85);
       .col-right{
         padding: 50px 45px;
         width: 50%;
-        @media (max-width: 840px){
-          padding: 45px 15px 20px 35px;
-        }
         .header{
           margin-bottom: 15px;
           color: $white;
@@ -164,17 +149,11 @@ $smoky-black: rgba(#222222, .85);
           margin-bottom: 40px;
           color: $white;
           font-size: $small-font;
-          @media (max-width: 840px){
-            margin-bottom: 20px;
-          }
         }
         .login-btn{
           margin-right: 10px;
           color: $white;
           border-color: $white;
-          @media (max-width: 688px){
-            margin-bottom: 10px;
-          }
         }
         .home-btn{
           color: $white;
@@ -209,3 +188,38 @@ $smoky-black: rgba(#222222, .85);
   } 
 }
 
+@media screen and (max-width: 1000px){
+  .login-container{
+    .login-form{
+      width: 30vw;
+    }
+  }
+}
+
+@media screen and (max-width: 840px){
+  .login-container{
+    .col-left{
+      .content{
+        margin-bottom: 20px;
+      }
+      padding: 50px 30px 20px 30px;
+    }
+    .col-right{
+      padding: 45px 15px 20px 35px;
+      .content{
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 815px){
+  .login-container{
+    .signup-btn{
+      margin-bottom: 10px;
+    }
+    .login-btn{
+      margin-bottom: 10px;
+    }
+  }
+}

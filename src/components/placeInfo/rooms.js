@@ -30,7 +30,7 @@ class Groups extends Component {
             rooms: [],
             editRoom: '',
             toggleSortDate: false,
-            toggleSortIntensity: false 
+            toggleSortIntensity: false
         }
     }
 
@@ -77,14 +77,14 @@ class Groups extends Component {
             isLoading: false
         })
     }
-
+ 
     joinGroup = async (room_ID) => {
         const db = firebase.firestore();
-        const { authenticated, uid } = this.props;
+        const { authenticated, uid, history } = this.props;
         let isHost = false;
         let isParticipant = false;
         if (!authenticated) {
-            window.alert('You are not sign in yet!');
+            history.push('/login');
             return 
         } 
         
@@ -102,12 +102,12 @@ class Groups extends Component {
         }
 
         if(isHost){
-            window.alert('You can not join your own group!');
+            window.alert("Cna't join your own group")
             return
         }
         
         if(isParticipant){
-            window.alert('You already join this group!');
+            window.alert("You already join this group")
             return
         }
         this.storeUsersToRoom(room_ID);
@@ -131,7 +131,7 @@ class Groups extends Component {
         await db.collection("rooms").doc(room_ID).update({
             participants: firebase.firestore.FieldValue.arrayUnion(uid)
         });
-        window.alert('Join success!');
+        window.alert("join success")
         this.fetchRooms();
     }
 
@@ -143,7 +143,7 @@ class Groups extends Component {
     delete = async (room_ID) => {
         const db = firebase.firestore();
         await db.collection("rooms").doc(room_ID).delete();
-        window.alert('Not in the group!');
+        console.log("delete success")
         this.fetchRooms();
     }
 
@@ -151,7 +151,7 @@ class Groups extends Component {
         const db = firebase.firestore();
         if(moment(roomData.date).isBefore()){
             db.collection("rooms").doc(roomData.room_ID).delete().then(() => {
-                window.alert("You can't choose the day before today!");
+                console.log('delete success!')
                 this.fetchRooms();
             }).catch((error) => {
                 console.error("Error removing document: ", error);
@@ -172,7 +172,7 @@ class Groups extends Component {
                         }else{
                             morePeople++
                         }
-                    }) : console.log('no participater')
+                    }) : <Typography className="no-people-default">No people yet!</Typography>
                 }
                 { 
                     morePeople === 0 ? 
@@ -221,18 +221,34 @@ class Groups extends Component {
         const { rooms, toggleSortIntensity } = this.state;
         if(!toggleSortIntensity){
             const sortingRooms = rooms.sort((a, b) => {
-                return ((a.intensity).localeCompare(b.intensity));
+                return (a.intensity - b.intensity);
             })
             this.setState({
                 rooms: sortingRooms
             })
         }else{
             const sortingRooms = rooms.sort((a, b) => {
-                return ((b.intensity).localeCompare(a.intensity));
+                return (b.intensity - a.intensity);
             })
             this.setState({
                 rooms: sortingRooms
             })
+        }
+    }
+
+    displayIntensity = (intensity) => {
+        switch (intensity) {
+            case '0':
+                return '輕鬆'
+                break
+            case '1':
+                return '中等'
+                break
+            case '2':
+                return '挑戰'
+                break
+            default:
+                return '無'
         }
     }
 
@@ -284,7 +300,7 @@ class Groups extends Component {
                                         </Typography>
                                     </Typography>
                                     <Typography className="place-intensity place-detail" color="textSecondary">
-                                        強度: { room.intensity }
+                                        強度: { this.displayIntensity(room.intensity) }
                                     </Typography>
                                     <Typography className="place-date place-detail" color="textSecondary" component="p">
                                         日期: { room.date } 

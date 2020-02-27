@@ -19,6 +19,10 @@ export default function(ComposedClass){
                 }else{
                     history.push('/login')
                 }
+            }else{
+                if(!authenticated){
+                    history.push('/login')
+                }
             }
         }
   

@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Badge from '@material-ui/core/Badge';
-import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 
 import '../../styles/common/navbar.scss';
 
@@ -16,7 +15,9 @@ class NavBar extends Component {
     constructor(props){
         super(props);
         this.state = {
-            fullRoomQty: 0
+            fullRoomQty: 0,
+            friendRequestQty: 0,
+            navBarFixed: false
         }
     }
 
@@ -24,10 +25,14 @@ class NavBar extends Component {
         const db = firebase.firestore();
         const { uid } = this.props;
         let fullRoomQty = 0;
+        let friendRequestQty = 0;
+
+        //fix: refresh no uid, then no futher process
         if(!uid){
             return
         }
-         //參加的房間
+        //顯示已滿團的數字
+        //參加的房間 
         const participantsSnapshot = await db.collection("rooms").where("participants", "array-contains", uid).get();
         for (let i in participantsSnapshot.docs) {
             const doc = participantsSnapshot.docs[i]
@@ -46,8 +51,14 @@ class NavBar extends Component {
                 fullRoomQty++
             }
         }
+        //通知多少人加好友
+        const friendsSnapshot = await db.collection("networks").where("invitee", "==", uid).where("status", "==", "pending").get();
+        for (let i in friendsSnapshot.docs) {
+            friendRequestQty++
+        }
         this.setState({
-            fullRoomQty
+            fullRoomQty,
+            friendRequestQty
         })
     }
 
@@ -64,13 +75,9 @@ class NavBar extends Component {
         });
     }
 
-    displayAlert = () => {
-
-    }
-
 
     render() {
-        const { fullRoomQty } = this.state;
+        const { fullRoomQty, friendRequestQty } = this.state;
         return ( 
             <nav>
                 <Button className="logo">
@@ -111,9 +118,11 @@ class NavBar extends Component {
                         }}>
                             <div className={ this.props.authenticated ? 'member-btn show' : 'hide' }>
                                 <AccountCircleIcon className="member-icon"/>
-                                <Typography className="member-words">
-                                    會員
-                                </Typography>
+                                <Badge className="friend-notification" color="error"  badgeContent={ friendRequestQty !== 0 ? friendRequestQty : null }>
+                                    <Typography className="member-words">
+                                        會員
+                                    </Typography>
+                                </Badge>
                             </div>
                         </Link>
                     </Button>

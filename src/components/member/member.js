@@ -94,27 +94,6 @@ class Member extends Component {
         }   
     }
 
-    componentWillUnmount(){
-        //refresh uid will be undefined 
-        const db = firebase.firestore();
-        const { userName, userQuate } = this.state;
-        const { uid } = this.props;
-        if(!uid){
-            return  
-        }
-        //fix: when should store this?
-        // db.collection("users").doc(uid).update({
-        //     name: userName,
-        //     quate: userQuate
-        // })
-        // .then(() => {
-        //     console.log("Document successfully written!");
-        // })
-        // .catch((error) => {
-        //     console.error("Error writing document: ", error);
-        // });
-    }
-
     fetchMemberData = async (uid) => {
         const db = firebase.firestore();
         const pendingFriend = [];
@@ -152,9 +131,6 @@ class Member extends Component {
         this.setState({
             isModify: !this.state.isModify
         })
-    }
-
-    keypressModify = (e) => {
     }
 
     handleInput = (e) => {
@@ -272,9 +248,6 @@ class Member extends Component {
                     {  }
                     <Avatar className="user-img" alt="Oh no!" src={ userPhoto } />
                     <div className="upload-img-btn-wrapper">
-                        <div className="fake">
-
-                        </div>
                         { isModify ?
                             <Fragment>
                                 <input
@@ -285,15 +258,13 @@ class Member extends Component {
                                     type="file"
                                     onChange={ this.uploadImg }
                                 />
-                                <label htmlFor="text-button-file">
+                                <label className="upload-img-btn" htmlFor="text-button-file">
                                     <Button
                                         component="span"
                                         color="default"
-                                        className="upload-img-btn"
                                         size="small"
-                                        startIcon={<CloudUploadIcon />}
                                     >
-                                        Upload
+                                        <CloudUploadIcon className="upload-img-btn-icon"/>
                                     </Button>
                                 </label>
                             </Fragment> : 

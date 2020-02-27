@@ -10,6 +10,7 @@ $smoky-black: rgba(#222222, .85);
         background-image: url(../../img/member2.jpg);
         background-size: cover;
         width: 100vw;
+        min-height: 100vh;
         height: 100%;
         display: flex;
         justify-content: space-between;
@@ -96,14 +97,15 @@ $smoky-black: rgba(#222222, .85);
         }
     }
     .groups{ 
-        margin-top: 10px;
-        margin-left: 2%;
-        width: 50%;
+        margin: 10px 0px;
+        width: 57%;
         .group-container{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
             .group-search-bar{
+                padding-left: 2.5%;
                 width: 100%;
-                display: flex;
-                align-items: center;
                 .search-btn{
                     padding: 6px 0px 6px 0px; 
                     border-top: 1px solid $ball;
@@ -129,6 +131,7 @@ $smoky-black: rgba(#222222, .85);
                 }
             }
             .card-container{
+                width: 45%;
                 display: flex;
                 margin-bottom: 20px;
                 background-color: $white;

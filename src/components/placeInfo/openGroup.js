@@ -6,7 +6,6 @@ import NavBar from '../common/navbar';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 
 import '../../styles/openGroup.scss';
@@ -141,7 +140,6 @@ class OpenGroup extends Component {
                  console.error("Error writing document: ", error);
              });
         }else{
-            console.log('edit mode')
             //Not edit
             db.collection("rooms").doc().set(
                 {
@@ -168,7 +166,6 @@ class OpenGroup extends Component {
     }
 
     handleCheckBox = (e) => {
-        console.log(e.target)
         this.setState({
             intensity: e.target.value
         })
@@ -197,39 +194,36 @@ class OpenGroup extends Component {
                             </Typography>
                             <Radio
                                 className="radio-btn"
-                                checked={intensity === 'low'}
+                                checked={intensity === "0" }
                                 onChange={this.handleCheckBox}
-                                value="low"
+                                value="0"
                                 color="default"
                                 name="intensity"
                                 inputProps={{ 'aria-label': 'Low' }}
-                                // size="small"
                             />
                             <Typography className="intensity" color="textSecondary" component="span">
                                 中等
                             </Typography>
                             <Radio
                                 className="radio-btn"
-                                checked={intensity === 'medium'}
+                                checked={intensity === "1"}
                                 onChange={this.handleCheckBox}
-                                value="medium"
+                                value="1"
                                 color="default"
                                 name="intensity"
                                 inputProps={{ 'aria-label': 'Medium' }}
-                                size="small"
                             />
                             <Typography className="intensity" color="textSecondary" component="span">
                                 激烈
                             </Typography>
                             <Radio
                                 className="radio-btn"
-                                checked={intensity === 'high'}
+                                checked={intensity === "2"}
                                 onChange={this.handleCheckBox}
-                                value="high"
+                                value="2"
                                 color="default"
                                 name="intensity"
                                 inputProps={{ 'aria-label': 'High' }}
-                                size="small"
                             />
                         </div>
                         <Button className="submit-btn" variant="contained" color="primary" onClick={ this.handleSubmit }>

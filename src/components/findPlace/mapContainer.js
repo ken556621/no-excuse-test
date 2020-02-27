@@ -102,7 +102,6 @@ export class MapContainer extends Component {
         <div className="map-container">
             <Map 
                 google={ this.props.google } 
-                onReady={ this.getPlaces }
                 onClick={ this.onMapClicked }
                 zoom={ zoom || 15 } 
                 styles={ MapStyle }
@@ -123,7 +122,7 @@ export class MapContainer extends Component {
                     }
                 }
                 >
-                { polyData.length !== 0 ?
+                { polyData.length !== 0 && searchAreaMode ?
                     <Polygon
                         paths={ polyData }
                         strokeColor="#e8581c"

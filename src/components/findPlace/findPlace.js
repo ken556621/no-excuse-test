@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import geohash from "ngeohash";
+import moment from 'moment';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -36,7 +37,7 @@ class FindPlace extends Component {
             isLoading: false,
             allCourts: [],
             targetPlaceName: '',
-            searhUserMode: false,
+            searhUserMode: true,
             searchPlaceMode: false,
             searchAreaMode: false,
             searchPlaceData: [],
@@ -106,14 +107,6 @@ class FindPlace extends Component {
     }
 
     getDistrictPolyData = (district) => {
-
-        // const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o`);
-        // const result = await res.json();
-        // const city = result.results[0].address_components[3].long_name;
-        // const district = result.results[0].address_components[2].long_name;
-
-
-
         //format district polygon data
         const targetCounty = [];
         County.features.forEach(eachCounty => {
@@ -147,8 +140,6 @@ class FindPlace extends Component {
         const locationsQuery = await db.collection("locations") .where(`geoHash`, '>' , lower)
         .where(`geoHash`, '<' , upper).limit(10).get();
         
-        
-
         for (let i in locationsQuery.docs) {
             const doc = locationsQuery.docs[i];
             const locationsData = Object.assign({}, doc.data());
@@ -177,7 +168,6 @@ class FindPlace extends Component {
                 const place_ID = groupData.place_ID;
                 groupData.room_ID = doc.id;
                 
-
                 const hostData = await db.collection("users").doc(host_ID).get();
                 groupData.hostData = hostData.data();
 
@@ -212,18 +202,32 @@ class FindPlace extends Component {
         return deg * (Math.PI/180)
     }
 
+    searchUser = () => {
+        const { userLat, userLng } = this.state;
+        this.setState({
+            mapCenterLat: userLat,
+            mapCenterLng: userLng,
+            searhUserMode: !this.state.searhUserMode,
+            searchPlaceMode: false,
+            searchAreaMode: false
+        })
+    }
+
     clickSearchName = (e) => {
         const targetPlaceName = e.target.innerText
         this.setState({
             targetPlaceName,
-            searchPlaceMode: true
+            searchPlaceMode: true,
+            searchAreaMode: false
         }, this.getTargetPlace)
     }
 
     clickSearchArea = (e) => {
+        console.log(this.state.searchAreaMode)
         const targetArea = e.target.innerText;
         this.setState({
             targetArea,
+            searchPlaceMode: false,
             searchAreaMode: true
         }, this.getAreaPlace)
     }
@@ -232,7 +236,12 @@ class FindPlace extends Component {
         const { targetPlaceName } = this.state;
         const db = firebase.firestore();
         const searchPlaceData = [];
+        console.log(targetPlaceName)
+        if(!targetPlaceName){
+            return
+        }
         const locationSnapshot = await db.collection("locations").where("name", "==", targetPlaceName).get();
+
         for (let i in locationSnapshot.docs) {
             const doc = locationSnapshot.docs[i]
             let locationData = Object.assign({}, doc.data());
@@ -272,7 +281,6 @@ class FindPlace extends Component {
         }
         this.getDistrictPolyData(targetArea);
 
-
         //if no data, post api to store data to db
         // const res = await fetch(`http://localhost:5001/no-excuse-1579439547243/us-central1/getGymDataFromLocal`, {
         //     body: targetArea, // must match 'Content-Type' header
@@ -289,15 +297,6 @@ class FindPlace extends Component {
         // });
     }
 
-    searchUser = () => {
-        const { userLat, userLng } = this.state;
-        this.setState({
-            mapCenterLat: userLat,
-            mapCenterLng: userLng,
-            searhUserMode: !this.state.searhUserMode
-        })
-    }
-
     handleMode = (e) => {
         const target_ID = e.target.parentElement.id;
         if(target_ID === "map"){
@@ -311,6 +310,26 @@ class FindPlace extends Component {
                 listMode: true
             })
         }
+    }
+
+    sortList = (content) => {
+        const { groupLists } = this.state;
+        if(content === "distance"){
+            groupLists.sort((a, b) => {
+                return a.distance - b.distance;
+            });
+        }else if(content === "date"){
+            groupLists.sort((a, b) => {
+                return Number(moment(a.date).format("YYYYMMDD") - Number(moment(b.date).format("YYYYMMDD")));
+            })
+        }else if(content === "intensity"){
+            groupLists.sort((a, b) => {
+                return a.intensity - b.intensity;
+            });
+        }
+        this.setState({
+            groupLists
+        })
     }
  
     render() {
@@ -368,7 +387,7 @@ class FindPlace extends Component {
                 </div>
                 { mapMode ? <Map zoom={ zoom } polyData={ polyData } isLoading={ isLoading } userLat={ userLat } userLng={ userLng } mapCenterLat={ mapCenterLat } mapCenterLng = { mapCenterLng } targetPlaces = { targetPlaces } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchAreaMode={ searchAreaMode } searchPlaceData={ searchPlaceData } searchAreaData={ searchAreaData } defaultLat ={ defaultLat } defaultLng={ defaultLng }/> : null }
 
-                { listMode ?  <GroupList isLoading={ isLoading } groupLists={ groupLists } initialLat={ userLat } initialLng={ userLng } history={ history } /> : null }
+                { listMode ?  <GroupList isLoading={ isLoading } groupLists={ groupLists } initialLat={ userLat } initialLng={ userLng } sortList={ this.sortList } history={ history } /> : null }
             </div>
         );
     }

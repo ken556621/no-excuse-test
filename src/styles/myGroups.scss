@@ -1,7 +1,7 @@
-$small-font: 10px;
+$small-font: 13px;
 $big-font: 15px;
 $icon-font: 25px;
-$letter-spacing: 3px;
+$letter-spacing: 1px;
 
 $gray: #faf5f3;
 $ball: #e8581c;
@@ -18,12 +18,11 @@ $alert: #dd2c00;
     .mygroups-list-comtainer{
         display: flex;
         flex-wrap: wrap;
+        justify-content: space-around;
         width: 100%;
         .each-group{
-            padding: 15px 0px 15px 15px;
+            padding: 15px;
             margin-bottom: 15px;
-            margin-left: 15px;
-            width: 30%;
             .col-upper-wrapper{
                 display: flex;
                 align-items: baseline;

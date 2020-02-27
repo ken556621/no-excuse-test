@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase from '../common/firebase';
 
 import Navbar from '../common/navbar';
 import Detail from './detail';

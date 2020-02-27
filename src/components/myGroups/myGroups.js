@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../common/firebase';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'; 
 import { Link } from 'react-router-dom';
 
 import Card from '@material-ui/core/Card';
@@ -16,7 +16,6 @@ import PlaceIcon from '@material-ui/icons/Place';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import GroupIcon from '@material-ui/icons/Group';
 import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
-import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
 
 import NavBar from '../common/navbar';
 import Ball from '../common/ballImg';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import firebase from '../common/firebase';
 
+import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 import Load from '../common/load';
 
@@ -17,58 +18,8 @@ class GroupList extends Component {
         this.state = {
             userLat: 25.0424536,
             userLng: 121.562731,
-            groupLists: ''
+            groupLists: []
         }
-    }
-
-    componentDidMount(){
-    //    this.getRooms();
-    }
-
-    // getRooms = async () => {
-    //     const db = firebase.firestore();
-    //     const { userLat, userLng } = this.state;
-    //     const { initialLat, initialLng } = this.props;
-    //     const groupLists = [];
-        
-    //     const roomSnapshot = await db.collection("rooms").get();
-    //         for (let i in roomSnapshot.docs) {
-    //             const doc = roomSnapshot.docs[i]
-    //             let groupData = Object.assign({}, doc.data());
-    //             const host_ID = groupData.host;
-    //             const place_ID = groupData.place_ID;
-    //             groupData.room_ID = doc.id;
-
-    //             const hostData = await db.collection("users").doc(host_ID).get();
-    //             groupData.hostData = hostData.data();
-
-    //             const placeData = await db.collection("locations").doc(place_ID).get();
-    //             let distance = this.getDistanceFromLatLonInKm(initialLat || userLat, initialLng || userLng, placeData.data().location.latitude, placeData.data().location.longitude);
-    //             groupData.placeData = placeData.data();
-    //             groupData.distance = Math.round(distance * 100) / 100;
-    //             groupLists.push(groupData);
-    //         }
-    //         this.setState({
-    //             groupLists
-    //         });
-    // }
-
-    getDistanceFromLatLonInKm = (lat1,lon1,lat2,lon2) => {
-        const radius = 6371; // Radius of the earth in km
-        const distanceLat = this.deg2rad(lat2-lat1);  // deg2rad below
-        const distanceLon = this.deg2rad(lon2-lon1); 
-        const algorithm = 
-          Math.sin(distanceLat/2) * Math.sin(distanceLat/2) +
-          Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
-          Math.sin(distanceLon/2) * Math.sin(distanceLon/2); 
-        const c = 2 * Math.atan2(Math.sqrt(algorithm), Math.sqrt(1-algorithm)); 
-        const distance = radius * c; // Distance in km
-        return distance
-    }
-      
-
-    deg2rad = (deg) => {
-        return deg * (Math.PI/180)
     }
 
     clickRow = (place_ID) => {
@@ -76,8 +27,28 @@ class GroupList extends Component {
         history.push(`/placeInfo?${place_ID}`);
     } 
 
+    displayIntensity = (intensity) => {
+        switch (intensity) {
+            case '0':
+                return '輕鬆'
+                break
+            case '1':
+                return '中等'
+                break
+            case '2':
+                return '挑戰'
+                break
+            default:
+                return '無'
+        }
+    }
+
+    test = () => {
+        console.log('test')
+    }
+
     render() { 
-        const { isLoading, groupLists } = this.props;
+        const { isLoading, groupLists, sortList } = this.props;
         if(isLoading){
             return <Load />
         }
@@ -88,27 +59,45 @@ class GroupList extends Component {
                         <TableHead>
                         <TableRow>
                             <TableCell>開團名稱</TableCell>
-                            <TableCell align="left">地點</TableCell>
-                            <TableCell align="left">距離</TableCell>
-                            <TableCell align="left">時間</TableCell>
-                            <TableCell align="left">強度</TableCell>
-                            <TableCell align="left">開團者</TableCell>
-                            <TableCell align="left">聯絡資訊</TableCell>
+                            <TableCell align="right">地點</TableCell>
+                            <TableCell align="right">
+                                <Button className="word-icon-wrapper" onClick={ () => sortList("distance") }>
+                                    <Typography className="sort-word">
+                                        距離
+                                    </Typography>
+                                </Button>
+                            </TableCell>
+                            <TableCell align="right">
+                                <Button className="word-icon-wrapper">
+                                    <Typography className="sort-word" onClick={ () => sortList("date") }>
+                                        時間
+                                    </Typography>
+                                </Button>
+                            </TableCell>
+                            <TableCell align="right">
+                                <Button className="word-icon-wrapper">
+                                    <Typography className="sort-word" onClick={ () => sortList("intensity") }>
+                                        強度
+                                    </Typography>
+                                </Button>
+                            </TableCell>
+                            <TableCell align="right">開團者</TableCell>
+                            <TableCell align="right">聯絡資訊</TableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
                         {
                             groupLists.length !== 0 ? groupLists.map(group => (
-                                <TableRow key={ group.room_ID } id={ group.place_ID } onClick={ () => this.clickRow(group.place_ID) } hover>
+                                <TableRow className="content-row" key={ group.room_ID } id={ group.place_ID } onClick={ () => this.clickRow(group.place_ID) } hover>
                                 <TableCell component="th" scope="row">
                                     {group.placeName}
                                 </TableCell>
-                                <TableCell align="left">{group.placeData.name}</TableCell>
-                                <TableCell align="left">{group.distance} km</TableCell>
-                                <TableCell align="left">{group.date}</TableCell>
-                                <TableCell align="left">{group.intensity}</TableCell>
-                                <TableCell align="left">{group.hostData.name}</TableCell>
-                                <TableCell align="left">{group.hostData.email}</TableCell>
+                                <TableCell align="right">{group.placeData.name}</TableCell>
+                                <TableCell align="right">{group.distance} km</TableCell>
+                                <TableCell align="right">{group.date}</TableCell>
+                                <TableCell align="right">{this.displayIntensity(group.intensity)}</TableCell>
+                                <TableCell align="right">{group.hostData.name}</TableCell>
+                                <TableCell align="right">{group.hostData.email}</TableCell>
                                 </TableRow>
                             )):
                             null    

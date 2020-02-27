@@ -27,10 +27,6 @@ class Detail extends Component {
             placeStatus: '',
             openState: '',
             rentState: '',
-            courtStatus: '下雨天容易滑',
-            light: true,
-            toilet: false,
-            isFlipped: false
         }
     }
 
@@ -65,24 +61,6 @@ class Detail extends Component {
         });
     }
 
-    componentWillUnmount(){
-        //store user update detail before close the page
-        const db = firebase.firestore();
-        const { place_ID } = this.props;
-        const { courtStatus, light, toilet } = this.state;
-        db.collection("locations").doc(place_ID).update({
-            courtStatus,
-            light,
-            toilet
-        })
-        .then(function() {
-            console.log("Document successfully written!");
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
-        });
-    }
-
     openGroup = async () => { 
         const db = firebase.firestore();
         const { place_ID } = this.props;
@@ -101,49 +79,8 @@ class Detail extends Component {
         }
     }
 
-    editInfo = (e) => {
-        if(e){
-            const targetID = e.target.parentElement.parentElement.id;
-            this.setState({
-                isEditing: !this.state.isEditing,
-                editTarget: targetID
-            })
-        }else{
-            this.setState({
-                isEditing: !this.state.isEditing
-            })
-        }
-    }
-
-    handleInput = (e) => {
-        const targetElement = e.target.parentElement.parentElement;
-        if(targetElement.matches('.edit-place-name')){
-            this.setState({
-                courtStatus: e.target.value
-            })
-        }
-    }
-
-    toggleCheckBox = (e) => {
-        if(e.target.value === "hasLight"){
-            this.setState({
-                light: !this.state.light
-            })
-        }else if(e.target.value === "hasToilet"){
-            this.setState({
-                toilet: !this.state.toilet
-            })
-        }
-    }
-
-    handleClick = (e) => {
-        e.preventDefault();
-        this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
-    }
-
     render() { 
         const { name, address, photo, phone, placeStatus, openState, rentState } = this.state;
-        const { handleClick } = this.props;
         return ( 
             <div className="detail-container">
                 <Card className="card">

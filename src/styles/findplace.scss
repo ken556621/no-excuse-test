@@ -35,7 +35,7 @@ $ball: #e8581c;
         .mark-explain{
             display: flex;
             margin-top: 2%;
-            margin-right: 5%;
+            margin-right: 5%; 
             .user-explain{
                 margin-left: 10px;
                 font-size: $small-font;
@@ -137,5 +137,31 @@ $ball: #e8581c;
     .groups-lists-container{
         width: 95%;
         margin: 0 auto;
+        .word-icon-wrapper{
+            display: flex;
+            align-items: center;
+            .sort-word{
+                color: rgba(0, 0, 0, 0.87);
+                font-weight: 500;
+                line-height: 1.5rem;
+                font-size: 0.875rem;
+                &:before{
+                    content: '⇡';
+                    position: absolute;
+                    left: 70%;
+                }
+                &:after{
+                    content: '⇣';
+                    position: absolute;
+                    left: 80%;
+                }
+            }
+            .sort-icon{
+                font-size: 15px;
+            }
+        }
+        .content-row{
+            cursor: pointer;
+        }
     }
 }

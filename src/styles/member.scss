@@ -32,14 +32,21 @@ $ball: #e8581c;
             background-color: $white;
         }
         .upload-img-btn-wrapper{
-            display: flex;
-            justify-content: space-between;
             .upload-img-input{
                 display: none;
             }
             .upload-img-btn{
+                padding: 12px 0;
+                position: absolute;
+                left: 56%;
+                top: 27%;
+                border-radius: 50px;
                 color: $white;
                 background-color: $ball;
+                .upload-img-btn-icon{
+                    color: $white;
+                    font-size: $big-font;
+                }
             }
         }
         .list-container{
