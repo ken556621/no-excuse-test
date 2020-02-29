@@ -73,12 +73,14 @@ $smoky-black: rgba(#222222, .85);
                         }
                     }
                     .user-name{
+                        min-width: 100px;
                         span, p{ 
                             font-size: $small-font;
                             letter-spacing: $letter-spacing;
                         }
                     }
                     .user-groups{
+                        min-width: 100px;
                         margin-right: 10px;
                         color: $white;
                         background-color: $smoky-black;
@@ -92,6 +94,7 @@ $smoky-black: rgba(#222222, .85);
                         }
                     }
                     .norooms-default{
+                        min-width: 100px;
                         font-size: $small-font;
                     }
                 }
@@ -109,12 +112,15 @@ $smoky-black: rgba(#222222, .85);
                         }
                     }
                     .friend-name{
+                        min-width: 100px;
                         span, p{
                             font-size: $small-font;
                             letter-spacing: $letter-spacing;
                         }
                     }
                     .friend-groups{
+                        min-width: 100px;
+                        margin-right: 10px;
                         padding: 5px;
                         font-size: $small-font;
                         letter-spacing: $letter-spacing;
@@ -131,6 +137,7 @@ $smoky-black: rgba(#222222, .85);
                         }
                     }
                     .norooms-default{
+                        min-width: 100px;
                         font-size: $small-font;
                     }
                 }

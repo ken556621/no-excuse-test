@@ -218,6 +218,9 @@ $smoky-black: rgba(#222222, .85);
                         .delete-btn{
 
                         }
+                        .facebook-btn{
+                            vertical-align: text-top;
+                        }
                         .fake{
                             width: 16px;
                             height: 16px;
@@ -230,6 +233,7 @@ $smoky-black: rgba(#222222, .85);
                             font-size: $big-font;
                         }
                         .no-people-default{
+                            padding: 10px;
                             font-size: $small-font;
                         }
                     }
@@ -262,9 +266,10 @@ $smoky-black: rgba(#222222, .85);
         position: fixed;
         left: 45%;
         top: 90%;
+        color: $ball;
         background-color: $white;
         &:hover{
-            color: $ball;
+            background-color: $smoky-black;
         }
         @media screen and (max-width: 696px){
             display: block;
@@ -283,9 +288,10 @@ $smoky-black: rgba(#222222, .85);
         position: fixed;
         left: 45%;
         top: 90%;
+        color: $ball;
         background-color: $white;
         &:hover{
-            color: $ball;
+            background-color: $smoky-black;
         }
         @media screen and (max-width: 696px){
             display: block;

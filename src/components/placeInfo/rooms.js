@@ -3,6 +3,7 @@ import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { FacebookShareButton } from 'react-share';
+import { Helmet } from "react-helmet";
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -286,6 +287,13 @@ class Groups extends Component {
                 { rooms.length !== 0 ? rooms.map(room => {
                     return (
                         <Card key={ room.host } className="card-container">
+                            <Helmet>
+                                <meta property="og:title" content={ room.placeName } />
+                                <meta property="og:url" content={ window.location.href } />
+                                <meta property="og:image" content={ room.hostPhoto } />
+                                <meta property="og:description" content={ "缺" + room.peopleNeed } />
+                                <meta property="og:description" content={ "強度: " + room.intensity } />
+                            </Helmet>
                             <div className="col-left">
                                 <CardContent className="card-content">
                                     <div className="host-img-name-wrapper">
@@ -339,7 +347,7 @@ class Groups extends Component {
                                         <FacebookShareButton
                                             url={ window.location.href }
                                             quote={"It is my group!"}
-                                            className="Demo__some-network__share-button"
+                                            className="facebook-btn"
                                         >
                                             <FacebookIcon size={32} />
                                         </FacebookShareButton>
@@ -354,7 +362,7 @@ class Groups extends Component {
                     <div className="default-display">
                         <img src={ DefaultImage } />
                         <Typography className="default-display-words">
-                        There is no group yet. Try to open one?
+                            There is no group yet. Try to open one?
                         </Typography>
                     </div>
                 }
