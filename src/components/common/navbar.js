@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Badge from '@material-ui/core/Badge';
+import Logo from '../../../img/logo.png';
 
 import '../../styles/common/navbar.scss';
 
@@ -18,7 +19,7 @@ class NavBar extends Component {
             fullRoomQty: 0,
             friendRequestQty: 0,
             navBarFixed: false
-        }
+        } 
     }
 
     async componentDidMount(){
@@ -82,9 +83,7 @@ class NavBar extends Component {
             <nav>
                 <Button className="logo">
                     <Link to='/'>
-                        <Typography>
-                            No Excuse
-                        </Typography>
+                        <img src={ Logo }></img>
                     </Link>
                 </Button>
                 <div className="btn-wrapper">
@@ -107,16 +106,16 @@ class NavBar extends Component {
                     <Button className="friends-wrapper">
                         <Link to="/friends">
                             <Typography className="friends-words words">
-                                團友列表
+                                團友
                             </Typography>
                         </Link>
                     </Button>
-                    <Button className="member-wrapper">
+                    <Button className={ this.props.authenticated ? "member-wrapper show" : "hide" }>
                         <Link to={{
                             pathname: "/member",
                             key: `123`
                         }}>
-                            <div className={ this.props.authenticated ? 'member-btn show' : 'hide' }>
+                            <div className='member-btn'>
                                 <AccountCircleIcon className="member-icon"/>
                                 <Badge className="friend-notification" color="error"  badgeContent={ friendRequestQty !== 0 ? friendRequestQty : null }>
                                     <Typography className="member-words">
@@ -126,21 +125,25 @@ class NavBar extends Component {
                             </div>
                         </Link>
                     </Button>
-                    <Button className="login-logout-wrapper">
+                    <Button className={ this.props.authenticated ? "hide" : "login-logout-wrapper show" }>
                         <Link to='/login'>
-                            <div className={ this.props.authenticated ? 'hide' : 'login-btn show' }>
+                            <div className= 'login-btn'>
                                 <ExitToAppIcon className="login-icon" />
                                 <Typography className="login">
                                     登入
                                 </Typography>
                             </div>
                         </Link>
-                            <div className={ this.props.authenticated ? 'logout-btn show' : 'hide' } onClick={ this.logout }>
+                    </Button>
+                    <Button className={ this.props.authenticated ? "login-logout-wrapper" : "hide" }>
+                        <Link to='/login'>
+                            <div className='logout-btn' onClick={ this.logout }>
                                 <ExitToAppIcon className="logout-icon" />
                                 <Typography className="logout">
                                     登出
                                 </Typography>
                             </div>
+                        </Link>
                     </Button>
                 </div>
             </nav>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { FacebookShareButton } from 'react-share';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -17,7 +18,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Skeleton from '@material-ui/lab/Skeleton';
+import FacebookIcon from '@material-ui/icons/Facebook';
 
+import DefaultImage from '../../../img/default-img.png';
 
 class Groups extends Component {
     constructor(props){ 
@@ -143,7 +146,7 @@ class Groups extends Component {
     delete = async (room_ID) => {
         const db = firebase.firestore();
         await db.collection("rooms").doc(room_ID).delete();
-        console.log("delete success")
+        window.alert("delete success")
         this.fetchRooms();
     }
 
@@ -333,6 +336,13 @@ class Groups extends Component {
                                         <IconButton className="delete-btn" size="small" onClick={ () => this.delete(room.room_ID) }>
                                             <DeleteIcon fontSize="small" />
                                         </IconButton>
+                                        <FacebookShareButton
+                                            url={ window.location.href }
+                                            quote={"It is my group!"}
+                                            className="Demo__some-network__share-button"
+                                        >
+                                            <FacebookIcon size={32} />
+                                        </FacebookShareButton>
                                     </div> : 
                                     <div className="fake"></div>
                                 }
@@ -342,6 +352,7 @@ class Groups extends Component {
                     )
                     }) :
                     <div className="default-display">
+                        <img src={ DefaultImage } />
                         <Typography className="default-display-words">
                         There is no group yet. Try to open one?
                         </Typography>

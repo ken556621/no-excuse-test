@@ -8,6 +8,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 import Map from './mapContainer';
 import GroupList from './groupList';
@@ -43,7 +44,8 @@ class FindPlace extends Component {
             searchPlaceData: [],
             searchAreaData: [],
             mapMode: true,
-            listMode: false
+            listMode: false,
+            navOpen: false
         }
     }
 
@@ -280,21 +282,6 @@ class FindPlace extends Component {
             })
         }
         this.getDistrictPolyData(targetArea);
-
-        //if no data, post api to store data to db
-        // const res = await fetch(`http://localhost:5001/no-excuse-1579439547243/us-central1/getGymDataFromLocal`, {
-        //     body: targetArea, // must match 'Content-Type' header
-        //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        //     credentials: 'same-origin', // include, same-origin, *omit
-        //     headers: {
-        //       'user-agent': 'Mozilla/4.0 MDN Example',
-        //       'content-type': 'application/json'
-        //     },
-        //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        //     mode: 'no-cors', // no-cors, cors, *same-origin
-        //     redirect: 'follow', // manual, *follow, error
-        //     referrer: 'no-referrer', // *client, no-referrer
-        // });
     }
 
     handleMode = (e) => {
@@ -331,9 +318,15 @@ class FindPlace extends Component {
             groupLists
         })
     }
+
+    openNav = () => {
+        this.setState({
+            navOpen: !this.state.navOpen
+        })
+    }
  
     render() {
-        const { zoom, polyData, isLoading, userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, searchAreaMode, mapMode, listMode, targetPlaces, searchPlaceData, searchAreaData, groupLists } = this.state;
+        const { zoom, polyData, isLoading, userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, searchAreaMode, mapMode, listMode, targetPlaces, searchPlaceData, searchAreaData, groupLists, navOpen } = this.state;
         const { history } = this.props;
         if(allCourts === 0){
             return <Load />
@@ -342,6 +335,49 @@ class FindPlace extends Component {
             <div className="find-place-container">
                 <NavBar history={ history }/>
                 <div className="navi-wrapper">
+                    { listMode ? 
+                        <div></div> :
+                        <div className="search-bar-wrapper">
+                            <Autocomplete
+                                onChange={ (e) => this.clickSearchName(e) }
+                                options={ (allCourts) }
+                                getOptionLabel={ option => option }
+                                className="search-bar"
+                                renderInput={params => (
+                                <TextField {...params} label="請輸入場地名稱" margin="normal" fullWidth />
+                                )}
+                            />
+                            <Autocomplete
+                                onChange={ (e) => this.clickSearchArea(e) }
+                                options={ (TaipeiDistrict) }
+                                getOptionLabel={ option => option }
+                                className="search-bar"
+                                renderInput={params => (
+                                <TextField {...params} label="以地區搜尋" margin="normal" fullWidth />
+                                )}
+                            />
+                            <Button className="current-position-btn" onClick={ this.searchUser }>以目前位置搜尋</Button>
+                        </div>
+                    }
+                    <div className="mark-explain">
+                        <Typography className="user-explain">
+                            <img src="https://image.flaticon.com/icons/svg/140/140378.svg"/>
+                            現在位置
+                        </Typography>
+                        <Typography className="user-explain">
+                            <img src="https://image.flaticon.com/icons/svg/2467/2467984.svg"/>
+                            場地位置
+                        </Typography>
+                        <Typography className="user-explain">
+                            <img src="https://image.flaticon.com/icons/svg/1692/1692975.svg"/>
+                            有團的場
+                        </Typography>
+                    </div>
+                </div>
+                <Button className="open-navi-btn" onClick={ this.openNav }>
+                    <FilterListIcon />
+                </Button>
+                <div className="burger-navi" style={ navOpen ? {height:"100%"} : {height:"0"}}>
                     { listMode ? 
                         <div></div> :
                         <div className="search-bar-wrapper">

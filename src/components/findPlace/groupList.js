@@ -43,10 +43,6 @@ class GroupList extends Component {
         }
     }
 
-    test = () => {
-        console.log('test')
-    }
-
     render() { 
         const { isLoading, groupLists, sortList } = this.props;
         if(isLoading){
@@ -55,7 +51,7 @@ class GroupList extends Component {
         return ( 
             <div className="groups-lists-container">
                 <TableContainer component={Paper}>
-                    <Table className="table" aria-label="simple table">
+                    <Table className="table" aria-label="simple table" stickyHeader>
                         <TableHead>
                         <TableRow>
                             <TableCell>開團名稱</TableCell>
@@ -85,7 +81,7 @@ class GroupList extends Component {
                             <TableCell align="right">聯絡資訊</TableCell>
                         </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody className="table-body">
                         {
                             groupLists.length !== 0 ? groupLists.map(group => (
                                 <TableRow className="content-row" key={ group.room_ID } id={ group.place_ID } onClick={ () => this.clickRow(group.place_ID) } hover>

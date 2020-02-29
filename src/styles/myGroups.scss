@@ -1,4 +1,4 @@
-$small-font: 13px;
+$small-font: .7rem;
 $big-font: 15px;
 $icon-font: 25px;
 $letter-spacing: 1px;
@@ -119,6 +119,19 @@ $alert: #dd2c00;
                         letter-spacing: $letter-spacing;
                     }
                 }
+            }
+        }
+        .default-display{
+            margin-top: 3%;
+            padding: 30px 30px;
+            border-radius: 8px;
+            background-color: $gray;
+            img{
+                width: 300px;
+            }
+            .default-display-words{
+                font-size: 1rem;
+                text-align: center;
             }
         }
     }

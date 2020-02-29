@@ -1,9 +1,10 @@
 $white: #ebebf0;
-$small-font: 10px;
+$small-font: .7rem;
 $big-font: 18px;
-$icon-font: 12px;
+$icon-font: .8rem;
 
 $alert: #dd2c00;
+$smoky-black: rgba(#222222, .85);
 
 nav{
     display: flex;
@@ -11,15 +12,20 @@ nav{
     align-items: center;
     background-color: $white;
     .logo{
-        margin-left: 10px;
-        .MuiTypography-body1{
-            font-size: $big-font;
-            font-family: 'Sriracha', cursive;
-            font-weight: 800;
+        img{
+            width: 100px;
+        }
+        @media screen and (max-width: 448px){
+            display: none;
         }
     }
     .btn-wrapper{
         padding: 7px 0;
+        @media screen and (max-width: 448px){
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
         .groups-wrapper{
             .group-notification{
                 .MuiBadge-badge{

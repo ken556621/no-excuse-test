@@ -1,4 +1,4 @@
-$small-font: 10px;
+$small-font: .7rem;
 $big-font: 15px;
 $icon-font: 25px;
 $letter-spacing: 2px;
@@ -9,15 +9,19 @@ $smoky-black: rgba(#222222, .85);
 $ball: #e8581c;
 
 .find-place-container{
-    .navi-wrapper{
+    .navi-wrapper{ 
         display: flex;
         justify-content: space-between;
         align-items: center;
+        @media screen and (max-width: 464px){
+            display: none;
+        }
         .search-bar-wrapper{
             display: flex;
             .search-bar{
                 margin-left: 5%;
                 width: 20vw;
+                min-width: 120px;
                 max-width: 300px;
                 label{
                     font-size: $small-font;
@@ -27,6 +31,7 @@ $ball: #e8581c;
             .current-position-btn{
                 margin-left: 12px;
                 margin-top: 24px;
+                font-size: $small-font;
                 span{
                     white-space:nowrap;
                 }
@@ -35,7 +40,68 @@ $ball: #e8581c;
         .mark-explain{
             display: flex;
             margin-top: 2%;
-            margin-right: 5%; 
+            margin-right: 2.5%; 
+            @media screen and (max-width: 720px){
+                flex-direction: column;
+            }
+            .user-explain{
+                margin-left: 10px;
+                font-size: $small-font;
+                letter-spacing: $letter-spacing;
+            }
+            img{
+                margin-right: 10px;
+                width: 15px;
+                height: 15px;
+            }
+        }
+    }
+    .open-navi-btn{
+        display: none;
+        @media screen and (max-width: 464px){
+            display: block;
+        }
+    }
+    .burger-navi{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 2.5%;
+        height: 0px;
+        overflow: hidden;
+        transition: all 2s;
+        .search-bar-wrapper{
+            display: flex;
+            @media screen and (max-width: 464px){
+                flex-direction: column;
+                align-items: baseline;
+            }
+            .search-bar{
+                margin-left: 5%;
+                width: 20vw;
+                min-width: 120px;
+                max-width: 300px;
+                label{
+                    font-size: $small-font;
+                    letter-spacing: $letter-spacing;
+                }
+            }
+            .current-position-btn{
+                margin-left: 12px;
+                margin-top: 24px;
+                font-size: $small-font;
+                span{
+                    white-space:nowrap;
+                }
+            } 
+        }
+        .mark-explain{
+            display: flex;
+            margin-top: 2%;
+            margin-right: 2.5%; 
+            @media screen and (max-width: 720px){
+                flex-direction: column;
+            }
             .user-explain{
                 margin-left: 10px;
                 font-size: $small-font;
@@ -54,6 +120,7 @@ $ball: #e8581c;
         border-bottom: 1px solid #000000;
         // fix:hover issue
         .display-btn{
+            font-size: $small-font;
             letter-spacing: $letter-spacing;
             border-top: 1px solid #ebebf0;
             border-right: 1px solid #ebebf0;
@@ -137,14 +204,19 @@ $ball: #e8581c;
     .groups-lists-container{
         width: 95%;
         margin: 0 auto;
+        th{
+            min-width: 100px;
+        }
+        td{
+            min-width: 100px;
+        }
         .word-icon-wrapper{
-            display: flex;
-            align-items: center;
             .sort-word{
                 color: rgba(0, 0, 0, 0.87);
                 font-weight: 500;
                 line-height: 1.5rem;
                 font-size: 0.875rem;
+                text-align: end;
                 &:before{
                     content: '⇡';
                     position: absolute;
@@ -160,8 +232,11 @@ $ball: #e8581c;
                 font-size: 15px;
             }
         }
-        .content-row{
-            cursor: pointer;
+        .table-body{
+           
+            .content-row{
+                cursor: pointer;
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../common/firebase';
 import { connect } from 'react-redux'; 
-import { Link } from 'react-router-dom';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -20,6 +19,7 @@ import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
 import NavBar from '../common/navbar';
 import Ball from '../common/ballImg';
 import Load from '../common/load';
+import DefaultImage from '../../../img/default-img.png';
 import '../../styles/myGroups.scss';
 
 class MyGroups extends Component {
@@ -138,7 +138,7 @@ class MyGroups extends Component {
                     <NavBar history={ history }/>
                 </div>
                 <div className="mygroups-list-comtainer">
-                    { rooms.map(room => {
+                    { rooms.length !== 0 ? rooms.map(room => {
                         return(
                             <Card className="each-group" key={ room.room_ID } id={ room.room_ID }>
                                 <div className="col-upper-wrapper">
@@ -200,7 +200,14 @@ class MyGroups extends Component {
                                 </div>
                             </Card>
                         )
-                    }) }
+                    }) : 
+                    <div className="default-display">
+                        <img src={ DefaultImage } />
+                        <Typography className="default-display-words">
+                        There is no group yet. Try to join one?
+                        </Typography>
+                    </div>
+                    }
                 </div>
             </div>
         );
