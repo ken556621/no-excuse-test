@@ -3,7 +3,6 @@ import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { FacebookShareButton } from 'react-share';
-import { Helmet } from "react-helmet";
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -287,13 +286,6 @@ class Groups extends Component {
                 { rooms.length !== 0 ? rooms.map(room => {
                     return (
                         <Card key={ room.host } className="card-container">
-                            <Helmet>
-                                <meta property="og:title" content={ room.placeName } />
-                                <meta property="og:url" content={ window.location.href } />
-                                <meta property="og:image" content={ room.hostPhoto } />
-                                <meta property="og:description" content={ "缺" + room.peopleNeed } />
-                                <meta property="og:description" content={ "強度: " + room.intensity } />
-                            </Helmet>
                             <div className="col-left">
                                 <CardContent className="card-content">
                                     <div className="host-img-name-wrapper">

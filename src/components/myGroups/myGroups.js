@@ -128,7 +128,6 @@ class MyGroups extends Component {
 
     render() { 
         const { isLoading, rooms } = this.state;
-        console.log(rooms)
         if(isLoading){
             return <Load />
         }

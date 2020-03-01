@@ -94,7 +94,6 @@ export class MapContainer extends Component {
       const { zoom, polyData, isLoading, userLat, userLng, targetPlaces, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchAreaMode, searchPlaceData, searchAreaData, defaultLat, defaultLng } = this.props;
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
-    //   console.log(searchAreaData)
       if(isLoading){
           return <Load />
       }

@@ -35,7 +35,7 @@ class FindPlace extends Component {
             targetPlaces: [],
             targetArea: [],
             groupLists: [],
-            isLoading: false,
+            isLoading: true,
             allCourts: [],
             targetPlaceName: '',
             searhUserMode: true,
@@ -135,7 +135,7 @@ class FindPlace extends Component {
         //從資料庫限制搜尋範圍
         const bounds = geolib.getBoundsOfDistance(
             { latitude: lat || defaultLat, longitude: lng || defaultLng },
-            500
+            1000
         );
         const lower = geohash.encode(bounds[0].latitude, bounds[0].longitude);
         const upper = geohash.encode(bounds[1].latitude, bounds[1].longitude);
@@ -145,6 +145,7 @@ class FindPlace extends Component {
         for (let i in locationsQuery.docs) {
             const doc = locationsQuery.docs[i];
             const locationsData = Object.assign({}, doc.data());
+            console.log(doc.data())
             locationsData.rooms = [];
             const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
             roomsQuery.forEach((room) => {
@@ -225,7 +226,6 @@ class FindPlace extends Component {
     }
 
     clickSearchArea = (e) => {
-        console.log(this.state.searchAreaMode)
         const targetArea = e.target.innerText;
         this.setState({
             targetArea,
@@ -238,7 +238,6 @@ class FindPlace extends Component {
         const { targetPlaceName } = this.state;
         const db = firebase.firestore();
         const searchPlaceData = [];
-        console.log(targetPlaceName)
         if(!targetPlaceName){
             return
         }
@@ -278,6 +277,8 @@ class FindPlace extends Component {
             searchAreaData.push(areaData)
             this.setState({
                 zoom: 13,
+                mapCenterLat: searchAreaData[0].location.latitude,
+                mapCenterLng: searchAreaData[0].location.longitude,
                 searchAreaData
             })
         }
