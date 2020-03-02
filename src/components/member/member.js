@@ -23,7 +23,7 @@ import NavBar from '../common/navbar';
 import Friends from './friends';
 import Groups from './groups';
 import Load from '../common/load';
-import '../../styles/member.scss';
+import './member.scss';
 
 class Member extends Component {
     constructor(props){
@@ -245,7 +245,6 @@ class Member extends Component {
                             null
                         }
                     </div>
-                    {  }
                     <Avatar className="user-img" alt="Oh no!" src={ userPhoto } />
                     <div className="upload-img-btn-wrapper">
                         { isModify ?

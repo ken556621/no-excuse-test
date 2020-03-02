@@ -1,14 +1,17 @@
 $small-font: .7rem;
-$big-font: 18px;
-$icon-font: 25px;
-$gray: #faf5f3;
+$icon-font: 1rem;
+$big-font: 1.3rem;
+
 $ball: #e8581c;
+$gray: #faf5f3;
+$white: #ebebf0;
+$smoky-black: rgba(#222222, .85);
 $alert: #dd2c00;
 
 
 .open-group-container{
     .form-wrapper{
-        background-image: url(../../img/open-group.jpg);
+        background-image: url(../../../img/open-group.jpg);
         background-size: cover;
         width: 100vw;
         height: 100vh;

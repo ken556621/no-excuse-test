@@ -20,7 +20,7 @@ import NavBar from '../common/navbar';
 import Ball from '../common/ballImg';
 import Load from '../common/load';
 import DefaultImage from '../../../img/default-img.png';
-import '../../styles/myGroups.scss';
+import './myGroups.scss';
 
 class MyGroups extends Component {
     constructor(props){
@@ -135,8 +135,8 @@ class MyGroups extends Component {
             <div className="mygroups-container">
                 <div className="navigation-bar">
                     <NavBar history={ history }/>
-                </div>
-                <div className="mygroups-list-comtainer">
+                </div> 
+                <div className="mygroups-list-container">
                     { rooms.length !== 0 ? rooms.map(room => {
                         return(
                             <Card className="each-group" key={ room.room_ID } id={ room.room_ID }>
@@ -172,7 +172,7 @@ class MyGroups extends Component {
                                         <Avatar src={ room.hostData[0].photo }/>
                                     </div>
                                 </div>
-                                <div className="col-wrapper">
+                                <div className="bottom-col-wrapper">
                                     <div className="col-left">
                                         <CardActions className="check-group-btn-wrapper">
                                             <Button className="check-group-btn" onClick={ () => this.handleClick(room.place_ID) }>

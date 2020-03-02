@@ -1,12 +1,10 @@
 $small-font: .7rem;
-$big-font: 15px;
-$icon-font: 25px;
+$icon-font: 1rem;
+$big-font: 1.3rem;
 $letter-spacing: 1px;
 
-$gray: #faf5f3;
 $ball: #e8581c;
-$facebook: #4267b2;
-$google: #ea4336;
+$gray: #faf5f3;
 $white: #ebebf0;
 $smoky-black: rgba(#222222, .85);
 $alert: #dd2c00;
@@ -15,7 +13,7 @@ $alert: #dd2c00;
     .navigation-bar{
         margin-bottom: 15px;
     }
-    .mygroups-list-comtainer{
+    .mygroups-list-container{
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
@@ -79,11 +77,8 @@ $alert: #dd2c00;
                         }
                     }
                 }
-                .col-right{
-
-                }
             }
-            .col-wrapper{
+            .bottom-col-wrapper{
                 display: flex;
                 align-items: center;
                 justify-content: space-between;

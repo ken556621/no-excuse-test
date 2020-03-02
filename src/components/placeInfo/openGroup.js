@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 
-import '../../styles/openGroup.scss';
+import './openGroup.scss';
 
 class OpenGroup extends Component {
     constructor(props){

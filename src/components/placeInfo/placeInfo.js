@@ -9,7 +9,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import Navbar from '../common/navbar';
 import Detail from './detail';
 import Rooms from './rooms';
-import '../../styles/placeInfo.scss';
+import './placeInfo.scss';
 
 class PlaceInfo extends Component {
     constructor(props){
@@ -33,7 +33,7 @@ class PlaceInfo extends Component {
 
     render() { 
         const { detailMode } = this.state;
-        const place_ID = this.props.location.search.slice(1);
+        const place_ID = this.props.location.search.split("&")[0].slice(1);
         return ( 
             <div className="place-info-container">
                 <Navbar history={ this.props.history } />

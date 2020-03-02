@@ -12,6 +12,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import Rating from '@material-ui/lab/Rating';
 
 import Ball from '../common/basketballImg';
+import './detail.scss';
 
 class Detail extends Component {
     constructor(props){

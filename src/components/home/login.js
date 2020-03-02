@@ -16,7 +16,7 @@ import Register from './register';
 import { updateUser } from '../../actions/user.action';
 import Load from '../common/load'; 
 
-import '../../styles/login.scss';
+import './login.scss';
 
 
 class Login extends Component {

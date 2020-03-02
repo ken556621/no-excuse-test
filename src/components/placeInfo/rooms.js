@@ -21,13 +21,14 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import FacebookIcon from '@material-ui/icons/Facebook';
 
 import DefaultImage from '../../../img/default-img.png';
+import './rooms.scss';
 
 class Groups extends Component {
     constructor(props){ 
         super(props)
         this.state = {
             isLoading: true,
-            place_ID: this.props.history.location.search.slice(1),
+            place_ID: this.props.history.location.search.split("&")[0].slice(1),
             hostersPhoto: '',
             userPhoto: '',
             rooms: [],
@@ -45,7 +46,7 @@ class Groups extends Component {
         const db = firebase.firestore();
         const { place_ID } = this.state;
         const rooms = [];
-        //get rooms data & get participants data
+        //get rooms data & participants data
         const querySnapshot = await db.collection("rooms").where("place_ID", "==", place_ID).get();
 
         for (let i in querySnapshot.docs) {
@@ -256,7 +257,7 @@ class Groups extends Component {
     }
 
     render() { 
-        const { isLoading, rooms, toggleSortDate, toggleSortIntensity, place_ID } = this.state;
+        const { isLoading, rooms, toggleSortDate, toggleSortIntensity } = this.state;
         const { uid } = this.props;
         if(isLoading){
             return (

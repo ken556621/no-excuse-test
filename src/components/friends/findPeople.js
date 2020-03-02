@@ -11,12 +11,12 @@ import NavBar from '../common/navbar';
 import AllUsers from './allUsers';
 import Friends from './friends';
 
-import '../../styles/findpeople.scss';
+import './findPeople.scss';
 
 class FindPeople extends Component {
     constructor(props){
         super(props)
-        this.state = {
+        this.state = { 
             isLoading: true,
             allUsers: [],
             friends: '',

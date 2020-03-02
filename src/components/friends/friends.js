@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
@@ -10,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 
-import '../../styles/findpeople.scss';
+import './findPeople.scss';
 
 class Friends extends Component {
     constructor(props){
@@ -27,7 +26,6 @@ class Friends extends Component {
 
     render() { 
         const { friends } = this.props;
-        console.log(friends)
         return (  
                 friends.length !== 0 ?
                 friends.map(person => {

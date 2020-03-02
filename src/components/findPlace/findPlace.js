@@ -18,7 +18,7 @@ import * as geolib from 'geolib';
 import TaipeiDistrict from './taipeiDistrict';
 import County from './county';
 
-import '../../styles/findplace.scss';
+import './findPlace.scss'; 
 
 class FindPlace extends Component {
     constructor(props){

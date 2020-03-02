@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import firebase from '../common/firebase';
 import { updateUser } from '../../actions/user.action';
 
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import PersonIcon from '@material-ui/icons/Person';
 
