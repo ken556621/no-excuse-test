@@ -133,7 +133,7 @@ class Register extends Component {
             }
         }
         return ( 
-            <div className = { window.innerWidth < 523 ? "login-form login-form-bounce-down" : "login-form login-form-bounce-left" }>
+            <div className = { window.innerWidth < 523 ? "login-form login-form-bounce-up" : "login-form login-form-bounce-left" }>
                 <div className="form-wrapper">
                     <div className="form-control">
                         <PersonIcon className="name-icon" />

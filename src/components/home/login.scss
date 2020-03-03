@@ -15,7 +15,7 @@ $smoky-black: rgba(#222222, .85);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: relative;
-  width: 100vw;
+  width: 100vw; 
   height: 100vh;
   .over-lay{
     position: absolute;
@@ -51,9 +51,10 @@ $smoky-black: rgba(#222222, .85);
       box-shadow: -13px 17px 59px -17px rgba(0,0,0,0.75);
       z-index: 300;
       @media screen and (max-width: 523px){
-        top: 33%;
+        top: 73%;
         left: 41%;
         width: 50vw;
+        min-width: 200px;
       }
       .form-wrapper{
         opacity: 0;
@@ -125,6 +126,7 @@ $smoky-black: rgba(#222222, .85);
       width: 70vw;
       max-width: 800px;
       height: 40%;
+      max-height: 450px;
       background-color: rgba(34, 34, 34, 0.85);
       border-radius: 8px;
       @media screen and (max-width: 523px){
@@ -218,19 +220,19 @@ $smoky-black: rgba(#222222, .85);
 }
 
 @keyframes bounceUp{
-  0% {transform: translate3d(-20vw, 30%, 0);}
+  0% {transform: translate3d(-20vw, -50%, 0);}
 
-  50% {transform: translate3d(-20vw, -60%, 0)}
+  50% {transform: translate3d(-20vw, -150%, 0)}
 
-  100% {transform: translate3d(-20vw, -50%, 0)}
+  100% {transform: translate3d(-20vw, -140%, 0)}
 }
 
 @keyframes bounceDown{
-  0%{transform: translate3d(-20vw, -50%, 0)}
+  0%{transform: translate3d(-20vw, -140%, 0)}
 
-  50%{transform: translate3d(-20vw, 40%, 0)}
+  50%{transform: translate3d(-20vw, -40%, 0)}
 
-  100%{transform: translate3d(-20vw, 30%, 0)}
+  100%{transform: translate3d(-20vw, -50%, 0)}
 }
 
 @keyframes showSignUp{

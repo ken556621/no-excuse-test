@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 
 import store from './store/configStore';
 import AppContainer from './components/Appcontainer';
+import * as serviceWorker from './serviceWorker';
+
 import './styles/commom.scss';
 
 
@@ -20,3 +22,4 @@ class App extends Component {
 }
  
 ReactDOM.render(<App />, document.getElementById('root'));
+serviceWorker.register();

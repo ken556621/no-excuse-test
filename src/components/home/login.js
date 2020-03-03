@@ -94,7 +94,7 @@ class Login extends Component {
                 <div className="over-lay">
                     { moveForm ?  
                         <Register history={ history }/> : 
-                        <div className = { window.innerWidth < 523 ? "login-form login-form-bounce-up" : "login-form login-form-bounce-right" }>
+                        <div className = { window.innerWidth < 523 ? "login-form login-form-bounce-down" : "login-form login-form-bounce-right" }>
                             <div className="form-wrapper">
                                 <div className="form-control">
                                     <EmailIcon className="email-icon" />
