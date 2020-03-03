@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { FacebookShareButton } from 'react-share';
+import { FacebookShareButton, LineShareButton } from 'react-share';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -21,6 +21,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import FacebookIcon from '@material-ui/icons/Facebook';
 
 import DefaultImage from '../../../img/default-img.png';
+import LineIcon from '../../../img/line.png';
 import './rooms.scss';
 
 class Groups extends Component {
@@ -339,11 +340,18 @@ class Groups extends Component {
                                         </IconButton>
                                         <FacebookShareButton
                                             url={ window.location.href }
-                                            quote={"It is my group!"}
+                                            quote={ room.placeName }
                                             className="facebook-btn"
                                         >
                                             <FacebookIcon size={32} />
                                         </FacebookShareButton>
+                                        <LineShareButton
+                                            url={window.location.href}
+                                            title={ "我的團: " + room.placeName }
+                                            className="line-btn"
+                                        >
+                                            <img src={ LineIcon }/>
+                                        </LineShareButton>
                                     </div> : 
                                     <div className="fake"></div>
                                 }
