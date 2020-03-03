@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 import Load from '../common/load';
+import './groupList.scss'
 
 class GroupList extends Component {
     constructor(props){

@@ -24,25 +24,25 @@ class FindPlace extends Component {
     constructor(props){
         super(props)
         this.state = {
+            isLoading: true,
             zoom: null,
-            polyData: [],
             userLat: '',
             userLng: '',
             mapCenterLat: '',
             mapCenterLng: '',
             defaultLat: 25.0424536,
             defaultLng: 121.562731,
+            allCourts: [],
+            polyData: [],
+            targetPlaceName: '',
             targetPlaces: [],
             targetArea: [],
             groupLists: [],
-            isLoading: true,
-            allCourts: [],
-            targetPlaceName: '',
+            searchPlaceData: [],
+            searchAreaData: [],
             searhUserMode: true,
             searchPlaceMode: false,
             searchAreaMode: false,
-            searchPlaceData: [],
-            searchAreaData: [],
             mapMode: true,
             listMode: false,
             navOpen: false
@@ -60,7 +60,7 @@ class FindPlace extends Component {
             console.log('Not support in this browser.');
         }
         //get all the place
-        db.collection("locations").orderBy("name", "desc").limit(20).get().then((querySnapshot) => {
+        db.collection("locations").orderBy("name", "desc").limit(10).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 allCourts.push(doc.data().name);
             });
@@ -328,6 +328,9 @@ class FindPlace extends Component {
  
     render() {
         const { zoom, polyData, isLoading, userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng, allCourts, searhUserMode, searchPlaceMode, searchAreaMode, mapMode, listMode, targetPlaces, searchPlaceData, searchAreaData, groupLists, navOpen } = this.state;
+        const placeData = { polyData, targetPlaces, searchPlaceData, searchAreaData };
+        const coordinates = { zoom, userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng };
+        const mode = { searhUserMode, searchPlaceMode, searchAreaMode, mapMode, listMode };
         const { history } = this.props;
         if(allCourts === 0){
             return <Load />
@@ -422,9 +425,9 @@ class FindPlace extends Component {
                         <Button id="map" className="map-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>地圖</Button>
                         <Button id="list" className="list-display-btn display-btn" onClick={ (e) => this.handleMode(e) }>開團列表</Button>
                 </div>
-                { mapMode ? <Map zoom={ zoom } polyData={ polyData } isLoading={ isLoading } userLat={ userLat } userLng={ userLng } mapCenterLat={ mapCenterLat } mapCenterLng = { mapCenterLng } targetPlaces = { targetPlaces } history={ history } searhUserMode={ searhUserMode } searchPlaceMode={ searchPlaceMode } searchAreaMode={ searchAreaMode } searchPlaceData={ searchPlaceData } searchAreaData={ searchAreaData } defaultLat ={ defaultLat } defaultLng={ defaultLng }/> : null }
+                { mapMode ? <Map isLoading={ isLoading } coordinates={ coordinates } placeData={ placeData } history={ history } mode={ mode } /> : null }
 
-                { listMode ?  <GroupList isLoading={ isLoading } groupLists={ groupLists } initialLat={ userLat } initialLng={ userLng } sortList={ this.sortList } history={ history } /> : null }
+                { listMode ?  <GroupList isLoading={ isLoading } groupLists={ groupLists } sortList={ this.sortList } history={ history } /> : null }
             </div>
         );
     }

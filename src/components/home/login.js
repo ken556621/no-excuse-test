@@ -7,8 +7,6 @@ import LockIcon from '@material-ui/icons/Lock';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
-
 
 import firebase from '../common/firebase';
 import ThirdAuth from '../common/thirdAuth';

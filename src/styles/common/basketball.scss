@@ -5,10 +5,6 @@
     transform-origin: center;
 }
 
-#basketball{
-    //讓線條漸漸畫出
-}
-
 #ball{
     stroke-dashoffset: 40;
     animation: sizing 2s infinite alternate;

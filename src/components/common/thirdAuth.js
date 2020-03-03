@@ -15,9 +15,7 @@ class ThirdAuth extends Component {
 
 
     uiConfig = {
-        // Popup signin flow rather than redirect flow.
         signInFlow: 'popup',
-        // We will display Google and Facebook as auth providers.
         signInOptions: [
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.FacebookAuthProvider.PROVIDER_ID
@@ -36,7 +34,6 @@ class ThirdAuth extends Component {
                     friends: []
                 })
                 .then(function() {
-                    //lack of friends data
                     console.log("Document successfully written!");
                     dispatch(updateUser(uid, displayName, email, photoURL)); 
                     dispatch({ type: "LOGIN_SUCCESS" });

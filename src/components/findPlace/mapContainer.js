@@ -8,6 +8,9 @@ import InfoWindow from './infoWindow';
 import MapStyle from './mapStyle';
 import Load from '../common/load';
 
+import './mapContainer.scss';
+import './infoWindow.scss'
+
 export class MapContainer extends Component {
     constructor(props){
         super(props)
@@ -17,7 +20,7 @@ export class MapContainer extends Component {
             selectedPlace: {}
         }
     }
-
+ 
     myStyle = {
         width: "95%",
         height: "100%",
@@ -91,7 +94,10 @@ export class MapContainer extends Component {
     }
 
     render() {
-      const { zoom, polyData, isLoading, userLat, userLng, targetPlaces, mapCenterLat, mapCenterLng, searhUserMode, searchPlaceMode, searchAreaMode, searchPlaceData, searchAreaData, defaultLat, defaultLng } = this.props;
+      const { isLoading } = this.props;
+      const { polyData, targetPlaces, searchPlaceData, searchAreaData } = this.props.placeData;
+      const { zoom, userLat, userLng, defaultLat, defaultLng, mapCenterLat, mapCenterLng } = this.props.coordinates;
+      const { searhUserMode, searchPlaceMode, searchAreaMode } = this.props.mode
       const { id, name, address, photo } = this.state.selectedPlace;
       const rooms = this.state.selectedPlace.rooms || [];
       if(isLoading){
@@ -153,7 +159,7 @@ export class MapContainer extends Component {
                     onClose={ this.windowHasClosed }
                     onClick={ () => this.clickInfoWindow(id, name, address, photo) }
                 >
-                    <div className="place-container">
+                    <div className="infoWindow-container">
                         <div className="col-left">
                             <img src={ photo } />
                         </div>

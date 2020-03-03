@@ -1,0 +1,37 @@
+[debug] [2020-03-03T03:25:06.769Z] ----------------------------------------------------------------------
+[debug] [2020-03-03T03:25:06.771Z] Command:       /Users/ken/.nvm/versions/node/v10.17.0/bin/node /Users/ken/.nvm/versions/node/v10.17.0/bin/firebase deploy
+[debug] [2020-03-03T03:25:06.771Z] CLI Version:   7.12.1
+[debug] [2020-03-03T03:25:06.772Z] Platform:      darwin
+[debug] [2020-03-03T03:25:06.772Z] Node Version:  v10.17.0
+[debug] [2020-03-03T03:25:06.772Z] Time:          Tue Mar 03 2020 11:25:06 GMT+0800 (GMT+08:00)
+[debug] [2020-03-03T03:25:06.773Z] ----------------------------------------------------------------------
+[debug] [2020-03-03T03:25:06.773Z] 
+[debug] [2020-03-03T03:25:06.785Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-03T03:25:06.786Z] > authorizing via signed-in user
+[debug] [2020-03-03T03:25:06.792Z] [iam] checking project no-excuse-1579439547243 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2020-03-03T03:25:06.795Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-03-03T03:25:06.795Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-03-03T03:25:06.894Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-03T03:25:06.901Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/no-excuse-1579439547243:testIamPermissions  
+
+[debug] [2020-03-03T03:25:07.894Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-03T03:25:07.897Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/no-excuse-1579439547243  
+ 
+[debug] [2020-03-03T03:25:08.166Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'no-excuse-1579439547243'...
+[info] 
+[info] i  deploying database, storage, firestore, functions, hosting
+[info] i  database: checking rules syntax...
+[debug] [2020-03-03T03:25:09.765Z] >>> HTTP REQUEST PUT https://no-excuse-1579439547243.firebaseio.com/.settings/rules.json?dryRun=true  
+ {
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+[debug] [2020-03-03T03:25:10.556Z] <<< HTTP RESPONSE 200
+[info] ✔  database: rules syntax for database no-excuse-1579439547243 is valid
+[debug] [2020-03-03T03:25:10.558Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/no-excuse-1579439547243  
+ 
