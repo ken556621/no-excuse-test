@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import store from './store/configStore';
-import AppContainer from './components/Appcontainer';
+import AppContainer from './components/AppContainer';
 
 import './styles/commom.scss';
 

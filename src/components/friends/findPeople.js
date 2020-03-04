@@ -36,7 +36,7 @@ class FindPeople extends Component {
     getAllUsers = async () => {
         const db = firebase.firestore();
         const allUsers = [];
-        const userSnapshot = await db.collection("users").get();
+        const userSnapshot = await db.collection("users").limit(10).get();
         for (let i in userSnapshot.docs) {
             const doc = userSnapshot.docs[i]
             const allUsersData = Object.assign({}, doc.data());

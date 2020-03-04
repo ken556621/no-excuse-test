@@ -9,10 +9,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import PersonIcon from '@material-ui/icons/Person';
 
-import Load from '../common/load';
-
-
-
 class Register extends Component {
     constructor(props){
         super(props)
@@ -130,12 +126,6 @@ class Register extends Component {
 
     render() { 
         const { emailValid, comfirmInValid, errorMessage } = this.state;
-        const { authenticated, authenticating } = this.props;
-        if(authenticating){
-            if(!authenticated){
-                <Load />
-            }
-        }
         return ( 
             <div className = { window.innerWidth < 523 ? "login-form login-form-bounce-up" : "login-form login-form-bounce-left" }>
                 <div className="form-wrapper">
