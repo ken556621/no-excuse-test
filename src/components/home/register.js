@@ -83,20 +83,20 @@ class Register extends Component {
                 console.log(error)
                 this.setState({
                     emailValid: true,
-                    errorMessage: 'already used email.'
+                    errorMessage: 'Already used email.'
                 })
             }
             if (errorCode == 'auth/invalid-email') {
                 this.setState({
                     emailValid: true,
-                    errorMessage: 'email address is invalid.'
+                    errorMessage: 'Email address is invalid.'
                 })
             }
             if (errorCode == 'auth/operation-not-allowed') {
                 this.setState({
                     emailValid: true,
                     passwordValid: true,
-                    errorMessage: ' email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab.'
+                    errorMessage: 'Email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab.'
                 })
             }
         }).then(res => {
@@ -129,7 +129,7 @@ class Register extends Component {
     }
 
     render() { 
-        const { emailValid, comfirmInValid } = this.state;
+        const { emailValid, comfirmInValid, errorMessage } = this.state;
         const { authenticated, authenticating } = this.props;
         if(authenticating){
             if(!authenticated){
@@ -145,7 +145,7 @@ class Register extends Component {
                     </div>
                     <div className="form-control">
                         <EmailIcon className="email-icon" />
-                        <TextField className="email" label="Email" helperText={ emailValid ? "Email is not correct!" : null } color="primary" onChange={ (event) => { this.handleChange(event, 'email') }} />
+                        <TextField className="email" label="Email" helperText={ emailValid ? errorMessage : null } color="primary" onChange={ (event) => { this.handleChange(event, 'email') }} />
                     </div>
                     <div className="form-control">
                         <LockIcon className="password-icon"/>
