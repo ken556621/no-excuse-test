@@ -53,7 +53,6 @@ class Register extends Component {
     isInValid = () => {
         const { password, comfirm } = this.state;
         if(password !== comfirm ){
-            console.log({password, comfirm})
             return true
         }
         return false
@@ -65,7 +64,6 @@ class Register extends Component {
         const db = firebase.firestore();
         const email = this.state.userEmail;
         const password = this.state.password;
-        console.log(history)
         if(this.isInValid()){   
             this.setState({
                 comfirmInValid: true
@@ -125,8 +123,8 @@ class Register extends Component {
     }
 
     render() { 
-        const { comfirmInValid } = this.state;
-        const { moveForm, authenticated, authenticating } = this.props;
+        const { emailValid, comfirmInValid } = this.state;
+        const { authenticated, authenticating } = this.props;
         if(authenticating){
             if(!authenticated){
                 <Load />
@@ -141,7 +139,7 @@ class Register extends Component {
                     </div>
                     <div className="form-control">
                         <EmailIcon className="email-icon" />
-                        <TextField className="email" label="Email" color="primary" onChange={ (event) => { this.handleChange(event, 'email') }} />
+                        <TextField className="email" label="Email" helperText={ emailValid ? "Email is not correct!" : null } color="primary" onChange={ (event) => { this.handleChange(event, 'email') }} />
                     </div>
                     <div className="form-control">
                         <LockIcon className="password-icon"/>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +9,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import firebase from '../common/firebase';
 import ThirdAuth from '../common/thirdAuth';
 import Register from './register';
 import { updateUser } from '../../actions/user.action';
@@ -24,9 +24,7 @@ class Login extends Component {
             userEmail: '',
             password: '',
             emailValid: false,
-            passwordValid: false,
-            errorMessage: '',
-            submitted: false,
+            emailEmpty: false,
             moveForm: false
         }
     } 
@@ -58,11 +56,8 @@ class Login extends Component {
         const email = this.state.userEmail;
         const password = this.state.password;
         firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
             this.setState({
-                emailValid: true,
-                errorMessage: errorCode
+                emailValid: true
             })
         }).then(res => {
             if(!res){
@@ -82,7 +77,7 @@ class Login extends Component {
     }
 
     render() { 
-        const { moveForm } = this.state;
+        const { emailValid, moveForm } = this.state;
         const { authenticated, authenticating, history } = this.props;
         if(authenticating){
             if(!authenticated){
@@ -98,7 +93,7 @@ class Login extends Component {
                             <div className="form-wrapper">
                                 <div className="form-control">
                                     <EmailIcon className="email-icon" />
-                                    <TextField className="email" label="Email" color="primary" onChange={ (event) => { this.handleChange(event, 'email') }} />
+                                    <TextField className="email" label="Email" color="primary" helperText={ emailValid ? "Email or password not correct" : null } onChange={ (event) => { this.handleChange(event, 'email') }} />
                                 </div>
                                 <div className="form-control">
                                     <LockIcon className="password-icon"/>
@@ -109,6 +104,11 @@ class Login extends Component {
                                     <Button className="login-btn" onClick={ this.handleSubmit } >
                                         Login
                                     </Button>
+                                    <Link to='/forgetPassword'>
+                                        <Button className="forget-password-btn">
+                                            Forget Password?
+                                        </Button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

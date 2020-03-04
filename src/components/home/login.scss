@@ -8,6 +8,7 @@ $facebook: #4267b2;
 $google: #ea4336;
 $white: #ebebf0;
 $smoky-black: rgba(#222222, .85);
+$alert: #dd2c00;
 
 
 .login-container{
@@ -83,6 +84,9 @@ $smoky-black: rgba(#222222, .85);
             input{
               font-size: $small-font;
             }
+            p{
+              color: $alert;
+            }
           }
           .password{
             label{
@@ -90,6 +94,9 @@ $smoky-black: rgba(#222222, .85);
             }
             input{
               font-size: $small-font;
+            }
+            p{
+              color: $alert;
             }
           }
           .comfirm{
@@ -106,6 +113,9 @@ $smoky-black: rgba(#222222, .85);
             padding: 8px 25px;
             font-size: $small-font;
             background-color: $ball;
+          }
+          .forget-password-btn{
+            font-size: $small-font;
           }
           .signup-btn{
             margin-top: 15px;

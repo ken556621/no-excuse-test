@@ -4,6 +4,7 @@ import { Switch,Route } from "react-router-dom";
 import Auth from './common/auth';
 import Home from './home/home';
 import Login from './home/login';
+import ForgetPassword from './home/forgetPassword';
 import Findpeople from './friends/findPeople';
 import FindPlace from './findPlace/findPlace';
 import PlaceInfo from './placeInfo/placeInfo';
@@ -15,6 +16,7 @@ export default (
     <div>
         <Switch>
             <Route path="/login" component={ Login } />
+            <Route path="/forgetPassword" component={ ForgetPassword } />
             <Route path="/friends" component={ Auth(Findpeople) } />
             <Route path="/place" component={ FindPlace } />
             <Route path="/placeInfo" component={ PlaceInfo } />
