@@ -91,7 +91,7 @@ class Groups extends Component {
         if (!authenticated) {
             history.push('/login');
             return 
-        } 
+        }  
         
         //不能參加自己開的房間 + 已經參加過的不能重複點選
         const docRef = await db.collection("rooms").doc(room_ID).get();
@@ -170,7 +170,7 @@ class Groups extends Component {
             <AvatarGroup className="participants-icons">
                 { 
                     participantsData.length !== 0 ? participantsData.map((person, i) => {
-                        if(i < 3){  
+                        if(i < 2){  
                             return (
                                 <Avatar key={ person.ID } className="participater" alt="Participater" sizes="10px" src={ person.photo } />
                             )
@@ -347,7 +347,7 @@ class Groups extends Component {
                                         </FacebookShareButton>
                                         <LineShareButton
                                             url={window.location.href}
-                                            title={ "我的團: " + room.placeName }
+                                            title={ "我的團: " + room.placeName + " " + "時間: " + room.date + " " + room.time }
                                             className="line-btn"
                                         >
                                             <img src={ LineIcon }/>

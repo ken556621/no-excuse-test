@@ -95,7 +95,7 @@ class MyGroups extends Component {
             <AvatarGroup className="participants-icons">
                 { 
                     participantsData.length !== 0 ? participantsData.map((person, i) => {
-                        if(i < 3){  
+                        if(i < 2){  
                             return (
                                 <Avatar key={ person.ID } className="participater" alt="Participater" sizes="10px" src={ person.photo } />
                             )
