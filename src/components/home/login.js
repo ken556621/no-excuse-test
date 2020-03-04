@@ -76,6 +76,12 @@ class Login extends Component {
         })
     }
 
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+            this.handleSubmit();
+        }
+    }
+
     render() { 
         const { emailValid, moveForm } = this.state;
         const { authenticated, authenticating, history } = this.props;
@@ -97,7 +103,7 @@ class Login extends Component {
                                 </div>
                                 <div className="form-control">
                                     <LockIcon className="password-icon"/>
-                                    <TextField className="password" type="password" label="Password" color="primary" onChange={ (event) => { this.handleChange(event, 'password') }} />
+                                    <TextField className="password" type="password" label="Password" color="primary" onChange={ (event) => { this.handleChange(event, 'password') }} onKeyPress={ this.handleKeyPress } />
                                 </div>
                                 <ThirdAuth history={ this.props.history }/>
                                 <div className="btn-wrapper">

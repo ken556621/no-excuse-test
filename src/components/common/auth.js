@@ -7,8 +7,6 @@ export default function(ComposedClass){
     class Auth extends Component {
         constructor(props) {
               super(props);
-              this.state = {
-              };
         }
   
         componentDidMount(){
@@ -28,7 +26,7 @@ export default function(ComposedClass){
   
         render() {
             const { authenticated, authenticating } = this.props;
-            // TODO: redirects
+
             if(authenticating) {
                 return <Loading />
             } else {
@@ -39,11 +37,9 @@ export default function(ComposedClass){
                 }
  
             }
-  
         }
     }
   
-    // Retrieve data from store as props
     function mapStateToProps(store) {
         return {
             offline: store.offline,

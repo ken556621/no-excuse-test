@@ -122,6 +122,12 @@ class Register extends Component {
         })
     }
 
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+            this.handleSubmit();
+        }
+    }
+
     render() { 
         const { emailValid, comfirmInValid } = this.state;
         const { authenticated, authenticating } = this.props;
@@ -147,7 +153,7 @@ class Register extends Component {
                     </div>
                     <div className="form-control">
                         <LockIcon className="password-icon"/>
-                        <TextField className="password" type="password" label="Confirm Password" helperText={ comfirmInValid ? "Comfirm password is not correct!" : null } color="primary" onChange={ (event) => { this.handleChange(event, 'confirm') }} />
+                        <TextField className="password" type="password" label="Confirm Password" helperText={ comfirmInValid ? "Comfirm password is not correct!" : null } color="primary" onChange={ (event) => { this.handleChange(event, 'confirm') }} onKeyPress={ this.handleKeyPress } />
                     </div>
                     <div className="btn-wrapper">
                         <Button type="submit" onClick={ this.handleSubmit } className="signup-btn">

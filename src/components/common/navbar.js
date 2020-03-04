@@ -66,12 +66,11 @@ class NavBar extends Component {
     logout = () => {
         const { dispatch, history } = this.props;
         firebase.auth().signOut()
-        .then(function() {
-            console.log('logout');
+        .then(() => {
             dispatch({ type: 'LOGOUT' });
             history.push('/login');
         })
-        .catch(function(error) {
+        .catch((error) => {
             console.log(error)
         });
     }
