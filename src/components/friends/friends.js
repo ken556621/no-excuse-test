@@ -13,10 +13,7 @@ import './findPeople.scss';
 
 class Friends extends Component {
     constructor(props){
-        super(props)
-        this.state = {
-            
-        }
+        super(props);
     }
 
     clickRoom = (e) => {
