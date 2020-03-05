@@ -18,6 +18,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 import NavBar from '../common/navbar';
 import Friends from './friends';
@@ -32,12 +38,14 @@ class Member extends Component {
             isLoading: true,
             isUser: false,
             isFriend: false,
+            isPending: false,
             isModify: false,
             userPhoto: '',
             userName: '',
             userEmail: '',
             userQuate: '',
-            pendingFriendQty: ''
+            pendingFriendQty: '',
+            alertIsOpen: false
         }
     }
 
@@ -46,11 +54,9 @@ class Member extends Component {
         const { uid, history } = this.props;
         const person_ID = this.props.location.search.slice(1);
         if(!uid){
-            console.log('Not log in yet!');
             history.push('/');
             return
         }
-        //Loading friend's data & check user and friend status
         if(person_ID){
             if(person_ID === uid){
                 this.setState({
@@ -59,6 +65,7 @@ class Member extends Component {
                 this.fetchMemberData(uid);
             }
 
+            //Is friend
             db.collection("networks").where("inviter", "==", uid).where("invitee", "==", person_ID).where("status", "==", "accept")
             .get()
             .then((querySnapshot) => {
@@ -78,6 +85,33 @@ class Member extends Component {
                 querySnapshot.forEach((doc) => {
                     this.setState({
                         isFriend: true
+                    })
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+
+            //Is pending
+            db.collection("networks").where("inviter", "==", uid).where("invitee", "==", person_ID).where("status", "==", "pending")
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    this.setState({
+                        isPending: true
+                    })
+                });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+
+            db.collection("networks").where("inviter", "==", person_ID).where("invitee", "==", uid).where("status", "==", "pending")
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    this.setState({
+                        isPending: true
                     })
                 });
             })
@@ -158,7 +192,7 @@ class Member extends Component {
 
     addFriend = () => {
         const db = firebase.firestore();
-        const { uid, history } = this.props;
+        const { uid } = this.props;
         const person_ID = this.props.location.search.slice(1);
         //不能加自己為好友
         if(uid === person_ID){
@@ -170,8 +204,10 @@ class Member extends Component {
             invitee: person_ID,
             status: "pending"
         }).then(() => {
-            window.alert('Waitting for comfirm')
-            history.push('/friends');
+            this.setState({
+                isPending: true,
+                alertIsOpen: true
+            })
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
@@ -224,8 +260,14 @@ class Member extends Component {
         })
     }
 
+    alertClose = () => {
+        this.setState({
+            alertIsOpen: false
+        })
+    }
+
     render() { 
-        const { isLoading, isUser, isFriend, isModify, userPhoto, userName, userEmail, userQuate, pendingFriendQty } = this.state;
+        const { isLoading, isUser, isFriend, isPending, isModify, userPhoto, userName, userEmail, userQuate, pendingFriendQty, alertIsOpen } = this.state;
         const { history } = this.props;
         if(isLoading){
             return <Load />
@@ -277,9 +319,16 @@ class Member extends Component {
                                 Personal Information
                             </Typography>
                             { 
-                                !isFriend && !isUser ?  
+                                !isFriend && !isUser && !isPending ?  
                                 <Button className="add-friend-btn" size="small" onClick={ this.addFriend }>
-                                    Add Friend
+                                    加朋友
+                                </Button> : 
+                                null
+                            } 
+                            { 
+                                isPending ?  
+                                <Button className="pending-friend-btn" size="small" onClick={ this.addFriend } disabled>
+                                    等待接受中
                                 </Button> : 
                                 null
                             } 
@@ -332,12 +381,34 @@ class Member extends Component {
                         { 
                             isFriend && !isUser ?  
                             <Button className="remove-friend-btn" onClick={ this.removeFriend } variant="contained" size="small">
-                                Remove Friend
+                                刪除好友
                             </Button> : 
                             null
                         }        
                     </List>
                 </div>
+                <Dialog
+                    open={ alertIsOpen }
+                    onClose={ this.alertClose }
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title" className="alert-title">
+                        <Typography>
+                            { "等待對方確認好友邀請！" }
+                        </Typography>
+                    </DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description" className="alert-content">
+                        <img src="https://image.flaticon.com/icons/svg/502/502113.svg" />
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions className="alert-btn-wrapper">
+                        <Button className="alert-btn" onClick={ this.alertClose } autoFocus>
+                            確認
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }

@@ -17,6 +17,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 class Friends extends Component {
     constructor(props){
@@ -24,7 +30,9 @@ class Friends extends Component {
         this.state = {
             openFriends: false,
             friends: '',
-            pendingFriends: ''
+            pendingFriends: '',
+            alertIsOpen: false,
+            alertMessage: ''
         }
     }
 
@@ -81,7 +89,10 @@ class Friends extends Component {
                 status: "accept"
             });
             this.getFriend();
-            window.alert('Accept Success!')
+            this.setState({
+                alertIsOpen: true,
+                alertMessage: "成功接受！"
+            })
         }
     }
 
@@ -96,7 +107,10 @@ class Friends extends Component {
                 status: "decline"
             });
             this.getFriend();
-            window.alert('Decline Success!')
+            this.setState({
+                alertIsOpen: true,
+                alertMessage: "成功刪除！"
+            })
         }
     }
 
@@ -106,8 +120,14 @@ class Friends extends Component {
         })
     }
 
+    alertClose = () => {
+        this.setState({
+            alertIsOpen: false
+        })
+    }
+
     render() { 
-        const { openFriends, friends, pendingFriends } = this.state;
+        const { openFriends, friends, pendingFriends, alertIsOpen, alertMessage } = this.state;
         const { pendingFriendQty } = this.props;
         return (
             <div>
@@ -157,6 +177,28 @@ class Friends extends Component {
                         }
                     </List>
                 </Collapse>
+                <Dialog
+                    open={ alertIsOpen }
+                    onClose={ this.alertClose }
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title" className="alert-title">
+                        <Typography>
+                            { alertMessage }
+                        </Typography>
+                    </DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description" className="alert-content">
+                        <img src="https://image.flaticon.com/icons/svg/502/502113.svg" />
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions className="alert-btn-wrapper">
+                        <Button className="alert-btn" onClick={ this.alertClose } autoFocus>
+                            確認
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }

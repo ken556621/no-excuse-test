@@ -19,6 +19,11 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Skeleton from '@material-ui/lab/Skeleton';
 import FacebookIcon from '@material-ui/icons/Facebook';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import DefaultImage from '../../../img/default-img.png';
 import LineIcon from '../../../img/line.png';
@@ -35,7 +40,9 @@ class Groups extends Component {
             rooms: [],
             editRoom: '',
             toggleSortDate: false,
-            toggleSortIntensity: false
+            toggleSortIntensity: false,
+            alertIsOpen: false,
+            alertMessage: ''
         }
     }
 
@@ -107,12 +114,18 @@ class Groups extends Component {
         }
 
         if(isHost){
-            window.alert("Cna't join your own group")
+            this.setState({
+                alertIsOpen: true,
+                alertMessage: "無法加入自己開的團！"
+            })
             return
         }
         
         if(isParticipant){
-            window.alert("You already join this group")
+            this.setState({
+                alertIsOpen: true,
+                alertMessage: "你已經加入這個團體了！"
+            })
             return
         }
         this.storeUsersToRoom(room_ID);
@@ -136,7 +149,10 @@ class Groups extends Component {
         await db.collection("rooms").doc(room_ID).update({
             participants: firebase.firestore.FieldValue.arrayUnion(uid)
         });
-        window.alert("join success")
+        this.setState({
+            alertIsOpen: true,
+            alertMessage: "成功參加！"
+        })
         this.fetchRooms();
     }
 
@@ -148,7 +164,10 @@ class Groups extends Component {
     delete = async (room_ID) => {
         const db = firebase.firestore();
         await db.collection("rooms").doc(room_ID).delete();
-        window.alert("delete success")
+        this.setState({
+            alertIsOpen: true,
+            alertMessage: "成功刪除！"
+        })
         this.fetchRooms();
     }
 
@@ -257,8 +276,14 @@ class Groups extends Component {
         }
     }
 
+    alertClose = () => {
+        this.setState({
+            alertIsOpen: false
+        })
+    }
+
     render() { 
-        const { isLoading, rooms, toggleSortDate, toggleSortIntensity } = this.state;
+        const { isLoading, rooms, toggleSortDate, toggleSortIntensity, alertIsOpen, alertMessage } = this.state;
         const { uid } = this.props;
         if(isLoading){
             return (
@@ -285,6 +310,28 @@ class Groups extends Component {
                         { toggleSortIntensity ? <ArrowDownwardIcon className="sort-icon" /> :  <ArrowUpwardIcon className="sort-icon" /> }
                     </Button>
                 </div>
+                <Dialog
+                    open={ alertIsOpen }
+                    onClose={ this.alertClose }
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title" className="alert-title">
+                        <Typography>
+                            { alertMessage }
+                        </Typography>
+                    </DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description" className="alert-content">
+                        <img src="https://image.flaticon.com/icons/svg/502/502113.svg" />
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions className="alert-btn-wrapper">
+                        <Button className="alert-btn" onClick={ this.alertClose } autoFocus>
+                            確認
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 { rooms.length !== 0 ? rooms.map(room => {
                     return (
                         <Card key={ room.host } className="card-container">

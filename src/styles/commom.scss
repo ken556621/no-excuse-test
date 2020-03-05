@@ -1,3 +1,11 @@
+$small-font: .7rem;
+$icon-font: 1rem;
+$big-font: 1.3rem;
+
+$ball: #e8581c;
+$gray: #faf5f3;
+$white: #ebebf0;
+$smoky-black: rgba(#222222, .85);
 
 body{
     margin: 0;
@@ -42,5 +50,25 @@ button{
 
 .end-rotating{
     transform: rotate(180deg);
+}
+
+.alert-title{
+    font-size: $big-font;
+    letter-spacing: 1px;
+}
+.alert-content{
+    text-align: center;
+    img{
+        width: 200px;
+    }
+}
+.alert-btn-wrapper{
+    .alert-btn{
+        color: $white;
+        background-color: $smoky-black;
+        &:hover{
+            background-color: $ball;
+        }
+    }
 }
 
