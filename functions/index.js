@@ -71,10 +71,7 @@ exports.getGymDataFromLocal = functions.https.onRequest((req, res) => {
     fetch(encoded_URL)
     .then(res => res.json())
     .then(data => {
-        console.log(data)
-        console.log("==========", "ready to fetch data")
         data.forEach(place => {
-            console.log("==========", "start to fetch data")
             let lat = place.LatLng.split(',')[0];
             let lng = place.LatLng.split(',')[1];
 
@@ -83,10 +80,67 @@ exports.getGymDataFromLocal = functions.https.onRequest((req, res) => {
             //prevent duplicated
             docRef.get().then((doc) => {
                 if (doc.exists) {
-                    console.log("Document data:", doc.data());
+                    // console.log("Document data:", doc.data());
                 } else {
-                    console.log("No such document!");
+                    // console.log("No such document!");
                     db.collection("districts").doc(req.body).collection("locations").doc("local" + place.GymID).set({
+                        id: "local" + place.GymID,
+                        name: place.Name,
+                        address: place.Address,
+                        phone: place.OperationTel,
+                        photo: place.Photo1,
+                        category: place.GymFuncList,
+                        rentState: place.RentState,
+                        openState: place.OpenState,
+                        detail: place.Declaration,
+                        placeStatus: place.LandAttrName,
+                        location: new admin.firestore.GeoPoint(Number(lat), Number(lng)),
+                        geoHash: geohash.encode(Number(lat), Number(lng)),
+                        store_time: new Date()
+                    }).then(() => {
+                        console.log("Document successfully written!");
+                    }).catch((error) => {
+                        console.error("Error writing document: ", error);
+                    });
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        
+        })
+        res.status(200).send(data)
+    }).catch(err => console.log(err));
+});
+
+exports.getGymDataFromLocalStoreToDB = functions.https.onRequest((req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Method', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+
+    console.log(req.body)
+
+    const db = admin.firestore();
+    const origin_URL = `https://iplay.sa.gov.tw/api/GymSearchAllList?$format=application/json;odata.metadata=none&Keyword=${req.body}&GymType=籃球場&Latitude=22.6239746&Longitude=120.305267`; 
+    process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+    const encoded_URL = encodeURI(origin_URL); 
+
+    fetch(encoded_URL)
+    .then(res => res.json())
+    .then(data => {
+        data.forEach(place => {
+            let lat = place.LatLng.split(',')[0];
+            let lng = place.LatLng.split(',')[1];
+
+            const docRef = db.collection("locations").doc("local" + place.GymID);
+
+            //prevent duplicated
+            docRef.get().then((doc) => {
+                if (doc.exists) {
+                    // console.log("Document data:", doc.data());
+                } else {
+                    // console.log("No such document!");
+                    db.collection("locations").doc("local" + place.GymID).set({
                         id: "local" + place.GymID,
                         name: place.Name,
                         address: place.Address,

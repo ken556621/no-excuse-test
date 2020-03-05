@@ -12,3 +12,22 @@
         //     redirect: 'follow', // manual, *follow, error
         //     referrer: 'no-referrer', // *client, no-referrer
         // });
+
+        // storePlaceToDb = () => {
+        //     TaipeiDistrict.forEach( async (district) => {
+        //         console.log(district)
+        //         const res = await fetch(`http://localhost:5001/no-excuse-1579439547243/us-central1/getGymDataFromLocalStoreToDB`, {
+        //             body: district, 
+        //             cache: 'no-cache', 
+        //             credentials: 'same-origin', 
+        //             headers: {
+        //             'user-agent': 'Mozilla/4.0 MDN Example',
+        //             'content-type': 'application/json'
+        //             },
+        //             method: 'POST', 
+        //             mode: 'no-cors', 
+        //             redirect: 'follow', 
+        //             referrer: 'no-referrer', 
+        //         });
+        //     })
+        // }

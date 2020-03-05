@@ -109,7 +109,6 @@ class FindPlace extends Component {
     }
 
     getDistrictPolyData = (district) => {
-        //format district polygon data
         const targetCounty = [];
         County.features.forEach(eachCounty => {
             const eachCountyArray = [];
@@ -265,7 +264,7 @@ class FindPlace extends Component {
         const db = firebase.firestore();
         const searchAreaData = [];
 
-        const districtShapshot = await db.collection("districts").doc(targetArea).collection("locations").limit(10).get();
+        const districtShapshot = await db.collection("districts").doc(targetArea).collection("locations").limit(5).get();
         for (let i in districtShapshot.docs) {
             const doc = districtShapshot.docs[i];
             let areaData = Object.assign({}, doc.data());
