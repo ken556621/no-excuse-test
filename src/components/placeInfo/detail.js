@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase from '../common/firebase';
+import { db } from '../common/firebase';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -32,7 +32,6 @@ class Detail extends Component {
     }
 
     componentDidMount(){
-        const db = firebase.firestore();
         const { place_ID } = this.props;
         db.collection("locations").where("id", "==", place_ID)
         .get()
@@ -63,7 +62,6 @@ class Detail extends Component {
     }
 
     openGroup = async () => { 
-        const db = firebase.firestore();
         const { place_ID } = this.props;
         const { uid, history } = this.props;
         let isHost = false;

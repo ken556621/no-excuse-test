@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from '../common/firebase';
+import { db } from '../common/firebase';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -27,7 +27,6 @@ class Groups extends Component {
     }
 
     async componentDidMount(){
-        const db = firebase.firestore();
         const { uid } = this.props;
         const groups = [];
 

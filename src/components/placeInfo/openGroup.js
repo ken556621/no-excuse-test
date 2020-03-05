@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { db } from '../common/firebase';
 import firebase from '../common/firebase';
 import NavBar from '../common/navbar';
 
@@ -44,7 +45,6 @@ class OpenGroup extends Component {
     }
 
     getRoom = async (room_ID) => {
-        const db = firebase.firestore();
         if(room_ID){
             const roomData = await db.collection("rooms").doc(room_ID).get();
             this.setState({
@@ -88,7 +88,6 @@ class OpenGroup extends Component {
     }
 
     handleSubmit = () => {
-        const db = firebase.firestore();
         const uid = this.props.uid;
         const { place_ID, room_ID, name, people, date, time, intensity } = this.state;
         //Valid check

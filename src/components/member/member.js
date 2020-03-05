@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { db } from '../common/firebase';
 import firebase from '../common/firebase';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -45,12 +46,12 @@ class Member extends Component {
             userEmail: '',
             userQuate: '',
             pendingFriendQty: '',
-            alertIsOpen: false
+            alertIsOpen: false,
+            alertMessage: ''
         }
     }
 
     componentDidMount(){
-        const db = firebase.firestore();
         const { uid, history } = this.props;
         const person_ID = this.props.location.search.slice(1);
         if(!uid){
@@ -129,7 +130,6 @@ class Member extends Component {
     }
 
     fetchMemberData = async (uid) => {
-        const db = firebase.firestore();
         const pendingFriend = [];
 
         //用戶基本資訊
@@ -181,7 +181,6 @@ class Member extends Component {
     }
 
     storeModifiedData = async () => {
-        const db = firebase.firestore();
         const { userName, userQuate } = this.state;
         const { uid } = this.props;
         await db.collection("users").doc(uid).update({
@@ -191,14 +190,9 @@ class Member extends Component {
     }
 
     addFriend = () => {
-        const db = firebase.firestore();
         const { uid } = this.props;
         const person_ID = this.props.location.search.slice(1);
-        //不能加自己為好友
-        if(uid === person_ID){
-            window.alert("You can't add yourself!")
-            return
-        }
+
         db.collection("networks").doc().set({
             inviter: uid,
             invitee: person_ID,
@@ -206,7 +200,8 @@ class Member extends Component {
         }).then(() => {
             this.setState({
                 isPending: true,
-                alertIsOpen: true
+                alertIsOpen: true,
+                alertMessage: "等待對方確認邀請！"
             })
         })
         .catch((error) => {
@@ -215,8 +210,7 @@ class Member extends Component {
     }
 
     removeFriend = async () => {
-        const db = firebase.firestore();
-        const { uid, history } = this.props;
+        const { uid } = this.props;
         const person_ID = this.props.location.search.slice(1);
         //朋友 被邀請者
         const inviteeSnapshot = await db.collection("networks").where("invitee", "==", uid).where("inviter", "==", person_ID).where("status", "==", "accept").get();
@@ -238,18 +232,20 @@ class Member extends Component {
                 status: "remove"
             });
         }
-        history.push('/friends');
+        this.setState({
+            isFriend: false,
+            isPending: false,
+            alertIsOpen: true,
+            alertMessage: "成功刪除此好友！"
+        })
     }
 
     uploadImg = async (e) => { 
-        const db = firebase.firestore();
         const { uid } = this.props;
         const file = e.target.files[0];
-        // Create a root reference
         const storageRef = firebase.storage().ref().child(uid + file.name);
         await storageRef.put(file);
 
-        // Get image url
         const url = await storageRef.getDownloadURL();
 
         await db.collection("users").doc(uid).update({
@@ -267,7 +263,7 @@ class Member extends Component {
     }
 
     render() { 
-        const { isLoading, isUser, isFriend, isPending, isModify, userPhoto, userName, userEmail, userQuate, pendingFriendQty, alertIsOpen } = this.state;
+        const { isLoading, isUser, isFriend, isPending, isModify, userPhoto, userName, userEmail, userQuate, pendingFriendQty, alertIsOpen, alertMessage } = this.state;
         const { history } = this.props;
         if(isLoading){
             return <Load />
@@ -395,7 +391,7 @@ class Member extends Component {
                 >
                     <DialogTitle id="alert-dialog-title" className="alert-title">
                         <Typography>
-                            { "等待對方確認好友邀請！" }
+                            { alertMessage }
                         </Typography>
                     </DialogTitle>
                     <DialogContent>

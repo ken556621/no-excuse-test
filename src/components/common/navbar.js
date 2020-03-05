@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { db } from '../common/firebase';
 import firebase from './firebase';
 
 import Typography from '@material-ui/core/Typography';
@@ -23,7 +24,6 @@ class NavBar extends Component {
     }
 
     async componentDidMount(){
-        const db = firebase.firestore();
         const { uid } = this.props;
         let fullRoomQty = 0;
         let friendRequestQty = 0;

@@ -5,12 +5,12 @@ import { createBrowserHistory } from 'history';
 import Routes from './routes';
 
 const history = createBrowserHistory();
-
+ 
 
 class AppContainer extends Component {
     render() { 
         return ( 
-            <Router history={ history }>
+            <Router history={ history } >
                 { Routes }
             </Router>
         );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { db } from '../common/firebase';
 import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 
@@ -34,7 +35,6 @@ class FindPeople extends Component {
     }
 
     getAllUsers = async () => {
-        const db = firebase.firestore();
         const allUsers = [];
         const userSnapshot = await db.collection("users").limit(10).get();
         for (let i in userSnapshot.docs) {
@@ -54,7 +54,6 @@ class FindPeople extends Component {
     }
 
     getFriends = async (uid) => {
-        const db = firebase.firestore();
         const friends = [];
 
         //朋友 被邀請者

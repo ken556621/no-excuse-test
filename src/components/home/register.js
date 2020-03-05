@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { db } from '../common/firebase';
 import firebase from '../common/firebase';
 import { updateUser } from '../../actions/user.action';
 
@@ -57,7 +58,6 @@ class Register extends Component {
     handleSubmit = () => {
         const { userName, userEmail, userPhoto } = this.state;
         const { dispatch, history } = this.props;
-        const db = firebase.firestore();
         const email = this.state.userEmail;
         const password = this.state.password;
         if(this.isInValid()){   
@@ -76,7 +76,6 @@ class Register extends Component {
                 }) 
             }
             if (errorCode == 'auth/email-already-in-use') {
-                console.log(error)
                 this.setState({
                     emailValid: true,
                     errorMessage: 'Already used email.'

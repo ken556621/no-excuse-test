@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { db } from '../common/firebase';
 import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import geohash from "ngeohash";
@@ -51,7 +52,6 @@ class FindPlace extends Component {
 
 
     componentDidMount(){
-        const db = firebase.firestore();
         const allCourts = [];
         //get user location
         if(navigator.geolocation){
@@ -129,7 +129,6 @@ class FindPlace extends Component {
 
     getPlaces = async (lat, lng) => {
         const { defaultLat, defaultLng } = this.state;
-        const db = firebase.firestore();
         const targetPlaces = [];
         //從資料庫限制搜尋範圍
         const bounds = geolib.getBoundsOfDistance(
@@ -159,7 +158,6 @@ class FindPlace extends Component {
 
     getRooms = async (lat, lng) => {
         const { defaultLat, defaultLng } = this.state;
-        const db = firebase.firestore();
         const groupLists = [];
         
         const roomSnapshot = await db.collection("rooms").limit(8).get();
@@ -235,7 +233,6 @@ class FindPlace extends Component {
 
     getTargetPlace = async () => {
         const { targetPlaceName } = this.state;
-        const db = firebase.firestore();
         const searchPlaceData = [];
         if(!targetPlaceName){
             return
@@ -261,7 +258,6 @@ class FindPlace extends Component {
 
     getAreaPlace = async () => {
         const { targetArea } = this.state;
-        const db = firebase.firestore();
         const searchAreaData = [];
 
         const districtShapshot = await db.collection("districts").doc(targetArea).collection("locations").limit(5).get();

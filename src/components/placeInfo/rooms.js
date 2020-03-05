@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { db } from '../common/firebase';
 import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -51,7 +52,6 @@ class Groups extends Component {
     }
 
     fetchRooms = async () => {
-        const db = firebase.firestore();
         const { place_ID } = this.state;
         const rooms = [];
         //get rooms data & participants data
@@ -91,7 +91,6 @@ class Groups extends Component {
     }
  
     joinGroup = async (room_ID) => {
-        const db = firebase.firestore();
         const { authenticated, uid, history } = this.props;
         let isHost = false;
         let isParticipant = false;
@@ -132,7 +131,6 @@ class Groups extends Component {
     }
 
     quitGroup = (room_ID) => {
-        const db = firebase.firestore();
         const { uid } = this.props;
         const docRef = db.collection("rooms").doc(room_ID);
         if (window.confirm("Do you really want to quit?")) { 
@@ -144,7 +142,6 @@ class Groups extends Component {
     }
 
     storeUsersToRoom = async (room_ID) => {
-        const db = firebase.firestore();
         const { uid } = this.props;
         await db.collection("rooms").doc(room_ID).update({
             participants: firebase.firestore.FieldValue.arrayUnion(uid)
@@ -162,7 +159,6 @@ class Groups extends Component {
     }
 
     delete = async (room_ID) => {
-        const db = firebase.firestore();
         await db.collection("rooms").doc(room_ID).delete();
         this.setState({
             alertIsOpen: true,
@@ -172,7 +168,6 @@ class Groups extends Component {
     }
 
     dateExpired = (roomData) => {
-        const db = firebase.firestore();
         if(moment(roomData.date).isBefore()){
             db.collection("rooms").doc(roomData.room_ID).delete().then(() => {
                 console.log('delete success!')

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from '../common/firebase';
+import { db } from '../common/firebase';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -41,7 +41,6 @@ class Friends extends Component {
     }
 
     getFriend = async () => {
-        const db = firebase.firestore();
         const { uid } = this.props;
         const friends = [];
         const pendingFriends = [];
@@ -79,7 +78,6 @@ class Friends extends Component {
     }
 
     accept = async (e) => {
-        const db = firebase.firestore();
         const { uid } = this.props;
         const target_ID = e.target.parentElement.parentElement.id;
         const inviterSnapshot = await db.collection("networks").where("inviter", "==", target_ID).where("invitee", "==", uid).where("status", "==", "pending").get();
@@ -97,7 +95,6 @@ class Friends extends Component {
     }
 
     decline = async (e) => {
-        const db = firebase.firestore();
         const { uid } = this.props;
         const target_ID = e.target.parentElement.parentElement.id;
         const inviterSnapshot = await db.collection("networks").where("inviter", "==", target_ID).where("invitee", "==", uid).where("status", "==", "pending").get();

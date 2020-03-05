@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { db } from '../common/firebase';
 import firebase from './firebase';
 import { connect } from 'react-redux';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -25,7 +26,6 @@ class ThirdAuth extends Component {
                 const { dispatch, history } = this.props;
                 const user = firebase.auth().currentUser;
                 const { uid, email, displayName, photoURL } = user;
-                const db = firebase.firestore();
                 db.collection("users").doc(uid).set({
                     ID: uid,
                     email: email,
