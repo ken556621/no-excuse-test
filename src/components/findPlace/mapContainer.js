@@ -60,10 +60,6 @@ export class MapContainer extends Component {
     }
 
     clickMarker = (props, marker, e) => {
-        const { showingInfoWindow } = this.state;
-        if(showingInfoWindow){
-            return
-        }
         return (
             this.setState({
                 selectedPlace: props,

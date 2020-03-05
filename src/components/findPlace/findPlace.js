@@ -60,7 +60,7 @@ class FindPlace extends Component {
             console.log('Not support in this browser.');
         }
         //get all the place
-        db.collection("locations").orderBy("name", "desc").limit(10).get().then((querySnapshot) => {
+        db.collection("locations").orderBy("name", "desc").limit(5).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 allCourts.push(doc.data().name);
             });
@@ -140,7 +140,7 @@ class FindPlace extends Component {
         const lower = geohash.encode(bounds[0].latitude, bounds[0].longitude);
         const upper = geohash.encode(bounds[1].latitude, bounds[1].longitude);
         const locationsQuery = await db.collection("locations") .where(`geoHash`, '>' , lower)
-        .where(`geoHash`, '<' , upper).limit(10).get();
+        .where(`geoHash`, '<' , upper).limit(8).get();
         
         for (let i in locationsQuery.docs) {
             const doc = locationsQuery.docs[i];
@@ -163,7 +163,7 @@ class FindPlace extends Component {
         const db = firebase.firestore();
         const groupLists = [];
         
-        const roomSnapshot = await db.collection("rooms").get();
+        const roomSnapshot = await db.collection("rooms").limit(8).get();
             for (let i in roomSnapshot.docs) {
                 const doc = roomSnapshot.docs[i]
                 let groupData = Object.assign({}, doc.data());

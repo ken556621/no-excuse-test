@@ -52,7 +52,7 @@ class GroupList extends Component {
         return ( 
             <div className="groups-lists-container">
                 <TableContainer component={Paper}>
-                    <Table className="table" aria-label="simple table" stickyHeader>
+                    <Table className="table" aria-label="groups table" stickyHeader>
                         <TableHead>
                         <TableRow>
                             <TableCell>開團名稱</TableCell>
