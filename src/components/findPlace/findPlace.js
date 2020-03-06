@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { db } from '../common/firebase';
-import firebase from '../common/firebase';
 import { connect } from 'react-redux';
 import geohash from "ngeohash";
 import moment from 'moment';

@@ -23,10 +23,10 @@ class OpenGroup extends Component {
             date: '',
             time: '',
             intensity: '',
-            nameIsValid: false,
-            peopleIsValid: false,
-            dateIsValid: false,
-            timeIsValid: false
+            nameInValid: false,
+            peopleInValid: false,
+            dateInValid: false,
+            timeInValid: false
         }
     }
 
@@ -64,12 +64,12 @@ class OpenGroup extends Component {
         if(targetElement.matches('.name')){
             this.setState({
                 name: e.target.value,
-                nameIsValid: false
+                nameInValid: false
             })
         }else if(targetElement.matches('.people')){
             this.setState({
                 people: e.target.value,
-                peopleIsValid: false
+                peopleInValid: false
             })
         }else if(targetElement.matches('.date')){
             this.setState({
@@ -78,7 +78,7 @@ class OpenGroup extends Component {
         }else if(targetElement.matches('.time')){
             this.setState({
                 time: e.target.value,
-                timeIsValid: false
+                timeInValid: false
             })    
         }else if(targetElement.matches('.intensity')){
             this.setState({
@@ -93,25 +93,25 @@ class OpenGroup extends Component {
         //Valid check
         if(!name){
             this.setState({
-                nameIsValid: true
+                nameInValid: true
             })
             return
         }
         if(!people){
             this.setState({
-                peopleIsValid: true
+                peopleInValid: true
             })
             return
         }
         if(!date){
             this.setState({
-                dateIsValid: true
+                dateInValid: true
             })
             return
         }
         if(!time){
             this.setState({
-                timeIsValid: true
+                timeInValid: true
             })
             return
         }
@@ -171,7 +171,7 @@ class OpenGroup extends Component {
     }
 
     render() { 
-        const { name, people, date, time, intensity, nameIsValid, peopleIsValid, timeIsValid } = this.state;
+        const { name, people, date, time, intensity, nameInValid, peopleInValid, timeInValid } = this.state;
         return ( 
             <div className="open-group-container">
                 <NavBar history={ this.props.history }/>
@@ -180,10 +180,10 @@ class OpenGroup extends Component {
                         <Typography className="form-title" gutterBottom>
                             開團
                         </Typography>
-                        <TextField className="name" value={ name } label="名稱" helperText={ nameIsValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
-                        <TextField className="people" value={ people } type="number" label="人數" helperText={ peopleIsValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="name" value={ name } label="名稱" helperText={ nameInValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="people" value={ people } type="number" label="人數" helperText={ peopleInValid ? "Required" : null } margin="dense" onChange={ (e) => this.handleInput(e) } />
                         <TextField className="date" value={ date } type="date" helperText="時間" margin="dense" onChange={ (e) => this.handleInput(e) } />
-                        <TextField className="time" value={ time } type="time" margin="dense" helperText={ timeIsValid ? "Required" : null } onChange={ (e) => this.handleInput(e) } />
+                        <TextField className="time" value={ time } type="time" margin="dense" helperText={ timeInValid ? "Required" : null } onChange={ (e) => this.handleInput(e) } />
                         <Typography className="intensity" color="textSecondary">
                             強度
                         </Typography>
