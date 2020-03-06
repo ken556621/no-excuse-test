@@ -27,6 +27,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import DefaultImage from '../../../img/default-img.png';
+import AlertImage from '../../../img/alertImage.png';
 import LineIcon from '../../../img/line.png';
 import './rooms.scss';
 
@@ -318,7 +319,7 @@ class Groups extends Component {
                     </DialogTitle>
                     <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="alert-content">
-                        <img src="https://image.flaticon.com/icons/svg/502/502113.svg" />
+                        <img src={ AlertImage } />
                     </DialogContentText>
                     </DialogContent>
                     <DialogActions className="alert-btn-wrapper">

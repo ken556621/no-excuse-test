@@ -244,6 +244,10 @@ class Member extends Component {
         const { uid } = this.props;
         const file = e.target.files[0];
         const storageRef = firebase.storage().ref().child(uid + file.name);
+        if(file.size > 1024 * 1024){
+            window.alert("上傳圖片過大")
+            return 
+        }
         await storageRef.put(file);
 
         const url = await storageRef.getDownloadURL();

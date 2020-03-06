@@ -52,13 +52,13 @@ class FindPlace extends Component {
 
     componentDidMount(){
         const allCourts = [];
-        //get user location
+       
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
         }else{
             console.log('Not support in this browser.');
         }
-        //get all the place
+        
         db.collection("locations").orderBy("name", "desc").limit(5).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 allCourts.push(doc.data().name);
@@ -184,15 +184,15 @@ class FindPlace extends Component {
     }
 
     getDistanceFromLatLonInKm = (lat1,lon1,lat2,lon2) => {
-        const radius = 6371; // Radius of the earth in km
-        const distanceLat = this.deg2rad(lat2-lat1);  // deg2rad below
+        const radius = 6371; 
+        const distanceLat = this.deg2rad(lat2-lat1);  
         const distanceLon = this.deg2rad(lon2-lon1); 
         const algorithm = 
           Math.sin(distanceLat/2) * Math.sin(distanceLat/2) +
           Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
           Math.sin(distanceLon/2) * Math.sin(distanceLon/2); 
         const c = 2 * Math.atan2(Math.sqrt(algorithm), Math.sqrt(1-algorithm)); 
-        const distance = radius * c; // Distance in km
+        const distance = radius * c; 
         return distance
     }
       

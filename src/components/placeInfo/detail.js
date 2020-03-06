@@ -98,7 +98,7 @@ class Detail extends Component {
                             <Typography className="card-address">
                                 { address }
                             </Typography>
-                            <Rating className="rate" name="read-only" value={ 2 } readOnly />
+                            <Rating className="rate" name="read-only" value={ 4 } readOnly />
                             <CardContent className="card-content">
                                 <div className="info-wrapper">
                                         <Typography className="static-info" color="textSecondary" component="span">
