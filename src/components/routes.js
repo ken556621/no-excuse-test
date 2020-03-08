@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route } from 'react-router-dom';
 
 import Auth from './common/auth';
 import Home from './home/home';
@@ -15,17 +15,17 @@ import Member from './member/member';
 export default (
     <div>
         <Switch>
-            <Route path="/login" component={ Login } />
-            <Route path="/forgetPassword" component={ ForgetPassword } />
-            <Route path="/friends" component={ Auth(Findpeople) } />
-            <Route path="/place" component={ FindPlace } />
-            <Route path="/placeInfo" component={ PlaceInfo } />
-            <Route path="/openGroup" component={ Auth(openGroup) } />
-            <Route path="/myGroups" component={ Auth(MyGroups) } />
-            <Route exact path="/member" render={ (props)=>{
+            <Route path='/login' component={ Login } />
+            <Route path='/forgetPassword' component={ ForgetPassword } />
+            <Route path='/friends' component={ Auth(Findpeople) } />
+            <Route path='/place' component={ FindPlace } />
+            <Route path='/placeInfo' component={ PlaceInfo } />
+            <Route path='/openGroup' component={ Auth(openGroup) } />
+            <Route path='/myGroups' component={ Auth(MyGroups) } />
+            <Route exact path='/member' render={ (props)=>{
                 return <Member {...props} key={ props.location.key } />
             } } />
-            <Route exact path="/" component={ Home } />
+            <Route exact path='/' component={ Home } />
         </Switch>
     </div> 
 )

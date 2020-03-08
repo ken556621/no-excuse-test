@@ -24,6 +24,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import AlertImage from '../../../img/alertImage.png';
+
 class Friends extends Component {
     constructor(props){
         super(props);
@@ -181,13 +183,13 @@ class Friends extends Component {
                     aria-describedby="alert-dialog-description"
                 >
                     <DialogTitle id="alert-dialog-title" className="alert-title">
-                        <Typography>
-                            { alertMessage }
-                        </Typography>
+                        <img src={ AlertImage } />
                     </DialogTitle>
                     <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="alert-content">
-                        <img src="https://image.flaticon.com/icons/svg/502/502113.svg" />
+                        <Typography>
+                            { alertMessage }
+                        </Typography>
                     </DialogContentText>
                     </DialogContent>
                     <DialogActions className="alert-btn-wrapper">

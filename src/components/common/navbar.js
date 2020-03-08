@@ -28,12 +28,10 @@ class NavBar extends Component {
         let fullRoomQty = 0;
         let friendRequestQty = 0;
 
-        //fix: refresh no uid, then no futher process
         if(!uid){
             return
         }
         //顯示已滿團的數字
-        //參加的房間 
         const participantsSnapshot = await db.collection("rooms").where("participants", "array-contains", uid).get();
         for (let i in participantsSnapshot.docs) {
             const doc = participantsSnapshot.docs[i]

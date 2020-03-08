@@ -53,17 +53,18 @@ button{
 }
 
 .alert-title{
+    text-align: center;
+    img{
+        width: 50px;
+    }
+}
+.alert-content{
     font-size: $big-font;
     letter-spacing: 1px;
 }
-.alert-content{
-    text-align: center;
-    img{
-        width: 100px;
-    }
-}
 .alert-btn-wrapper{
     .alert-btn{
+        font-size: $small-font;
         color: $white;
         background-color: $smoky-black;
         &:hover{

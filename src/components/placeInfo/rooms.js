@@ -171,7 +171,6 @@ class Groups extends Component {
     dateExpired = (roomData) => {
         if(moment(roomData.date).isBefore()){
             db.collection("rooms").doc(roomData.room_ID).delete().then(() => {
-                console.log('delete success!')
                 this.fetchRooms();
             }).catch((error) => {
                 console.error("Error removing document: ", error);
@@ -235,7 +234,7 @@ class Groups extends Component {
         this.setState({
             toggleSortIntensity: !this.state.toggleSortIntensity
         }, this.sortIntensity)
-    }
+    } 
 
     sortIntensity = () => {
         const { rooms, toggleSortIntensity } = this.state;
@@ -313,13 +312,13 @@ class Groups extends Component {
                     aria-describedby="alert-dialog-description"
                 >
                     <DialogTitle id="alert-dialog-title" className="alert-title">
-                        <Typography>
-                            { alertMessage }
-                        </Typography>
+                        <img src={ AlertImage } />
                     </DialogTitle>
                     <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="alert-content">
-                        <img src={ AlertImage } />
+                        <Typography>
+                            { alertMessage }
+                        </Typography>
                     </DialogContentText>
                     </DialogContent>
                     <DialogActions className="alert-btn-wrapper">

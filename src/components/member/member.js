@@ -30,6 +30,7 @@ import NavBar from '../common/navbar';
 import Friends from './friends';
 import Groups from './groups';
 import Load from '../common/load';
+import AlertImage from '../../../img/alertImage.png';
 import './member.scss';
 
 class Member extends Component {
@@ -394,13 +395,13 @@ class Member extends Component {
                     aria-describedby="alert-dialog-description"
                 >
                     <DialogTitle id="alert-dialog-title" className="alert-title">
-                        <Typography>
-                            { alertMessage }
-                        </Typography>
+                        <img src={ AlertImage } />
                     </DialogTitle>
                     <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="alert-content">
-                        <img src="https://image.flaticon.com/icons/svg/502/502113.svg" />
+                        <Typography>
+                            { alertMessage }
+                        </Typography>
                     </DialogContentText>
                     </DialogContent>
                     <DialogActions className="alert-btn-wrapper">
