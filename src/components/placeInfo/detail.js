@@ -10,14 +10,9 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import PlaceIcon from '@material-ui/icons/Place';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import Rating from '@material-ui/lab/Rating';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 import Ball from '../common/basketballImg';
-import AlertImage from '../../../img/alertImage.png';
+import CustomDialog from '../common/customDialog';
 import './detail.scss';
 
 class Detail extends Component {
@@ -34,8 +29,8 @@ class Detail extends Component {
             placeStatus: '',
             openState: '',
             rentState: '',
-            alertIsOpen: false,
-            alertMessage: ''
+            dialogIsOpen: false,
+            dialogMessage: ''
         }
     }
 
@@ -81,46 +76,25 @@ class Detail extends Component {
         })
         if(isHost){
             this.setState({
-                alertIsOpen: true,
-                alertMessage: "You already have opened the group in this place!"
+                dialogIsOpen: true,
+                dialogMessage: "You already have opened the group in this place!"
             })
         }else{
             history.push(`/openGroup?${ place_ID }`);
         }
     }
 
-    alertClose = () => {
+    dialogClose = () => {
         this.setState({
-            alertIsOpen: false
+            dialogIsOpen: false
         })
     }
 
     render() { 
-        const { name, address, photo, phone, placeStatus, openState, rentState, alertIsOpen, alertMessage } = this.state;
+        const { name, address, photo, phone, placeStatus, openState, rentState, dialogIsOpen, dialogMessage } = this.state;
         return ( 
             <div className="detail-container">
-                <Dialog
-                    open={ alertIsOpen }
-                    onClose={ this.alertClose }
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title" className="alert-title">
-                        <img src={ AlertImage } />
-                    </DialogTitle>
-                    <DialogContent>
-                    <DialogContentText id="alert-dialog-description" className="alert-content">
-                        <Typography>
-                            { alertMessage }
-                        </Typography>
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions className="alert-btn-wrapper">
-                        <Button className="alert-btn" onClick={ this.alertClose } autoFocus>
-                            確認
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                <CustomDialog dialogIsOpen={ dialogIsOpen } dialogMessage={ dialogMessage } dialogClose={ this.dialogClose }/>
                 <Card className="card">
                     <div className="image">
                         { 

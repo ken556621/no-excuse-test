@@ -17,14 +17,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
-import AlertImage from '../../../img/alertImage.png';
+import CustomDialog from '../common/customDialog';
 
 class Friends extends Component {
     constructor(props){
@@ -33,16 +27,16 @@ class Friends extends Component {
             openFriends: false,
             friends: '',
             pendingFriends: '',
-            alertIsOpen: false,
-            alertMessage: ''
+            dialogIsOpen: false,
+            dialogMessage: ''
         }
     }
 
     componentDidMount(){
-        this.getFriend();
+        this.getFriends();
     }
 
-    getFriend = async () => {
+    getFriends = async () => {
         const { uid } = this.props;
         const friends = [];
         const pendingFriends = [];
@@ -78,7 +72,7 @@ class Friends extends Component {
             pendingFriends
         })
     }
-
+ 
     accept = async (e) => {
         const { uid } = this.props;
         const target_ID = e.target.parentElement.parentElement.id;
@@ -88,10 +82,10 @@ class Friends extends Component {
             await db.collection("networks").doc(doc.id).update({
                 status: "accept"
             });
-            this.getFriend();
+            this.getFriends();
             this.setState({
-                alertIsOpen: true,
-                alertMessage: "成功接受！"
+                dialogIsOpen: true,
+                dialogMessage: "成功接受！"
             })
         }
     }
@@ -105,10 +99,10 @@ class Friends extends Component {
             await db.collection("networks").doc(doc.id).update({
                 status: "decline"
             });
-            this.getFriend();
+            this.getFriends();
             this.setState({
-                alertIsOpen: true,
-                alertMessage: "成功刪除！"
+                dialogIsOpen: true,
+                dialogMessage: "成功刪除！"
             })
         }
     }
@@ -119,17 +113,18 @@ class Friends extends Component {
         })
     }
 
-    alertClose = () => {
+    dialogClose = () => {
         this.setState({
-            alertIsOpen: false
+            dialogIsOpen: false
         })
     }
 
     render() { 
-        const { openFriends, friends, pendingFriends, alertIsOpen, alertMessage } = this.state;
+        const { openFriends, friends, pendingFriends, dialogIsOpen, dialogMessage } = this.state;
         const { pendingFriendQty } = this.props;
         return (
             <div>
+                <CustomDialog dialogIsOpen={ dialogIsOpen } dialogMessage={ dialogMessage } dialogClose={ this.dialogClose } />
                 <ListItem button onClick={ this.openFriendsList }>
                     <ListItemAvatar>
                     <Badge className="pending-friends-qty" color="error" badgeContent={ openFriends ? 0 : pendingFriendQty }>
@@ -176,28 +171,6 @@ class Friends extends Component {
                         }
                     </List>
                 </Collapse>
-                <Dialog
-                    open={ alertIsOpen }
-                    onClose={ this.alertClose }
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title" className="alert-title">
-                        <img src={ AlertImage } />
-                    </DialogTitle>
-                    <DialogContent>
-                    <DialogContentText id="alert-dialog-description" className="alert-content">
-                        <Typography>
-                            { alertMessage }
-                        </Typography>
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions className="alert-btn-wrapper">
-                        <Button className="alert-btn" onClick={ this.alertClose } autoFocus>
-                            確認
-                        </Button>
-                    </DialogActions>
-                </Dialog>
             </div>
         );
     }

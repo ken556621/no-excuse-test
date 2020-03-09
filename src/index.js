@@ -19,5 +19,12 @@ class App extends Component {
         );
     }
 }
+
+if("serviceWorker" in navigator){
+    console.log(navigator.serviceWorker.register('/sw.js'))
+    // navigator.serviceWorker.register()
+    // .then(() => console.log('work'))
+    // .catch(() => console.log('not work'))
+}
  
 ReactDOM.render(<App />, document.getElementById('root'));

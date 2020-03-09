@@ -19,18 +19,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
 
 import NavBar from '../common/navbar';
 import Friends from './friends';
 import Groups from './groups';
+import CustomDialog from '../common/customDialog';
 import Load from '../common/load';
-import AlertImage from '../../../img/alertImage.png';
 import './member.scss';
 
 class Member extends Component {
@@ -47,8 +41,8 @@ class Member extends Component {
             userEmail: '',
             userQuate: '',
             pendingFriendQty: '',
-            alertIsOpen: false,
-            alertMessage: ''
+            dialogIsOpen: false,
+            dialogMessage: ''
         }
     }
 
@@ -201,8 +195,8 @@ class Member extends Component {
         }).then(() => {
             this.setState({
                 isPending: true,
-                alertIsOpen: true,
-                alertMessage: "等待對方確認邀請！"
+                dialogIsOpen: true,
+                dialogMessage: "等待對方確認邀請！"
             })
         })
         .catch((error) => {
@@ -236,8 +230,8 @@ class Member extends Component {
         this.setState({
             isFriend: false,
             isPending: false,
-            alertIsOpen: true,
-            alertMessage: "成功刪除此好友！"
+            dialogIsOpen: true,
+            dialogMessage: "成功刪除此好友！"
         })
     }
 
@@ -261,14 +255,14 @@ class Member extends Component {
         })
     }
 
-    alertClose = () => {
+    dialogClose = () => {
         this.setState({
-            alertIsOpen: false
+            dialogIsOpen: false
         })
     }
 
     render() { 
-        const { isLoading, isUser, isFriend, isPending, isModify, userPhoto, userName, userEmail, userQuate, pendingFriendQty, alertIsOpen, alertMessage } = this.state;
+        const { isLoading, isUser, isFriend, isPending, isModify, userPhoto, userName, userEmail, userQuate, pendingFriendQty, dialogIsOpen, dialogMessage } = this.state;
         const { history } = this.props;
         if(isLoading){
             return <Load />
@@ -276,6 +270,7 @@ class Member extends Component {
         return ( 
             <div className="member-container">
                 <NavBar history={ history }/>
+                <CustomDialog dialogIsOpen={ dialogIsOpen } dialogMessage={ dialogMessage } dialogClose={ this.dialogClose } />
                 <div className="user-info">
                     <div className="modify-btn-wrapper">
                         <div className="fake">
@@ -388,28 +383,6 @@ class Member extends Component {
                         }        
                     </List>
                 </div>
-                <Dialog
-                    open={ alertIsOpen }
-                    onClose={ this.alertClose }
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title" className="alert-title">
-                        <img src={ AlertImage } />
-                    </DialogTitle>
-                    <DialogContent>
-                    <DialogContentText id="alert-dialog-description" className="alert-content">
-                        <Typography>
-                            { alertMessage }
-                        </Typography>
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions className="alert-btn-wrapper">
-                        <Button className="alert-btn" onClick={ this.alertClose } autoFocus>
-                            確認
-                        </Button>
-                    </DialogActions>
-                </Dialog>
             </div>
         );
     }
