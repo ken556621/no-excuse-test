@@ -1,67 +1,82 @@
-# No Excuse
+# No Excuse 
 
+No Excuse is an online basketball platform that can quickly find basketball court. You can open group or join other's group nearby your location. Simply press find group button and you can choose the place to open or join group. You can also share your group through FaceBook or Line to your friends.
 
-## Features
-
-| Features | Details  | Routes   |
-| -------- | -------- | -------- |
-| Search   | Date | /account/selectDate |
-| Add new list | Date is required | /account/new |
-| Edit         |          | /account/edit         | 
-| Delete         | Confirm message          |/account/delete          | 
-| Chart display         |  Week & Month & Half year        |  /chart/week or month or Half year        |
-| Login & Logout     | Facebook login included     | /users/login & /users/logout    |
-
-## Front page
-
-![](https://i.imgur.com/xQiiT1e.png)
-![](https://i.imgur.com/9fM2nCO.png)
+![](https://i.imgur.com/LdfkO9Y.jpg)
 
 
 
-## Installation
-1. Github clone
 
-    `git clone https://github.com/ken556621/FatherLedger.git`
-    
-2. Use terminal open file 'myRestaurantList'
+# Demo
 
-     `cd FatherLedger`
-     
-3. Use terminal add new file name '.env'
+Here is a working live demo: 
+https://no-excuse-1579439547243.web.app/
 
-    `touch .env`
-    
-4. Inside the env folder type
+* Test User : user1@example.com
+* Password : 12345678
 
-    `FACEBOOK_ID=//your client ID`
-    `FACEBOOK_SECRET=//your facebook secret`
-    `FACEBOOK_CALLBACK=http://localhost:3000/auth/facebook/callback`
-    > This is for facebook login secret key
-     
-5. NPM install
 
-    `npm install`
-    
-6. NPM run start
+# Technologies
 
-    `npm run start`
-    
-7. Open browser 
-    
-    `http://localhost:3000`
-    
-## Testing data
+* React 
+    * React Redux
+    * React Router
+* SASS
+* Material design
+* Webpack
+* Firebase
+    *  Firebase Host
+    *  Firebase Storage
+    *  Firebase Authentication
 
-|   User | Email |  password |
-| -------- | -------- | -------- |
-|  user1        |  user1@example.com        | 12345678         |
-|  user2|user2@example.com|12345678
 
-   
-## Environment
-1. React
-2. Redux
-> Data base
-1. Firebase
+
+
+
+# Features
+
+### Find Basketball Courts
+&nbsp;&nbsp;Users can find the basketball courts by clicking on finding groups button, it will automatically find the basketball courts nearby user in 3km. Those basketball courts will show if there has any people who opened the group and you can simply click the information window to show more court details and group details.
+
+![](https://i.imgur.com/tM9VzFV.gif)
+
+
+---
+
+
+### Join and Open Group
+&nbsp;&nbsp;Users can choose the court that they want to play and click the open group button to open group or select existing group to join.
+&nbsp;&nbsp;Users can click my groups list to see how many group has joined and the group is ready to go.
+
+![](https://i.imgur.com/qLkEvCG.gif)
+
+![](https://i.imgur.com/T3nc5yP.png)
+
+
+
+
+---
+
+### Group Sharing
+&nbsp;&nbsp;Users can share their own group after opening their group. They can share by Facebook or Line.
+
+![](https://i.imgur.com/jFchczm.jpg)
+
+
+---
+### Friends System
+&nbsp;&nbsp;Users can search for other user and add it as a friend. Clicking friends list to check if there is any friend open the group or not. User also can remove friend as well.
+
+![](https://i.imgur.com/0CjZMYE.png)
+
+
+---
+
+### Member System
+&nbsp;&nbsp;Users can use their own email to sign up or sign in with Google or Facebook. Users can use email reset the password if he forget. 
+
+![](https://i.imgur.com/u03Ec2c.gif)
+
+
+
 
