@@ -1,6 +1,6 @@
 # No Excuse 
 
-No Excuse is an online basketball platform that can quickly find basketball court. You can open group or join other's group nearby your location. Simply press find group button and you can choose the place to open or join group. You can also share your group through FaceBook or Line to your friends.
+&nbsp;&nbsp;No Excuse is an online basketball platform that can quickly find basketball court. You can open group or join other's group nearby your location. Simply press find group button and you can choose the place to open or join group. You can also share your group through FaceBook or Line to your friends.
 
 ![](https://i.imgur.com/LdfkO9Y.jpg)
 
