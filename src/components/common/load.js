@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Ball from './basketballImg';
+import Ball from "./basketballImg";
 
 
 class Load extends Component {
@@ -9,15 +9,15 @@ class Load extends Component {
     }
 
     mystyle = {
-        position: 'fixed',
-        top: '50%',
-        left: '43%',
+        position: "fixed",
+        top: "50%",
+        left: "43%",
         zIndex: 100
     };
 
     render() { 
         return ( 
-            <div style={this.mystyle}>
+            <div style={ this.mystyle }>
                 <Ball />
             </div>
         );

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import '../../styles/common/basketball.scss';
+import React, { Component } from "react";
+import "../../styles/common/basketball.scss";
 
 class BasketballImg extends Component {
     render() { 

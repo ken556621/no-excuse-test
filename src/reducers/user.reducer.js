@@ -5,25 +5,25 @@ const initiaState = {
 
 const registerReducer = (state = initiaState, action) => {
     switch (action.type){
-        case 'LOGIN_SUCCESS':
+        case "LOGIN_SUCCESS":
             return {
                 ...state, 
                 authenticating: false,
                 authenticated: true
             }
-        case 'LOGIN_FAIL':
+        case "LOGIN_FAIL":
             return {
                 ...state,
                 authenticating: false,
                 authenticated: false
             }
-        case 'LOGOUT':
+        case "LOGOUT":
             return {
                 ...state,
                 authenticating: true,
                 authenticated: false
             }
-        case 'UPDATE_USER':
+        case "UPDATE_USER":
             return {
                 ...state,
                 uid: action.uid,

@@ -1,14 +1,14 @@
-const path = require('path');
+const path = require("path");
 
   module.exports = {
-    entry: './src/index.js',
+    entry: "./src/index.js",
     output: {
-      filename: 'main.js',
-      path: path.resolve(__dirname, 'dist'),
-      publicPath: '/'
+      filename: "main.js",
+      path: path.resolve(__dirname, "dist"),
+      publicPath: "/"
     },
     devServer: {
-        contentBase: './dist',
+        contentBase: "./dist",
         historyApiFallback: true
     },
    module: {
@@ -17,26 +17,26 @@ const path = require('path');
           test: /\.m?js$/,
           exclude: /(node_modules|bower_components)/,
           use: {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['@babel/plugin-proposal-class-properties', { "loose": true }]
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+            plugins: ["@babel/plugin-proposal-class-properties"]
             }
           }
         },
        {
          test: /\.s[ac]ss$/i,
          use: [
-           'style-loader',
-           'css-loader',
-           'sass-loader',
+           "style-loader",
+           "css-loader",
+           "sass-loader",
          ],
        },
        {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
           },
         ],
       },

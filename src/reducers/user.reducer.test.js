@@ -1,7 +1,7 @@
-import registerReducer from './user.reducer';
+import registerReducer from "./user.reducer";
 
 
-describe('post reducer', () => {
+describe("post reducer", () => {
   const initiaState = {
     authenticated: false,
     authenticating: true
@@ -51,23 +51,23 @@ describe('post reducer', () => {
     photo: ""
   }
 
-  it('should return the initial state', () => {
+  it("should return the initial state", () => {
     expect(registerReducer(undefined, {})).toEqual(initiaState);
   });
 
-  it('handle login success', () => {
+  it("handle login success", () => {
     expect(registerReducer(undefined, successAction)).toEqual(mockLoginSuccessData);
   });
 
-  it('handle login fail', () => {
+  it("handle login fail", () => {
     expect(registerReducer(undefined, failAction)).toEqual(mockLoginFailData);
   });
 
-  it('handle logout', () => {
+  it("handle logout", () => {
     expect(registerReducer(undefined, logoutAction)).toEqual(mockLogoutData);
   });
 
-  it('handle update user', () => {
+  it("handle update user", () => {
     expect(registerReducer(undefined, updateAction)).toEqual(mockUpdateData);
   });
 });

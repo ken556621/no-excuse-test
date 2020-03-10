@@ -27,12 +27,12 @@ $ball: #e8581c;
                 font-size: 0.875rem;
                 text-align: end;
                 &:before{
-                    content: '⇡';
+                    content: "⇡";
                     position: absolute;
                     left: 70%;
                 }
                 &:after{
-                    content: '⇣';
+                    content: "⇣";
                     position: absolute;
                     left: 80%;
                 }

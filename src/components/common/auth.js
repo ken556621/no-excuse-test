@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import Loading from './load';
+import Loading from "./load";
 
 export default function(ComposedClass){
     class Auth extends Component {
@@ -15,11 +15,11 @@ export default function(ComposedClass){
                 if(authenticated){
                     console.log("Login")
                 }else{
-                    history.push('/login')
+                    history.push("/login")
                 }
             }else{
                 if(!authenticated){
-                    history.push('/login')
+                    history.push("/login")
                 }
             }
         }
