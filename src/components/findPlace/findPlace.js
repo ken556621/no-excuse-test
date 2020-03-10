@@ -142,7 +142,6 @@ class FindPlace extends Component {
         for (let i in locationsQuery.docs) {
             const doc = locationsQuery.docs[i];
             const locationsData = Object.assign({}, doc.data());
-            console.log(doc.data())
             locationsData.rooms = [];
             const roomsQuery = await db.collection("rooms").where("place_ID", "==", doc.id).get();
             roomsQuery.forEach((room) => {

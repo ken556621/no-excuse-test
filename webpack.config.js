@@ -20,7 +20,7 @@ const path = require('path');
             loader: 'babel-loader',
             options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['transform-class-properties']
+            plugins: ['@babel/plugin-proposal-class-properties', { "loose": true }]
             }
           }
         },

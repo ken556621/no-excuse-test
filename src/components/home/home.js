@@ -60,5 +60,5 @@ function mapStateToProps(store) {
 }
 
 
- 
+export { HomePage };
 export default connect(mapStateToProps)(HomePage);
