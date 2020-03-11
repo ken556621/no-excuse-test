@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import { db } from '../common/firebase';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { db } from "../common/firebase";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import Badge from '@material-ui/core/Badge';
+import Avatar from "@material-ui/core/Avatar";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Collapse from "@material-ui/core/Collapse";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
+import Badge from "@material-ui/core/Badge";
 
-import Ball from '../common/ballImg';
+import Ball from "../common/ballImg";
 
 class Groups extends Component {
     constructor(props){
         super(props)
         this.state = {
             openGroups: false,
-            groups: ''
+            groups: ""
         }
     }
 
@@ -78,7 +78,7 @@ class Groups extends Component {
                             return (
                                 <ListItem button key={ group.room_ID }>
                                     <ListItemIcon>
-                                        <Badge badgeContent={ group.participants.length } color="secondary" anchorOrigin={{ vertical: 'top',horizontal: 'left' }}>
+                                        <Badge badgeContent={ group.participants.length } color="secondary" anchorOrigin={{ vertical: "top",horizontal: "left" }}>
                                             <Ball className="groups-icon" />
                                         </Badge>
                                     </ListItemIcon>
@@ -89,7 +89,7 @@ class Groups extends Component {
                             )
                             }) :  <ListItem button>
                                     <ListItemIcon>
-                                        <Badge badgeContent={ 0 } color="secondary" anchorOrigin={{ vertical: 'top',horizontal: 'left' }}>
+                                        <Badge badgeContent={ 0 } color="secondary" anchorOrigin={{ vertical: "top",horizontal: "left" }}>
                                             <Ball className="groups-icon" />
                                         </Badge>
                                     </ListItemIcon>

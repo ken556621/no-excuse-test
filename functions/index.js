@@ -1,9 +1,9 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-const express = require('express');
-const fetch = require('node-fetch');
-const geohash = require('ngeohash');
-const cors = require('cors')({origin: true});
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+const express = require("express");
+const fetch = require("node-fetch");
+const geohash = require("ngeohash");
+const cors = require("cors")({origin: true});
 
 const serviceAccount = require("./no-excuse-1579439547243-firebase-adminsdk-5kbyo-351635ddfa");
 
@@ -14,7 +14,7 @@ admin.initializeApp({
 
 exports.getMapData = functions.https.onRequest((req, res) => {
     const db = admin.firestore();
-    fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=basketball&location=24.9936185,121.5022254&radius=10000&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o')
+    fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=basketball&location=24.9936185,121.5022254&radius=10000&key=AIzaSyAOCD6zBK2oD6Lrz3gN5zNxM-GNDatpE-o")
     .then(res => res.json())
     .then(data => {
         data.results.forEach(place => {
@@ -56,10 +56,10 @@ exports.getMapData = functions.https.onRequest((req, res) => {
 });
 
 exports.getGymDataFromLocal = functions.https.onRequest((req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Request-Method', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST');
-    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Request-Method", "*");
+    res.setHeader("Access-Control-Allow-Methods", "OPTIONS, POST");
+    res.setHeader("Access-Control-Allow-Headers", "*");
 
     console.log(req.body)
 
@@ -72,8 +72,8 @@ exports.getGymDataFromLocal = functions.https.onRequest((req, res) => {
     .then(res => res.json())
     .then(data => {
         data.forEach(place => {
-            let lat = place.LatLng.split(',')[0];
-            let lng = place.LatLng.split(',')[1];
+            let lat = place.LatLng.split(",")[0];
+            let lng = place.LatLng.split(",")[1];
 
             const docRef = db.collection("districts").doc(req.body).collection("locations").doc("local" + place.GymID);
 
@@ -113,10 +113,10 @@ exports.getGymDataFromLocal = functions.https.onRequest((req, res) => {
 });
 
 exports.getGymDataFromLocalStoreToDB = functions.https.onRequest((req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Request-Method', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST');
-    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Request-Method", "*");
+    res.setHeader("Access-Control-Allow-Methods", "OPTIONS, POST");
+    res.setHeader("Access-Control-Allow-Headers", "*");
 
     console.log(req.body)
 
@@ -129,8 +129,8 @@ exports.getGymDataFromLocalStoreToDB = functions.https.onRequest((req, res) => {
     .then(res => res.json())
     .then(data => {
         data.forEach(place => {
-            let lat = place.LatLng.split(',')[0];
-            let lng = place.LatLng.split(',')[1];
+            let lat = place.LatLng.split(",")[0];
+            let lng = place.LatLng.split(",")[1];
 
             const docRef = db.collection("locations").doc("local" + place.GymID);
 

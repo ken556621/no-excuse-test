@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { db } from '../common/firebase';
-import firebase from './firebase';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { db } from "../common/firebase";
+import firebase from "./firebase";
 
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Badge from '@material-ui/core/Badge';
-import Logo from '../../../img/logo.png';
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import Badge from "@material-ui/core/Badge";
+import Logo from "../../../img/logo.png";
 
-import '../../styles/common/navbar.scss';
+import "../../styles/common/navbar.scss";
 
 class NavBar extends Component {
     constructor(props){
@@ -65,8 +65,8 @@ class NavBar extends Component {
         const { dispatch, history } = this.props;
         firebase.auth().signOut()
         .then(() => {
-            dispatch({ type: 'LOGOUT' });
-            history.push('/login');
+            dispatch({ type: "LOGOUT" });
+            history.push("/login");
         })
         .catch((error) => {
             console.log(error)
@@ -79,7 +79,7 @@ class NavBar extends Component {
         return ( 
             <nav>
                 <Button className="logo">
-                    <Link to='/'>
+                    <Link to="/">
                         <img src={ Logo }></img>
                     </Link>
                 </Button>
@@ -112,7 +112,7 @@ class NavBar extends Component {
                             pathname: "/member",
                             key: `123`
                         }}>
-                            <div className='member-btn'>
+                            <div className="member-btn">
                                 <AccountCircleIcon className="member-icon"/>
                                 <Badge className="friend-notification" color="error"  badgeContent={ friendRequestQty !== 0 ? friendRequestQty : null }>
                                     <Typography className="member-words">
@@ -123,8 +123,8 @@ class NavBar extends Component {
                         </Link>
                     </Button>
                     <Button className={ this.props.authenticated ? "hide" : "login-logout-wrapper show" }>
-                        <Link to='/login'>
-                            <div className= 'login-btn'>
+                        <Link to="/login">
+                            <div className= "login-btn">
                                 <ExitToAppIcon className="login-icon" />
                                 <Typography className="login">
                                     登入
@@ -133,8 +133,8 @@ class NavBar extends Component {
                         </Link>
                     </Button>
                     <Button className={ this.props.authenticated ? "login-logout-wrapper" : "hide" }>
-                        <Link to='/login'>
-                            <div className='logout-btn' onClick={ this.logout }>
+                        <Link to="/login">
+                            <div className="logout-btn" onClick={ this.logout }>
                                 <ExitToAppIcon className="logout-icon" />
                                 <Typography className="logout">
                                     登出

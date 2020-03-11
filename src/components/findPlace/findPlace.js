@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import { db } from '../common/firebase';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { db } from "../common/firebase";
+import { connect } from "react-redux";
 import geohash from "ngeohash";
-import moment from 'moment';
+import moment from "moment";
 
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import FilterListIcon from "@material-ui/icons/FilterList";
 
-import Map from './mapContainer';
-import GroupList from './groupList';
-import NavBar from '../common/navbar';
-import Load from '../common/load';
-import * as geolib from 'geolib';
-import TaipeiDistrict from './taipeiDistrict';
-import County from './county';
+import Map from "./mapContainer";
+import GroupList from "./groupList";
+import NavBar from "../common/navbar";
+import Load from "../common/load";
+import * as geolib from "geolib";
+import TaipeiDistrict from "./taipeiDistrict";
+import County from "./county";
 
-import './findPlace.scss'; 
+import "./findPlace.scss"; 
 
 class FindPlace extends Component {
     constructor(props){
@@ -26,15 +26,15 @@ class FindPlace extends Component {
         this.state = {
             isLoading: true,
             zoom: null,
-            userLat: '',
-            userLng: '',
-            mapCenterLat: '',
-            mapCenterLng: '',
+            userLat: "",
+            userLng: "",
+            mapCenterLat: "",
+            mapCenterLng: "",
             defaultLat: 25.0424536,
             defaultLng: 121.562731,
             allCourts: [],
             polyData: [],
-            targetPlaceName: '',
+            targetPlaceName: "",
             targetPlaces: [],
             targetArea: [],
             groupLists: [],
@@ -56,7 +56,7 @@ class FindPlace extends Component {
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
         }else{
-            console.log('Not support in this browser.');
+            console.log("Not support in this browser.");
         }
         
         db.collection("locations").orderBy("name", "desc").limit(5).get().then((querySnapshot) => {
@@ -136,8 +136,8 @@ class FindPlace extends Component {
         );
         const lower = geohash.encode(bounds[0].latitude, bounds[0].longitude);
         const upper = geohash.encode(bounds[1].latitude, bounds[1].longitude);
-        const locationsQuery = await db.collection("locations") .where(`geoHash`, '>' , lower)
-        .where(`geoHash`, '<' , upper).limit(8).get();
+        const locationsQuery = await db.collection("locations") .where(`geoHash`, ">" , lower)
+        .where(`geoHash`, "<" , upper).limit(8).get();
         
         for (let i in locationsQuery.docs) {
             const doc = locationsQuery.docs[i];

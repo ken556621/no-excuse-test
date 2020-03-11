@@ -1,31 +1,31 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { db } from '../common/firebase';
-import firebase from '../common/firebase';
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { db } from "../common/firebase";
+import firebase from "../common/firebase";
 
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Divider from '@material-ui/core/Divider';
-import PersonIcon from '@material-ui/icons/Person';
-import EmailIcon from '@material-ui/icons/Email';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import CreateIcon from '@material-ui/icons/Create';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Avatar from "@material-ui/core/Avatar";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Divider from "@material-ui/core/Divider";
+import PersonIcon from "@material-ui/icons/Person";
+import EmailIcon from "@material-ui/icons/Email";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import CreateIcon from "@material-ui/icons/Create";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
-import NavBar from '../common/navbar';
-import Friends from './friends';
-import Groups from './groups';
-import CustomDialog from '../common/customDialog';
-import Load from '../common/load';
-import './member.scss';
+import NavBar from "../common/navbar";
+import Friends from "./friends";
+import Groups from "./groups";
+import CustomDialog from "../common/customDialog";
+import Load from "../common/load";
+import "./member.scss";
 
 class Member extends Component {
     constructor(props){
@@ -36,13 +36,13 @@ class Member extends Component {
             isFriend: false,
             isPending: false,
             isModify: false,
-            userPhoto: '',
-            userName: '',
-            userEmail: '',
-            userQuate: '',
-            pendingFriendQty: '',
+            userPhoto: "",
+            userName: "",
+            userEmail: "",
+            userQuate: "",
+            pendingFriendQty: "",
             dialogIsOpen: false,
-            dialogMessage: ''
+            dialogMessage: ""
         }
     }
 
@@ -50,7 +50,7 @@ class Member extends Component {
         const { uid, history } = this.props;
         const person_ID = this.props.location.search.slice(1);
         if(!uid){
-            history.push('/');
+            history.push("/");
             return
         }
         if(person_ID){
@@ -164,11 +164,11 @@ class Member extends Component {
 
     handleInput = (e) => {
         const targetElement = e.target.parentElement.parentElement;
-        if(targetElement.matches('.edit-name')){
+        if(targetElement.matches(".edit-name")){
             this.setState({
                 userName: e.target.value
             }, this.storeModifiedData)
-        }else if(targetElement.matches('.edit-quate')){
+        }else if(targetElement.matches(".edit-quate")){
             this.setState({
                 userQuate: e.target.value
             }, this.storeModifiedData)

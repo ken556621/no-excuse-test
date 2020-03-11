@@ -1,30 +1,30 @@
-import React, { Component } from 'react';
-import { db } from '../common/firebase';
-import firebase from '../common/firebase';
-import { connect } from 'react-redux';
-import moment from 'moment';
-import { FacebookShareButton, LineShareButton } from 'react-share';
+import React, { Component } from "react";
+import { db } from "../common/firebase";
+import firebase from "../common/firebase";
+import { connect } from "react-redux";
+import moment from "moment";
+import { FacebookShareButton, LineShareButton } from "react-share";
 
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import Avatar from '@material-ui/core/Avatar';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import Skeleton from '@material-ui/lab/Skeleton';
-import FacebookIcon from '@material-ui/icons/Facebook';
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import Avatar from "@material-ui/core/Avatar";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import CreateRoundedIcon from "@material-ui/icons/CreateRounded";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import Skeleton from "@material-ui/lab/Skeleton";
+import FacebookIcon from "@material-ui/icons/Facebook";
 
-import DefaultImage from '../../../img/default-img.png';
-import CustomDialog from '../common/customDialog';
-import LineIcon from '../../../img/line.png';
-import './rooms.scss';
+import DefaultImage from "../../../img/default-img.png";
+import CustomDialog from "../common/customDialog";
+import LineIcon from "../../../img/line.png";
+import "./rooms.scss";
 
 class Groups extends Component {
     constructor(props){ 
@@ -32,14 +32,14 @@ class Groups extends Component {
         this.state = {
             isLoading: true,
             place_ID: this.props.history.location.search.split("&")[0].slice(1),
-            hostersPhoto: '',
-            userPhoto: '',
+            hostersPhoto: "",
+            userPhoto: "",
             rooms: [],
-            editRoom: '',
+            editRoom: "",
             toggleSortDate: false,
             toggleSortIntensity: false,
             dialogIsOpen: false,
-            dialogMessage: ''
+            dialogMessage: ""
         }
     }
 
@@ -58,7 +58,7 @@ class Groups extends Component {
             let roomsData = Object.assign({}, doc.data());
             roomsData.room_ID = doc.id;
             roomsData.participantsData = [];
-            roomsData.hostPhoto = '';
+            roomsData.hostPhoto = "";
             this.dateExpired(roomsData);
             const hostRef = await db.collection("users").doc(roomsData.host).get();
             if (hostRef.exists) {
@@ -91,7 +91,7 @@ class Groups extends Component {
         let isHost = false;
         let isParticipant = false;
         if (!authenticated) {
-            history.push('/login');
+            history.push("/login");
             return 
         }  
         
@@ -252,17 +252,17 @@ class Groups extends Component {
 
     displayIntensity = (intensity) => {
         switch (intensity) {
-            case '0':
-                return '輕鬆'
+            case "0":
+                return "輕鬆"
                 break
-            case '1':
-                return '中等'
+            case "1":
+                return "中等"
                 break
-            case '2':
-                return '挑戰'
+            case "2":
+                return "挑戰"
                 break
             default:
-                return '無'
+                return "無"
         }
     }
 

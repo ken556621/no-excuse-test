@@ -1,34 +1,34 @@
-import React, { Component } from 'react';
-import { db } from '../common/firebase';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { db } from "../common/firebase";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Collapse from '@material-ui/core/Collapse';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import Badge from '@material-ui/core/Badge';
-import Divider from '@material-ui/core/Divider';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import PersonIcon from '@material-ui/icons/Person';
-import Button from '@material-ui/core/Button';
+import Avatar from "@material-ui/core/Avatar";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Collapse from "@material-ui/core/Collapse";
+import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import Badge from "@material-ui/core/Badge";
+import Divider from "@material-ui/core/Divider";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import PersonIcon from "@material-ui/icons/Person";
+import Button from "@material-ui/core/Button";
 
-import CustomDialog from '../common/customDialog';
+import CustomDialog from "../common/customDialog";
 
 class Friends extends Component {
     constructor(props){
         super(props);
         this.state = {
             openFriends: false,
-            friends: '',
-            pendingFriends: '',
+            friends: "",
+            pendingFriends: "",
             dialogIsOpen: false,
-            dialogMessage: ''
+            dialogMessage: ""
         }
     }
 

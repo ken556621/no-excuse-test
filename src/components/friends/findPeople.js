@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { db } from '../common/firebase';
-import firebase from '../common/firebase';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { db } from "../common/firebase";
+import firebase from "../common/firebase";
+import { connect } from "react-redux";
 
-import List from '@material-ui/core/List';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import List from "@material-ui/core/List";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
-import NavBar from '../common/navbar';
-import AllUsers from './allUsers';
-import Friends from './friends';
+import NavBar from "../common/navbar";
+import AllUsers from "./allUsers";
+import Friends from "./friends";
 
-import './findPeople.scss';
+import "./findPeople.scss";
 
 class FindPeople extends Component {
     constructor(props){
@@ -20,11 +20,11 @@ class FindPeople extends Component {
         this.state = { 
             isLoading: true,
             allUsers: [],
-            friends: '',
+            friends: "",
             allUsersMode: true,
             friendsMode: false,
-            targetUserName: '',
-            targetUser: ''
+            targetUserName: "",
+            targetUser: ""
         }
     }
 
@@ -106,7 +106,7 @@ class FindPeople extends Component {
     }
 
     handleInput = (e) => {
-        if(e.key === 'Enter'){
+        if(e.key === "Enter"){
             const targetUserName = e.target.value;
 
             this.setState({

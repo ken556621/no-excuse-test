@@ -1,10 +1,10 @@
-import { applyMiddleware, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { offline } from '@redux-offline/redux-offline';
-import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
-import ReduxThunk from 'redux-thunk'
+import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { offline } from "@redux-offline/redux-offline";
+import offlineConfig from "@redux-offline/redux-offline/lib/defaults";
+import ReduxThunk from "redux-thunk"
 
-import allReducers from '../reducers/all.reducer';
+import allReducers from "../reducers/all.reducer";
 
 
 const initiaState = {};

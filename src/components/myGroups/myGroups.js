@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import { db } from '../common/firebase';
-import { connect } from 'react-redux'; 
+import React, { Component } from "react";
+import { db } from "../common/firebase";
+import { connect } from "react-redux"; 
 
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import Avatar from '@material-ui/core/Avatar';
-import Tooltip from '@material-ui/core/Tooltip';
-import EventIcon from '@material-ui/icons/Event';
-import PlaceIcon from '@material-ui/icons/Place';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import GroupIcon from '@material-ui/icons/Group';
-import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import Avatar from "@material-ui/core/Avatar";
+import Tooltip from "@material-ui/core/Tooltip";
+import EventIcon from "@material-ui/icons/Event";
+import PlaceIcon from "@material-ui/icons/Place";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
+import GroupIcon from "@material-ui/icons/Group";
+import NaturePeopleIcon from "@material-ui/icons/NaturePeople";
 
-import NavBar from '../common/navbar';
-import Ball from '../common/ballImg';
-import Load from '../common/load';
-import DefaultImage from '../../../img/default-img.png';
-import './myGroups.scss';
+import NavBar from "../common/navbar";
+import Ball from "../common/ballImg";
+import Load from "../common/load";
+import DefaultImage from "../../../img/default-img.png";
+import "./myGroups.scss";
 
 class MyGroups extends Component {
     constructor(props){
@@ -101,7 +101,7 @@ class MyGroups extends Component {
                         }else{
                             morePeople++
                         }
-                    }) : console.log('no participater')
+                    }) : console.log("no participater")
                 }
                 { 
                     morePeople === 0 ? 

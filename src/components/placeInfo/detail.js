@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { db } from '../common/firebase';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { db } from "../common/firebase";
 
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import PhoneIcon from '@material-ui/icons/Phone';
-import PlaceIcon from '@material-ui/icons/Place';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import Rating from '@material-ui/lab/Rating';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import PhoneIcon from "@material-ui/icons/Phone";
+import PlaceIcon from "@material-ui/icons/Place";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import Rating from "@material-ui/lab/Rating";
 
-import Ball from '../common/basketballImg';
-import CustomDialog from '../common/customDialog';
-import './detail.scss';
+import Ball from "../common/basketballImg";
+import CustomDialog from "../common/customDialog";
+import "./detail.scss";
 
 class Detail extends Component {
     constructor(props){
@@ -21,16 +21,16 @@ class Detail extends Component {
         this.state = {
             isLoading: true,
             isEditing: false,
-            editTarget: '',
-            name: '',
-            address: '',
-            photo: '',
-            phone: '',
-            placeStatus: '',
-            openState: '',
-            rentState: '',
+            editTarget: "",
+            name: "",
+            address: "",
+            photo: "",
+            phone: "",
+            placeStatus: "",
+            openState: "",
+            rentState: "",
             dialogIsOpen: false,
-            dialogMessage: ''
+            dialogMessage: ""
         }
     }
 
@@ -69,7 +69,7 @@ class Detail extends Component {
         const { uid, history } = this.props;
         let isHost = false;
         
-        //can't open two group in same place
+        //can"t open two group in same place
         const querySnapshot = await db.collection("rooms").where("host", "==", uid).where("place_ID", "==", place_ID).get();
         querySnapshot.forEach((doc) => {
             isHost = true;

@@ -44,6 +44,7 @@
     "@material-ui/pickers": "^3.2.10",
     "@redux-offline/redux-offline": "^2.5.2",
     "axios": "^0.19.2",
+    "babel-jest": "^25.1.0",
     "firebase": "^7.7.0",
     "geolib": "^3.2.1",
     "google-maps-react": "^2.0.2",

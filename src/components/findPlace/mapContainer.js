@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { Map, Marker, GoogleApiWrapper, Polygon } from 'google-maps-react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { Map, Marker, GoogleApiWrapper, Polygon } from "google-maps-react";
+import { connect } from "react-redux";
 
-import Typography from '@material-ui/core/Typography';
+import Typography from "@material-ui/core/Typography";
 
-import InfoWindow from './infoWindow';
-import MapStyle from './mapStyle';
-import Load from '../common/load';
+import InfoWindow from "./infoWindow";
+import MapStyle from "./mapStyle";
+import Load from "../common/load";
 
-import './mapContainer.scss';
-import './infoWindow.scss'
+import "./mapContainer.scss";
+import "./infoWindow.scss"
 
 export class MapContainer extends Component {
     constructor(props){
@@ -43,12 +43,12 @@ export class MapContainer extends Component {
                         icon={ 
                             place.rooms.length === 0 ? 
                             {
-                                url: 'https://image.flaticon.com/icons/svg/2467/2467984.svg',
+                                url: "https://image.flaticon.com/icons/svg/2467/2467984.svg",
                                 anchor: new google.maps.Point(32,32),
                                 scaledSize: new google.maps.Size(40,40)
                             } :
                             {
-                                url: 'https://image.flaticon.com/icons/svg/1692/1692975.svg',
+                                url: "https://image.flaticon.com/icons/svg/1692/1692975.svg",
                                 anchor: new google.maps.Point(32,32),
                                 scaledSize: new google.maps.Size(40,40)
                             }
@@ -136,10 +136,10 @@ export class MapContainer extends Component {
                  }
 
                 <Marker 
-                    name={ 'Your location' } 
+                    name={ "Your location" } 
                     position={{ lat: userLat || defaultLat, lng: userLng || defaultLng }}
                     icon={{
-                        url: 'https://image.flaticon.com/icons/svg/140/140378.svg',
+                        url: "https://image.flaticon.com/icons/svg/140/140378.svg",
                         anchor: new google.maps.Point(32,32),
                         scaledSize: new google.maps.Size(30,30)
                     }}

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { db } from '../common/firebase';
-import firebase from './firebase';
-import { connect } from 'react-redux';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { updateUser } from '../../actions/user.action';
+import React, { Component } from "react";
+import { db } from "../common/firebase";
+import firebase from "./firebase";
+import { connect } from "react-redux";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { updateUser } from "../../actions/user.action";
 
-import '../../styles/common/thirdAuth.scss';
+import "../../styles/common/thirdAuth.scss";
 
 
 
@@ -16,7 +16,7 @@ class ThirdAuth extends Component {
 
 
     uiConfig = {
-        signInFlow: 'popup',
+        signInFlow: "popup",
         signInOptions: [
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.FacebookAuthProvider.PROVIDER_ID
@@ -37,7 +37,7 @@ class ThirdAuth extends Component {
                     console.log("Document successfully written!");
                     dispatch(updateUser(uid, displayName, email, photoURL)); 
                     dispatch({ type: "LOGIN_SUCCESS" });
-                    history.push('/');
+                    history.push("/");
                 })
                 .catch(function(error) {
                     console.error("Error writing document: ", error);

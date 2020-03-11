@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
-import NavBar from '../common/navbar';
-import './home.scss';
+import NavBar from "../common/navbar";
+import "./home.scss";
 
 
 
@@ -27,7 +27,7 @@ class HomePage extends Component {
                                 Winning takes precedence over all.
                             </Typography>
                             <Typography className="about-words">
-                                There's no gray area.
+                                There"s no gray area.
                             </Typography>
                             <Typography className="about-words">
                                 No almosts.
@@ -36,7 +36,7 @@ class HomePage extends Component {
                                 Kobe Bryant
                             </Typography>
                             <div className="btn-wrapper">
-                                <Link to='/place'>
+                                <Link to="/place">
                                     <Button>
                                         <Typography className="find-group">
                                             找團！

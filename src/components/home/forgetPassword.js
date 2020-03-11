@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import firebase from '../common/firebase';
+import React, { Component } from "react";
+import firebase from "../common/firebase";
 
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import EmailIcon from '@material-ui/icons/Email';
-import Alert from '@material-ui/lab/Alert';
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import EmailIcon from "@material-ui/icons/Email";
+import Alert from "@material-ui/lab/Alert";
 
-import NavBar from '../common/navbar';
-import './forgetPassword.scss';
+import NavBar from "../common/navbar";
+import "./forgetPassword.scss";
 
 class ForgetPassword extends Component {
     constructor(props){
         super(props);
         this.state = {
-            userEmail: '',
-            errorMessage: '',
+            userEmail: "",
+            errorMessage: "",
             emailEmpty: false,
             successSending: false,
             emailInvaild: false
@@ -29,7 +29,7 @@ class ForgetPassword extends Component {
     } 
 
     handleKeyPress = (event) => {
-        if(event.key === 'Enter'){
+        if(event.key === "Enter"){
             this.handleSubmit();
         }
     }

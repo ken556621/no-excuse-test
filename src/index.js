@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 
-import store from './store/configStore';
-import AppContainer from './components/AppContainer';
+import store from "./store/configStore";
+import AppContainer from "./components/AppContainer";
 
-import './styles/commom.scss';
+import "./styles/commom.scss";
 
 
 
@@ -20,4 +20,4 @@ class App extends Component {
     }
 }
  
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));

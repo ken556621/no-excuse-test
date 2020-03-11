@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ReactDOMServer from 'react-dom/server';
+import React from "react";
+import PropTypes from "prop-types";
+import ReactDOMServer from "react-dom/server";
 
 export class InfoWindow extends React.Component {
 
@@ -49,20 +49,20 @@ export class InfoWindow extends React.Component {
     }
 
     const iw = this.infowindow = new google.maps.InfoWindow({
-      content: '',
+      content: "",
       ...props
     });
 
     google.maps.event
-      .addListener(iw, 'closeclick', this.onClose.bind(this))
+      .addListener(iw, "closeclick", this.onClose.bind(this))
     google.maps.event
-      .addListener(iw, 'domready', this.onOpen.bind(this));
+      .addListener(iw, "domready", this.onOpen.bind(this));
   }
 
   onOpen() {
     const { children: { props: {className} } } = this.props;
     const infoWindowContent = document.getElementsByClassName(className);
-    infoWindowContent[0].addEventListener('click', () => {
+    infoWindowContent[0].addEventListener("click", () => {
         this.props.onClick()
     })  
     if (this.props.onOpen) {

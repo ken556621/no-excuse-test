@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import Button from '@material-ui/core/Button';
-import MapIcon from '@material-ui/icons/Map';
-import Typography from '@material-ui/core/Typography';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
+import Button from "@material-ui/core/Button";
+import MapIcon from "@material-ui/icons/Map";
+import Typography from "@material-ui/core/Typography";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
 
-import Navbar from '../common/navbar';
-import Detail from './detail';
-import Rooms from './rooms';
-import './placeInfo.scss';
+import Navbar from "../common/navbar";
+import Detail from "./detail";
+import Rooms from "./rooms";
+import "./placeInfo.scss";
 
 class PlaceInfo extends Component {
     constructor(props){

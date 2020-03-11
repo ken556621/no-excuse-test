@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { db } from '../common/firebase';
-import firebase from '../common/firebase';
-import NavBar from '../common/navbar';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { db } from "../common/firebase";
+import firebase from "../common/firebase";
+import NavBar from "../common/navbar";
 
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Radio from '@material-ui/core/Radio';
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Radio from "@material-ui/core/Radio";
 
-import './openGroup.scss';
+import "./openGroup.scss";
 
 class OpenGroup extends Component {
     constructor(props){
         super(props)
         this.state = { 
             isLoading: true,
-            place_ID: '',
-            room_ID: '',
-            name: '',
-            people: '',
-            date: '',
-            time: '',
-            intensity: '',
+            place_ID: "",
+            room_ID: "",
+            name: "",
+            people: "",
+            date: "",
+            time: "",
+            intensity: "",
             nameInValid: false,
             peopleInValid: false,
             dateInValid: false,
@@ -32,7 +32,7 @@ class OpenGroup extends Component {
 
     componentDidMount(){
         const urlParameter = this.props.location.search.slice(1);
-        if(urlParameter.indexOf('local') !== -1){
+        if(urlParameter.indexOf("local") !== -1){
             this.setState({
                 place_ID: urlParameter
             })
@@ -61,26 +61,26 @@ class OpenGroup extends Component {
 
     handleInput = (e) => {
         const targetElement = e.target.parentElement.parentElement;
-        if(targetElement.matches('.name')){
+        if(targetElement.matches(".name")){
             this.setState({
                 name: e.target.value,
                 nameInValid: false
             })
-        }else if(targetElement.matches('.people')){
+        }else if(targetElement.matches(".people")){
             this.setState({
                 people: e.target.value,
                 peopleInValid: false
             })
-        }else if(targetElement.matches('.date')){
+        }else if(targetElement.matches(".date")){
             this.setState({
                 date: e.target.value
             })    
-        }else if(targetElement.matches('.time')){
+        }else if(targetElement.matches(".time")){
             this.setState({
                 time: e.target.value,
                 timeInValid: false
             })    
-        }else if(targetElement.matches('.intensity')){
+        }else if(targetElement.matches(".intensity")){
             this.setState({
                 intensity: e.target.value
             })
@@ -198,7 +198,7 @@ class OpenGroup extends Component {
                                 value="0"
                                 color="default"
                                 name="intensity"
-                                inputProps={{ 'aria-label': 'Low' }}
+                                inputProps={{ "aria-label": "Low" }}
                             />
                             <Typography className="intensity" color="textSecondary" component="span">
                                 中等
@@ -210,7 +210,7 @@ class OpenGroup extends Component {
                                 value="1"
                                 color="default"
                                 name="intensity"
-                                inputProps={{ 'aria-label': 'Medium' }}
+                                inputProps={{ "aria-label": "Medium" }}
                             />
                             <Typography className="intensity" color="textSecondary" component="span">
                                 激烈
@@ -222,7 +222,7 @@ class OpenGroup extends Component {
                                 value="2"
                                 color="default"
                                 name="intensity"
-                                inputProps={{ 'aria-label': 'High' }}
+                                inputProps={{ "aria-label": "High" }}
                             />
                         </div>
                         <Button className="submit-btn" variant="contained" color="primary" onClick={ this.handleSubmit }>
