@@ -21,7 +21,7 @@ https://no-excuse-1579439547243.web.app/
 * React 
     * React Redux
     * React Router
-* SASS
+* SCSS
 * Material design
 * Webpack
 * Firebase
