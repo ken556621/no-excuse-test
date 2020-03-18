@@ -77,6 +77,8 @@ https://no-excuse-1579439547243.web.app/
 
 ![](https://i.imgur.com/u03Ec2c.gif)
 
-
+### Uncompeleted Feature
+1. Cache for basketball courts information
+2. Message board allowing users can leave detail in open group page
 
 
