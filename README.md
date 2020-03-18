@@ -10,7 +10,7 @@
 # Demo
 
 Here is a working live demo: 
-https://no-excuse-1579439547243.web.app/
+https://no-excuse-1579439547243.firebaseapp.com/
 
 * Test User : user1@example.com
 * Password : 12345678
