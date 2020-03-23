@@ -380,7 +380,7 @@ class Groups extends Component {
                         <img src={ DefaultImage } />
                         <Typography className="default-display-words">
                             There is no group yet. Try to open one?
-                        </Typography>
+                        </Typography> 
                     </div>
                 }
             </div>

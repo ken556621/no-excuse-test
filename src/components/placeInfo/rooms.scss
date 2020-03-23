@@ -23,9 +23,6 @@ $smoky-black: rgba(#222222, .85);
                 width: 100%;
                 .search-btn{
                     padding: 6px 0px 6px 0px; 
-                    border-top: 1px solid $ball;
-                    border-right: 1px solid $ball;
-                    border-left: 1px solid $ball;
                     background-color: $white;
                     .date-word{
                         font-size: $small-font;
@@ -50,6 +47,7 @@ $smoky-black: rgba(#222222, .85);
                 display: flex;
                 margin: 0 2.5% 5% 2.5%;
                 background-color: $white;
+                border-radius: 0;
                 @media screen and (max-width: 696px){
                     width: 85%;
                 }
