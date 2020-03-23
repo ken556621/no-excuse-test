@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 
 import Typography from "@material-ui/core/Typography";
 
-import InfoWindow from "./infoWindow";
+import InfoWindow from "./InfoWindow";
 import MapStyle from "./mapStyle";
-import Load from "../common/load";
+import Load from "../common/Load";
 
-import "./mapContainer.scss";
-import "./infoWindow.scss"
+import "./MapContainer.scss";
+import "./InfoWindow.scss"
 
 export class MapContainer extends Component {
     constructor(props){

@@ -18,7 +18,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PersonIcon from "@material-ui/icons/Person";
 import Button from "@material-ui/core/Button";
 
-import CustomDialog from "../common/customDialog";
+import CustomDialog from "../common/CustomDialog";
 
 class Friends extends Component {
     constructor(props){

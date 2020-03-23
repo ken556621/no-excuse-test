@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { db } from "../common/firebase";
-import firebase from "../common/firebase";
 import { connect } from "react-redux";
 
 import List from "@material-ui/core/List";
@@ -8,11 +7,11 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-import NavBar from "../common/navbar";
-import AllUsers from "./allUsers";
-import Friends from "./friends";
+import NavBar from "../common/Navbar";
+import AllUsers from "./AllUsers";
+import Friends from "./Friends";
 
-import "./findPeople.scss";
+import "./FindPeople.scss";
 
 class FindPeople extends Component {
     constructor(props){
@@ -94,13 +93,13 @@ class FindPeople extends Component {
         const target_ID = e.target.parentElement.id;
         if(target_ID === "all-users"){
             this.setState({
-                allUsersMode: !this.state.allUsersMode,
+                allUsersMode: true,
                 friendsMode: false
             })
         }else if(target_ID === "friends"){
             this.setState({
                 allUsersMode: false,
-                friendsMode: !this.state.friendsMode
+                friendsMode: true
             })
         }
     }

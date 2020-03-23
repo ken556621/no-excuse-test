@@ -9,12 +9,12 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
-import ThirdAuth from "../common/thirdAuth";
-import Register from "./register";
+import ThirdAuth from "../common/ThirdAuth";
+import Register from "./Register";
 import { updateUser } from "../../actions/user.action";
-import Load from "../common/load"; 
+import Load from "../common/Load"; 
 
-import "./login.scss";
+import "./Login.scss";
 
 
 class Login extends Component {

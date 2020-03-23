@@ -20,12 +20,12 @@ import Button from "@material-ui/core/Button";
 import CreateIcon from "@material-ui/icons/Create";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
-import NavBar from "../common/navbar";
-import Friends from "./friends";
-import Groups from "./groups";
-import CustomDialog from "../common/customDialog";
-import Load from "../common/load";
-import "./member.scss";
+import NavBar from "../common/Navbar";
+import Friends from "./Friends";
+import Groups from "./Groups";
+import CustomDialog from "../common/CustomDialog";
+import Load from "../common/Load";
+import "./Member.scss";
 
 class Member extends Component {
     constructor(props){

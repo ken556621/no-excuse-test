@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { db } from "../common/firebase";
+import { db } from "./firebase";
 import firebase from "./firebase";
 
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +11,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Badge from "@material-ui/core/Badge";
 import Logo from "../../../img/logo.png";
 
-import "../../styles/common/navbar.scss";
+import "../../styles/common/Navbar.scss";
 
 class NavBar extends Component {
     constructor(props){

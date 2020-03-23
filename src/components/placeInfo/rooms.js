@@ -22,9 +22,9 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import FacebookIcon from "@material-ui/icons/Facebook";
 
 import DefaultImage from "../../../img/default-img.png";
-import CustomDialog from "../common/customDialog";
+import CustomDialog from "../common/CustomDialog";
 import LineIcon from "../../../img/line.png";
-import "./rooms.scss";
+import "./Rooms.scss";
 
 class Groups extends Component {
     constructor(props){ 

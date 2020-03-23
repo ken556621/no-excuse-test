@@ -15,7 +15,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import Badge from "@material-ui/core/Badge";
 
-import Ball from "../common/ballImg";
+import Ball from "../common/BallImg";
 
 class Groups extends Component {
     constructor(props){

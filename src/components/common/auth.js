@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import Loading from "./load";
+import Loading from "./Load";
 
 export default function(ComposedClass){
     class Auth extends Component {

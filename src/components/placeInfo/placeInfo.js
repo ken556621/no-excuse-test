@@ -6,10 +6,10 @@ import MapIcon from "@material-ui/icons/Map";
 import Typography from "@material-ui/core/Typography";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 
-import Navbar from "../common/navbar";
-import Detail from "./detail";
-import Rooms from "./rooms";
-import "./placeInfo.scss";
+import Navbar from "../common/Navbar";
+import Detail from "./Detail";
+import Rooms from "./Rooms";
+import "./PlaceInfo.scss";
 
 class PlaceInfo extends Component {
     constructor(props){

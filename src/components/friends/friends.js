@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
 
-import "./findPeople.scss";
+import "./FindPeople.scss";
 
 class Friends extends Component {
     constructor(props){

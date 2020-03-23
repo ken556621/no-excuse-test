@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Ball from "./basketballImg";
+import Ball from "./BasketballImg";
 
 
 class Load extends Component {

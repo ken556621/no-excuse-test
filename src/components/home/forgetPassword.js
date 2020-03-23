@@ -7,8 +7,8 @@ import Button from "@material-ui/core/Button";
 import EmailIcon from "@material-ui/icons/Email";
 import Alert from "@material-ui/lab/Alert";
 
-import NavBar from "../common/navbar";
-import "./forgetPassword.scss";
+import NavBar from "../common/Navbar";
+import "./ForgetPassword.scss";
 
 class ForgetPassword extends Component {
     constructor(props){

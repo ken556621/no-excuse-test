@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { db } from "../common/firebase";
+import { db } from "./firebase";
 import firebase from "./firebase";
 import { connect } from "react-redux";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { updateUser } from "../../actions/user.action";
 
-import "../../styles/common/thirdAuth.scss";
+import "../../styles/common/ThirdAuth.scss";
 
 
 

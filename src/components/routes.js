@@ -1,16 +1,16 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-import Auth from "./common/auth";
-import Home from "./home/home";
-import Login from "./home/login";
-import ForgetPassword from "./home/forgetPassword";
-import Findpeople from "./friends/findPeople";
-import FindPlace from "./findPlace/findPlace";
-import PlaceInfo from "./placeInfo/placeInfo";
-import openGroup from "./placeInfo/openGroup";
-import MyGroups from "./myGroups/myGroups";
-import Member from "./member/member";
+import Auth from "./common/Auth";
+import Home from "./Home/Home";
+import Login from "./Home/Login";
+import ForgetPassword from "./Home/ForgetPassword";
+import Findpeople from "./Friends/FindPeople";
+import FindPlace from "./FindPlace/FindPlace";
+import PlaceInfo from "./PlaceInfo/PlaceInfo";
+import openGroup from "./PlaceInfo/OpenGroup";
+import MyGroups from "./MyGroups/MyGroups";
+import Member from "./Member/Member";
 
 export default (
     <div>

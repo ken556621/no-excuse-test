@@ -11,9 +11,9 @@ import PlaceIcon from "@material-ui/icons/Place";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import Rating from "@material-ui/lab/Rating";
 
-import Ball from "../common/basketballImg";
-import CustomDialog from "../common/customDialog";
-import "./detail.scss";
+import Ball from "../common/BasketballImg";
+import CustomDialog from "../common/CustomDialog";
+import "./Detail.scss";
 
 class Detail extends Component {
     constructor(props){

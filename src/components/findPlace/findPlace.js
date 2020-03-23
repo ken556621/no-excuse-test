@@ -10,15 +10,15 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-import Map from "./mapContainer";
-import GroupList from "./groupList";
-import NavBar from "../common/navbar";
-import Load from "../common/load";
+import Map from "./MapContainer";
+import GroupList from "./GroupList";
+import NavBar from "../common/Navbar";
+import Load from "../common/Load";
 import * as geolib from "geolib";
 import TaipeiDistrict from "./taipeiDistrict";
 import County from "./county";
 
-import "./findPlace.scss"; 
+import "./FindPlace.scss"; 
 
 class FindPlace extends Component {
     constructor(props){

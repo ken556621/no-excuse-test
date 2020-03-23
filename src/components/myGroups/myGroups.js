@@ -16,11 +16,11 @@ import WhatshotIcon from "@material-ui/icons/Whatshot";
 import GroupIcon from "@material-ui/icons/Group";
 import NaturePeopleIcon from "@material-ui/icons/NaturePeople";
 
-import NavBar from "../common/navbar";
-import Ball from "../common/ballImg";
-import Load from "../common/load";
+import NavBar from "../common/Navbar";
+import Ball from "../common/BallImg";
+import Load from "../common/Load";
 import DefaultImage from "../../../img/default-img.png";
-import "./myGroups.scss";
+import "./MyGroups.scss";
 
 class MyGroups extends Component {
     constructor(props){

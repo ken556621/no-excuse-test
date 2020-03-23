@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import store from "./store/configStore";
 import AppContainer from "./components/AppContainer";
 
-import "./styles/commom.scss";
+import "./styles/common.scss";
 
 
 

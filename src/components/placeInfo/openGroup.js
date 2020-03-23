@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { db } from "../common/firebase";
 import firebase from "../common/firebase";
-import NavBar from "../common/navbar";
+import NavBar from "../common/Navbar";
 
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
 
-import "./openGroup.scss";
+import "./OpenGroup.scss";
 
 class OpenGroup extends Component {
     constructor(props){
