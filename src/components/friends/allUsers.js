@@ -39,7 +39,7 @@ class FindUsers extends Component {
         return (
             allUsers.length !== 0 ? allUsers.map((user) => {
                 return (
-                    <ListItem className="all-users-container" key={ user.ID } button divider>
+                    <ListItem className="all-users-container" key={ user.ID } divider>
                         <ListItemAvatar className="user-img-wrapper">
                             <Link to={{
                                 pathname: "/member",

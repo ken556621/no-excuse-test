@@ -54,7 +54,7 @@ $smoky-black: rgba(#222222, .85);
             width: 100vw;
             height: 100vh;
             position: absolute;
-            .col-left{
+            .friends-list-container{
                 height: 400px;
                 overflow-y: scroll;
                 padding: 15px 30px;
@@ -63,15 +63,10 @@ $smoky-black: rgba(#222222, .85);
                 left: 50%;
                 transform: translate(-50%, -50%);
                 max-width: 500px;
-                width: 55vw;
+                width: 100vw;
                 border-radius: 8px;
                 background-color: $white;
                 .all-users-container{
-                    .user-img-wrapper{
-                        .user-img{
-        
-                        }
-                    }
                     .user-name{
                         min-width: 100px;
                         span, p{ 

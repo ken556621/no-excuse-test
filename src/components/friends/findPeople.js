@@ -17,7 +17,7 @@ class FindPeople extends Component {
     constructor(props){
         super(props)
         this.state = { 
-            isLoading: true,
+            isLoading: true, 
             allUsers: [],
             friends: "",
             allUsersMode: true,
@@ -166,16 +166,13 @@ class FindPeople extends Component {
                         </div>
                     </div>
                     <div className="list-picture-wrapper"> 
-                        <div className="col-left"> 
+                        <div className="friends-list-container"> 
                             <List className="friends-list" dense>
                                 { allUsersMode ? <AllUsers isLoading={ isLoading } allUsers={ allUsers } history={ history }/> : null }
                                 { friendsMode ? <Friends friends={ friends } history={ history }/> : null }
                                 { targetUser ? <AllUsers allUsers={ targetUser } history={ history }/> : null }
                             </List>
-                        </div>
-                        <div className="col-right">
-
-                        </div>             
+                        </div>      
                     </div>
                 </div>
             </div>
