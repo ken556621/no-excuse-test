@@ -8,8 +8,9 @@ $ball: #e8581c;
 .member-container{
     background-image: url(../../../img/member2.jpg);
     background-size: cover;
+    background-repeat: repeat;
     width: 100vw;
-    height: 120vh;
+    height: 150vh;
     .user-info{
         min-width: 50vw;
         padding: 10px;
@@ -73,9 +74,11 @@ $ball: #e8581c;
                 background-color: $white;
             }
             .arrow{
+                cursor: pointer;
                 color: $white;
             }
             .edit-name{
+                margin: 0;
                 label, input{
                     color: $white;
                 }

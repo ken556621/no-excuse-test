@@ -125,7 +125,7 @@ class Friends extends Component {
         return (
             <div>
                 <CustomDialog dialogIsOpen={ dialogIsOpen } dialogMessage={ dialogMessage } dialogClose={ this.dialogClose } />
-                <ListItem button onClick={ this.openFriendsList }>
+                <ListItem onClick={ this.openFriendsList }>
                     <ListItemAvatar>
                     <Badge className="pending-friends-qty" color="error" badgeContent={ openFriends ? 0 : pendingFriendQty }>
                         <Avatar>
@@ -143,7 +143,7 @@ class Friends extends Component {
                             friends ? 
                             friends.map(friend => 
                             <Link to={ `/member?${friend.ID}` } key={ friend.ID }>
-                                <ListItem button >
+                                <ListItem >
                                         <ListItemIcon>
                                             <PersonIcon className="friends-icon" />
                                         </ListItemIcon>
@@ -155,7 +155,7 @@ class Friends extends Component {
                         {  
                             pendingFriends ? 
                             pendingFriends.map(friend => 
-                            <ListItem key={ friend.ID } id={ friend.ID } button >
+                            <ListItem key={ friend.ID } id={ friend.ID } >
                                 <ListItemIcon>
                                     <PersonIcon className="friends-icon" />
                                 </ListItemIcon>

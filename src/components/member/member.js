@@ -44,7 +44,7 @@ class Member extends Component {
             dialogIsOpen: false,
             dialogMessage: ""
         }
-    }
+    } 
 
     componentDidMount(){
         const { uid, history } = this.props;
@@ -331,7 +331,7 @@ class Member extends Component {
                         </ListSubheader>
                         }
                     >
-                        <ListItem button >
+                        <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
                                     <PersonIcon color="action" />
@@ -339,12 +339,13 @@ class Member extends Component {
                             </ListItemAvatar>
                             { 
                                 isModify ? 
-                                <TextField className="edit-name" value={ userName } label="Your Name" margin="normal" size="small" onChange={ (e) => this.handleInput(e) }></TextField> :
+                                <TextField className="edit-name" value={ userName } label="Your Name" margin="normal" size="small" onChange={ (e) => this.handleInput(e) } variant="outlined">
+                                </TextField> :
                                 <ListItemText primary={ userName ? userName : "You don't have a name right now" } />
                             }
                         </ListItem>
                         <Divider variant="inset" component="li" className="line" />
-                        <ListItem button>
+                        <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
                                     <EmailIcon color="action" />
@@ -353,7 +354,7 @@ class Member extends Component {
                             <ListItemText primary={ userEmail } />
                         </ListItem>
                         <Divider variant="inset" component="li" className="line" />
-                        <ListItem button>
+                        <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
                                     <WhatshotIcon color="action" />

@@ -62,7 +62,7 @@ class Groups extends Component {
         const { groups } = this.state;
         return ( 
             <div>
-                <ListItem button onClick={ this.openGroupsList }>
+                <ListItem onClick={ this.openGroupsList }>
                     <ListItemAvatar>
                         <Avatar>
                             <EmojiPeopleIcon color="action" />
@@ -76,7 +76,7 @@ class Groups extends Component {
                         { 
                             groups.length !== 0 ? groups.map((group) => {
                             return (
-                                <ListItem button key={ group.room_ID }>
+                                <ListItem key={ group.room_ID }>
                                     <ListItemIcon>
                                         <Badge badgeContent={ group.participants.length } color="secondary" anchorOrigin={{ vertical: "top",horizontal: "left" }}>
                                             <Ball className="groups-icon" />
@@ -87,7 +87,7 @@ class Groups extends Component {
                                     </Link>
                                 </ListItem>
                             )
-                            }) :  <ListItem button>
+                            }) :  <ListItem>
                                     <ListItemIcon>
                                         <Badge badgeContent={ 0 } color="secondary" anchorOrigin={{ vertical: "top",horizontal: "left" }}>
                                             <Ball className="groups-icon" />
