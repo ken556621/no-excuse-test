@@ -362,7 +362,8 @@ class Member extends Component {
                             </ListItemAvatar>
                             { 
                                 isModify ? 
-                                <TextField className="edit-quate" value={ userQuate } label="Your quate" margin="normal" size="small" onChange={ (e) => this.handleInput(e) }></TextField> :
+                                <TextField className="edit-quate" value={ userQuate } label="Your quate" margin="normal" size="small" onChange={ (e) => this.handleInput(e) } variant="outlined">
+                                </TextField> :
                                 <ListItemText primary={ userQuate } />
                             }
                         </ListItem>
