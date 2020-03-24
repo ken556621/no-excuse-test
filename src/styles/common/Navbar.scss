@@ -1,0 +1,101 @@
+$white: #ebebf0;
+$small-font: .7rem;
+$big-font: 18px;
+$icon-font: .8rem;
+
+$alert: #dd2c00;
+$smoky-black: rgba(#222222, .85);
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $white;
+    .logo{
+        img{
+            width: 100px;
+        }
+        @media screen and (max-width: 448px){
+            display: none;
+        }
+    }
+    .btn-wrapper{
+        padding: 7px 0;
+        @media screen and (max-width: 448px){
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .groups-wrapper{
+            .group-notification{
+                .MuiBadge-badge{
+                    font-size: $small-font;
+                    height: 10px;
+                    width: 10px;
+                    min-width: 0px;
+                }
+                .words{
+                    font-size: $small-font;
+                }
+            }
+        }
+        .find-groups-wrapper{
+            .words{
+                font-size: $small-font;
+            }
+        }
+        .friends-wrapper{
+            .words{
+                font-size: $small-font;
+            }
+        }
+        .member-wrapper{
+           .member-btn{
+               display: flex;
+               align-items: center;
+               .member-icon{
+                    font-size: $icon-font;
+               }
+               .friend-notification{
+                    .MuiBadge-badge{
+                        font-size: $small-font;
+                        height: 10px;
+                        width: 10px;
+                        min-width: 0px;
+                    }
+                    .member-words{
+                         font-size: $small-font;
+                    }
+               }
+           } 
+           span{
+               line-height: .1;
+           }
+        }
+        .login-logout-wrapper{
+            margin-right: 10px;
+            cursor: pointer;
+            .login-btn{
+                display: flex;
+                align-items: center;
+                .login-icon{
+                    font-size: $icon-font;
+                }
+                .login{
+                    font-size: $small-font;
+                }
+            }
+            .logout-btn{
+                display: flex;
+                align-items: center;
+                .logout-icon{
+                    font-size: $icon-font;
+                }
+                .logout{
+                    font-size: $small-font;
+                }
+            }
+        }
+    }
+}
+

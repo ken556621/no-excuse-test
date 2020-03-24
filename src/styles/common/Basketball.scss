@@ -1,0 +1,28 @@
+#basketball-img{
+    text-align: center;
+    position: relative;
+    animation: bounding 1s infinite alternate;
+    transform-origin: center;
+}
+
+#ball{
+    stroke-dashoffset: 40;
+    animation: sizing 2s infinite alternate;
+}
+
+@keyframes bounding{
+    0%{
+        top: -70px;
+        transform: rotateZ(0deg);
+    };
+    50%{
+        transform: rotateX(0deg);
+        top: 10px;
+    };
+    100%{
+        transform: rotateX(20deg);
+        top: -50px;
+        transform: rotateZ(360deg);
+    };
+}
+
